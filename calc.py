@@ -158,7 +158,6 @@ def p_expressions( p ):
     expressions :     expressions expression
                     | expression
     '''
-    pass
 
 def p_expression( p ):
     '''
@@ -263,6 +262,7 @@ def p_get( p ):
 
 def p_empty( p ):
     'empty :'
+    pass
 
 def p_error( p ):
     print("Syntax error at line {0}" .format(p.lineno))
