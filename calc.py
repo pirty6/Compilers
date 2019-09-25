@@ -7,44 +7,43 @@ import decimal
 #                   LIST OF TOKENS
 # -------------------------------------------------------
 
-
-tokens = (
-    'LPAREN',
-    'RPAREN',
-    'NUMBER',
-    'ID',
-    'COMMA',
-    'LBRACE',
-    'RBRACE',
-    'SEMICOLON',
-    'ASSIGN',
-    'GREATER',
-    'LESS',
-    'EQ',
-    'NOT_EQ',
-    'GREATER_EQ',
-    'LESS_EQ',
-    'MAIN',
-    'AUTO',
-    'EXTRN',
-    'STRING',
-    'WHILE',
-    'IF',
-    'ELSE',
-    'PRINTF',
-    'GETCHAR',
-)
-
 reserved = {
-    'while'     : 'WHILE',
-    'if'        : 'IF',
+    'bool'      : 'BOOL',
     'else'      : 'ELSE',
-    'auto'      : 'AUTO',
-    'extrn'     : 'EXTRN',
+    'enum'      : 'ENUM',
+    'false'     : 'FALSE',
+    'if'        : 'IF',
+    'int'       : 'INT',
     'main'      : 'MAIN',
-    'printf'    : 'PRINTF',
-    'getchar'   : 'GETCHAR',
+    'readf'     : 'READF',
+    'string'    : 'STR',
+    'true'      : 'TRUE',
+    'void'      : 'VOID',
+    'while'     : 'WHILE',
+    'writeln'   : 'WRITELN',
 }
+
+tokens = [
+    'AMPERSAND',
+    'ASSIGN',
+    'COMMA',
+    'EQ',
+    'GREATER',
+    'GREATER_EQ',
+    'ID',
+    'LBRACE',
+    'LESS',
+    'LESS_EQ',
+    'LPAREN',
+    'NOT_EQ',
+    'NUMBER',
+    'RBRACE',
+    'RPAREN',
+    'SEMICOLON',
+    'STRING',
+]
+
+tokens += reserved.values()
 
 
 # -------------------------------------------------------
@@ -67,20 +66,22 @@ t_EQ            = r'=='
 t_NOT_EQ        = r'!='
 t_GREATER_EQ    = r'>='
 t_LESS_EQ       = r'<='
+t_AMPERSAND     = r'\&'
+
 
 # -------------------------------------------------------
 #                   COMPLEX TOKENS
 # -------------------------------------------------------
 
-def t_NUMBER( t ) :
-    r'[+-]?([0-9]*[.])?[0-9]+'
-    t.value = decimal.Decimal( t.value )
-    return t
-
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     if reserved.has_key(t.value):
         t.type = reserved[t.value]
+    return t
+
+def t_NUMBER( t ) :
+    r'[+-]?\d+'
+    t.value = int( t.value )
     return t
 
 def t_STRING(t):
@@ -116,21 +117,31 @@ def t_error( t ):
   print("Invalid Token:",t.value[0])
   t.lexer.skip( 1 )
 
-
 # -------------------------------------------------------
 #                   RULES
 # -------------------------------------------------------
 
 
-def p_function( p ):
-    'function : constants MAIN LPAREN RPAREN LBRACE externals expression RBRACE'
+def p_start( p ):
+    'start : function'
     print("Successfully Parsed")
+    p[0] = p[1]
 
-# CORREGIR THIS SHIT: EXPRESSION EXPRESSION
+def p_function( p ):
+    'function : constants VOID MAIN LPAREN RPAREN LBRACE expressions RBRACE constants'
+    pass
+
+
+def p_expressions( p ):
+    '''
+    expressions :     expressions expression
+                    | expression
+    '''
+    pass
+
 def p_expression( p ):
     '''
     expression :   variable
-                 | expression expression
                  | while
                  | if
                  | assigned
@@ -138,17 +149,20 @@ def p_expression( p ):
                  | get
                  | empty
     '''
+    pass
 
 def p_while( p ):
     '''
-    while : WHILE LPAREN statement RPAREN LBRACE expression RBRACE
+    while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
     '''
+    pass
 
 def p_if( p ):
     '''
-    if :   IF LPAREN statement RPAREN LBRACE expression RBRACE
-         | IF LPAREN statement RPAREN LBRACE expression RBRACE ELSE LBRACE expression RBRACE
+    if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
+         | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expression RBRACE
     '''
+    pass
 
 def p_statement( p ):
     '''
@@ -170,67 +184,74 @@ def p_statement( p ):
                 | ID GREATER_EQ NUMBER
                 | ID LESS NUMBER
                 | ID LESS_EQ NUMBER
+                | ID EQ boolean
+                | ID NOT_EQ boolean
+                | boolean EQ ID
+                | boolean NOT_EQ ID
     '''
+    pass
 
 def p_variable( p ):
     '''
-    variable :   AUTO ID SEMICOLON
-               | AUTO ID ASSIGN NUMBER SEMICOLON
-               | AUTO ID ASSIGN STRING SEMICOLON
+    variable :   INT ID SEMICOLON
+               | INT ID ASSIGN NUMBER SEMICOLON
+               | STR ID ASSIGN STRING SEMICOLON
+               | STR ID SEMICOLON
+               | BOOL ID SEMICOLON
+               | BOOL ID ASSIGN boolean SEMICOLON
     '''
+    pass
+
+def p_boolean( p ):
+    '''
+    boolean :   TRUE
+              | FALSE
+    '''
+    pass
 
 def p_constants( p ):
     '''
     constants :   constants constant
+                | constants variable
                 | constant
+                | variable
     '''
+    pass
 
 def p_constant( p ):
     '''
-    constant :    ID ASSIGN NUMBER SEMICOLON
-                | ID ASSIGN STRING SEMICOLON
+    constant :    ENUM ID ASSIGN NUMBER SEMICOLON
+                | ENUM ID ASSIGN STRING SEMICOLON
+                | ENUM ID ASSIGN boolean SEMICOLON
+                | ENUM ID SEMICOLON
                 | empty
     '''
+    pass
 
-# Definir que el String debe de tener %d %i
+
 def p_print( p ):
     '''
-    print :   PRINTF LPAREN STRING COMMA ID RPAREN SEMICOLON
-            | PRINTF LPAREN STRING COMMA NUMBER RPAREN SEMICOLON
-            | PRINTF LPAREN STRING RPAREN SEMICOLON
+    print :   WRITELN LPAREN ID RPAREN SEMICOLON
+            | WRITELN LPAREN STRING RPAREN SEMICOLON
+            | WRITELN LPAREN NUMBER RPAREN SEMICOLON
+            | WRITELN LPAREN boolean RPAREN SEMICOLON
     '''
+    pass
 
 def p_get( p ):
     '''
-    get :     ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON
-            | ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON
-            | AUTO ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON
-            | AUTO ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON
+    get :     READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
     '''
+    pass
 
-def p_externals( p ):
-    '''
-    externals :   externals external
-                | external
-    '''
-
-def p_external( p ):
-    '''
-    external :    EXTRN ID SEMICOLON
-                | empty
-    '''
 
 def p_assigned( p ):
     '''
     assigned :    ID ASSIGN NUMBER SEMICOLON
                 | ID ASSIGN STRING SEMICOLON
+                | ID ASSIGN boolean SEMICOLON
     '''
-
-#def extr( p ):
-#    '''
-#    extr :    , ID
-#            | empty
-#    '''
+    pass
 
 def p_empty( p ):
     'empty :'
@@ -238,10 +259,16 @@ def p_empty( p ):
 
 def p_error( p ):
     print("ERROR: Syntax error in input!")
-
+    pass
 
 def process(data):
-    lex.lex()
+    lexer = lex.lex()
+    lexer.input(data)
+    #while True:
+    #    tok = lexer.token()
+    #    if not tok:
+    #        break      # No more input
+    #    print(tok)
     yacc.yacc()
     yacc.parse(data)
 
@@ -255,89 +282,92 @@ if __name__ == "__main__":
 
     # Test1: Un programa sencillo con un comentario de una palabra
     print("Test 1: Comentario de una palabra")
-    f = open('./Tests/Test1.b', 'r')
+    f = open('./Tests/Test1.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     #Test2: Un programa sencillo con un comentario de una linea
     print("Test 2: Comentario de una linea")
-    f = open('./Tests/Test2.b', 'r')
+    f = open('./Tests/Test2.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test3: Un programa sencillo con la definicion de una variable.
     print("Test 3: Definicion de una variable")
-    f = open('./Tests/Test3.b', 'r')
+    f = open('./Tests/Test3.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test4: Un programa sencillo con la definicion de una constante.
     print("Test 4: Definicion de una constante")
-    f = open('./Tests/Test4.b', 'r')
+    f = open('./Tests/Test4.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test5: Un programa sencillo con cadenas.
     print("Test 5: Programa con cadenas")
-    f = open('./Tests/Test5.b', 'r')
+    f = open('./Tests/Test5.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test6: Un programa sencillo con variables de todos los tipos de datos.
     print("Test 6: Todos los tipos de datos")
-    f = open('./Tests/Test6.b', 'r')
+    f = open('./Tests/Test6.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test7: Un programa sencillo con un ciclo y una condicional.
     print("Test 7: ciclo y una condicional")
-    f = open('./Tests/Test7.b', 'r')
+    f = open('./Tests/Test7.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test8: Un programa sencillo con un ciclo y una condicional anidada.
     print("Test 8: ciclo y una condicional anidados")
-    f = open('./Tests/Test8.b', 'r')
+    f = open('./Tests/Test8.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test9: Un programa sencillo usando las instrucciones de entrada y salida.
     print("Test 9: Instrucciones de entrada y de salida")
-    f = open('./Tests/Test9.b', 'r')
+    f = open('./Tests/Test9.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test10: Un programa sencillo con todas las instrucciones que has definido.
-    #print("Test 9: All instructions")
-    #f = open('./Tests/Test9.b', 'r')
-    #data = f.read()
-    #f.close()
-    #process(data)
+    print("Test 10: Todas las instrucciones definidas")
+    f = open('./Tests/Test10.d', 'r')
+    data = f.read()
+    f.close()
+    process(data)
 
 # -------------------------------------------------------
 #                       FAILING TESTS
 # -------------------------------------------------------
     print("\n--------Invalid tests--------")
     print("Test 11: Variable en el lugar incorrecto")
-    f = open('./Tests/Test11.b', 'r')
+    f = open('./Tests/Test11.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     print("Test 12: Varible en el orden incorrecto.")
-    f = open('./Tests/Test12.b', 'r')
+    f = open('./Tests/Test12.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
     print("Test 13: Cadena en un lugar no permitido")
-    #f = open('./Test')
+    f = open('./Tests/Test13.d', 'r')
+    data = f.read()
+    f.close()
+    process(data)

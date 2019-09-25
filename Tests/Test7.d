@@ -1,7 +1,7 @@
 /* Test7: Un programa sencillo con un ciclo y una condicional. */
 
-main() {
-auto a = 0;
+void main() {
+int a = 0;
   while(x > 5) {
     a = 5;
   }

@@ -114,18 +114,25 @@ def t_error(t):
     t.lexer.skip(1)
 
 # Build the lexer
-lexer = lex.lex()
+
 
 # Give the lexer some input
 #Test
-f = open('helper.c', "r")
-data = f.read()
-f.close()
-lexer.input(data)
 
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok:
-        break      # No more input
-    print(tok)
+def process(data):
+    lexer = lex.lex()
+    lexer.input(data)
+    # Tokenize
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break      # No more input
+        print(tok)
+
+
+
+if __name__ == "__main__":
+    f = open('helper.c', "r")
+    data = f.read()
+    f.close()
+    process(data)

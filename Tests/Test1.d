@@ -1,5 +1,5 @@
 // comentario
 
-main() {
+void main() {
 
 }
