@@ -157,63 +157,64 @@ def p_expression( p ):
     expression :   variable
                  | while
                  | if
-                 | assigned
+                 | ID assigned SEMICOLON
                  | print
                  | get
                  | empty
     '''
-    pass
+
 
 def p_while( p ):
     '''
     while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
     '''
-    pass
 
 def p_if( p ):
     '''
     if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
-         | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expression RBRACE
+         | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
     '''
-    pass
 
 def p_statement( p ):
     '''
-    statement :   ID EQ ID
-                | ID NOT_EQ ID
-                | ID GREATER ID
-                | ID GREATER_EQ ID
-                | ID LESS ID
-                | ID LESS_EQ ID
-                | NUMBER EQ ID
-                | NUMBER NOT_EQ ID
-                | NUMBER GREATER ID
-                | NUMBER GREATER_EQ ID
-                | NUMBER LESS ID
-                | NUMBER LESS_EQ ID
-                | ID EQ NUMBER
-                | ID NOT_EQ NUMBER
-                | ID GREATER NUMBER
-                | ID GREATER_EQ NUMBER
-                | ID LESS NUMBER
-                | ID LESS_EQ NUMBER
-                | ID EQ boolean
-                | ID NOT_EQ boolean
-                | boolean EQ ID
-                | boolean NOT_EQ ID
+    statement :   type logic_op type
     '''
-    pass
+
+def p_logic_op( p ):
+    '''
+    logic_op :    EQ
+                | NOT_EQ
+                | GREATER
+                | GREATER_EQ
+                | LESS
+                | LESS_EQ
+    '''
 
 def p_variable( p ):
     '''
-    variable :   INT ID SEMICOLON
-               | INT ID ASSIGN NUMBER SEMICOLON
-               | STR ID ASSIGN STRING SEMICOLON
-               | STR ID SEMICOLON
-               | BOOL ID SEMICOLON
-               | BOOL ID ASSIGN boolean SEMICOLON
+    variable :   var_type ID assigned SEMICOLON
     '''
-    pass
+
+def p_var_type( p ):
+    '''
+    var_type :    INT
+                | STR
+                | BOOL
+    '''
+
+def p_assigned( p ):
+    '''
+    assigned :    ASSIGN type
+                | empty
+    '''
+
+def p_type( p ):
+    '''
+    type :    NUMBER
+            | STRING
+            | boolean
+            | ID
+    '''
 
 def p_boolean( p ):
     '''
@@ -257,21 +258,12 @@ def p_get( p ):
     '''
     pass
 
-
-def p_assigned( p ):
-    '''
-    assigned :    ID ASSIGN NUMBER SEMICOLON
-                | ID ASSIGN STRING SEMICOLON
-                | ID ASSIGN boolean SEMICOLON
-    '''
-    pass
-
 def p_empty( p ):
     'empty :'
     pass
 
 def p_error( p ):
-    print("ERROR: Syntax error in input!")
+    print("Syntax error at line {0}" .format(p.lineno))
     pass
 
 def process(data):
