@@ -1,11 +1,13 @@
-// Test7: Un programa sencillo con un ciclo y una condicional.
+/* Test7: Un programa sencillo con un ciclo y una condicional. */
 
 main() {
-  while(x > y) {
-    if ( x == 1) {
-      x = 3;
-    } else {
-      x = 5;
-    }
+auto a = 0;
+  while(x > 5) {
+    a = 5;
+  }
+  if(a == 5) {
+    a = 3;
+  } else {
+    a = 12;
   }
 }

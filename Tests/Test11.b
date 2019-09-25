@@ -1,5 +1,6 @@
-// Test11: Variable en el orden incorrecto.
+// Test10: variable en el lugar incorrecto.
 
 main() {
-  b auto;
+
 }
+auto b;

@@ -31,15 +31,19 @@ tokens = (
     'WHILE',
     'IF',
     'ELSE',
+    'PRINTF',
+    'GETCHAR',
 )
 
 reserved = {
-    'while' : 'WHILE',
-    'if'    : 'IF',
-    'else'  : 'ELSE',
-    'auto'  : 'AUTO',
-    'extrn' : 'EXTRN',
-    'main'  : 'MAIN',
+    'while'     : 'WHILE',
+    'if'        : 'IF',
+    'else'      : 'ELSE',
+    'auto'      : 'AUTO',
+    'extrn'     : 'EXTRN',
+    'main'      : 'MAIN',
+    'printf'    : 'PRINTF',
+    'getchar'   : 'GETCHAR',
 }
 
 
@@ -80,7 +84,7 @@ def t_ID(t):
     return t
 
 def t_STRING(t):
-    r"'[^\n]*?(?<!\\)'"
+    r'"[^\n]*?(?<!\\)"'
     temp_str = t.value.replace(r'\\', '')
     return t
 
@@ -119,8 +123,10 @@ def t_error( t ):
 
 
 def p_function( p ):
-    'function : MAIN LPAREN RPAREN LBRACE expression RBRACE'
+    'function : constants MAIN LPAREN RPAREN LBRACE externals expression RBRACE'
+    print("Successfully Parsed")
 
+# CORREGIR THIS SHIT: EXPRESSION EXPRESSION
 def p_expression( p ):
     '''
     expression :   variable
@@ -128,7 +134,9 @@ def p_expression( p ):
                  | while
                  | if
                  | assigned
-                 | EPSILON
+                 | print
+                 | get
+                 | empty
     '''
 
 def p_while( p ):
@@ -171,12 +179,62 @@ def p_variable( p ):
                | AUTO ID ASSIGN STRING SEMICOLON
     '''
 
+def p_constants( p ):
+    '''
+    constants :   constants constant
+                | constant
+    '''
+
+def p_constant( p ):
+    '''
+    constant :    ID ASSIGN NUMBER SEMICOLON
+                | ID ASSIGN STRING SEMICOLON
+                | empty
+    '''
+
+# Definir que el String debe de tener %d %i
+def p_print( p ):
+    '''
+    print :   PRINTF LPAREN STRING COMMA ID RPAREN SEMICOLON
+            | PRINTF LPAREN STRING COMMA NUMBER RPAREN SEMICOLON
+            | PRINTF LPAREN STRING RPAREN SEMICOLON
+    '''
+
+def p_get( p ):
+    '''
+    get :     ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON
+            | ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON
+            | AUTO ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON
+            | AUTO ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON
+    '''
+
+def p_externals( p ):
+    '''
+    externals :   externals external
+                | external
+    '''
+
+def p_external( p ):
+    '''
+    external :    EXTRN ID SEMICOLON
+                | empty
+    '''
+
 def p_assigned( p ):
     '''
     assigned :    ID ASSIGN NUMBER SEMICOLON
                 | ID ASSIGN STRING SEMICOLON
     '''
 
+#def extr( p ):
+#    '''
+#    extr :    , ID
+#            | empty
+#    '''
+
+def p_empty( p ):
+    'empty :'
+    pass
 
 def p_error( p ):
     print("ERROR: Syntax error in input!")
@@ -202,42 +260,63 @@ if __name__ == "__main__":
     f.close()
     process(data)
 
-    #Test2: Un programa sencillo con un comentario de una palabra
+    #Test2: Un programa sencillo con un comentario de una linea
+    print("Test 2: Comentario de una linea")
+    f = open('./Tests/Test2.b', 'r')
+    data = f.read()
+    f.close()
+    process(data)
 
     # Test3: Un programa sencillo con la definicion de una variable.
-    print("Test 3: Variable definition")
+    print("Test 3: Definicion de una variable")
     f = open('./Tests/Test3.b', 'r')
     data = f.read()
     f.close()
     process(data)
 
-    # Test4:
-
+    # Test4: Un programa sencillo con la definicion de una constante.
+    print("Test 4: Definicion de una constante")
+    f = open('./Tests/Test4.b', 'r')
+    data = f.read()
+    f.close()
+    process(data)
 
     # Test5: Un programa sencillo con cadenas.
-    print("Test 5: Strings")
+    print("Test 5: Programa con cadenas")
     f = open('./Tests/Test5.b', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test6: Un programa sencillo con variables de todos los tipos de datos.
-    print("Test 6: Different types of variables")
+    print("Test 6: Todos los tipos de datos")
     f = open('./Tests/Test6.b', 'r')
     data = f.read()
     f.close()
     process(data)
 
     # Test7: Un programa sencillo con un ciclo y una condicional.
-    print("Test 7: Cycle and Conditional")
+    print("Test 7: ciclo y una condicional")
     f = open('./Tests/Test7.b', 'r')
     data = f.read()
     f.close()
     process(data)
 
-    # Test8: Un programa sencillo usando las instrucciones de entrada y salida.
+    # Test8: Un programa sencillo con un ciclo y una condicional anidada.
+    print("Test 8: ciclo y una condicional anidados")
+    f = open('./Tests/Test8.b', 'r')
+    data = f.read()
+    f.close()
+    process(data)
 
-    # Test9: Un programa sencillo con todas las instrucciones que has definido.
+    # Test9: Un programa sencillo usando las instrucciones de entrada y salida.
+    print("Test 9: Instrucciones de entrada y de salida")
+    f = open('./Tests/Test9.b', 'r')
+    data = f.read()
+    f.close()
+    process(data)
+
+    # Test10: Un programa sencillo con todas las instrucciones que has definido.
     #print("Test 9: All instructions")
     #f = open('./Tests/Test9.b', 'r')
     #data = f.read()
@@ -247,18 +326,18 @@ if __name__ == "__main__":
 # -------------------------------------------------------
 #                       FAILING TESTS
 # -------------------------------------------------------
-    print("Invalid tests")
-    print("Test 10: Variable en el lugar incorrecto")
-    f = open('./Tests/Test10.b', 'r')
-    data = f.read()
-    f.close()
-    process(data)
-
-    print("Test 11: Varibale en el orden incorrecto.")
+    print("\n--------Invalid tests--------")
+    print("Test 11: Variable en el lugar incorrecto")
     f = open('./Tests/Test11.b', 'r')
     data = f.read()
     f.close()
     process(data)
 
-    print("Test 12: Cadena en un lugar no permitido")
+    print("Test 12: Varible en el orden incorrecto.")
+    f = open('./Tests/Test12.b', 'r')
+    data = f.read()
+    f.close()
+    process(data)
+
+    print("Test 13: Cadena en un lugar no permitido")
     #f = open('./Test')

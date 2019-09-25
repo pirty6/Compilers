@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGN AUTO COMMA ELSE EPSILON EQ EXTRN GREATER GREATER_EQ ID IF LBRACE LESS LESS_EQ LPAREN MAIN NOT_EQ NUMBER RBRACE RPAREN SEMICOLON STRING WHILEfunction : MAIN LPAREN RPAREN LBRACE expression RBRACE\n    expression :   variable\n                 | expression expression\n                 | while\n                 | if\n                 | assigned\n                 | EPSILON\n    \n    while : WHILE LPAREN statement RPAREN LBRACE expression RBRACE\n    \n    if :   IF LPAREN statement RPAREN LBRACE expression RBRACE\n         | IF LPAREN statement RPAREN LBRACE expression RBRACE ELSE LBRACE expression RBRACE\n    \n    statement :   ID EQ ID\n                | ID NOT_EQ ID\n                | ID GREATER ID\n                | ID GREATER_EQ ID\n                | ID LESS ID\n                | ID LESS_EQ ID\n                | NUMBER EQ ID\n                | NUMBER NOT_EQ ID\n                | NUMBER GREATER ID\n                | NUMBER GREATER_EQ ID\n                | NUMBER LESS ID\n                | NUMBER LESS_EQ ID\n                | ID EQ NUMBER\n                | ID NOT_EQ NUMBER\n                | ID GREATER NUMBER\n                | ID GREATER_EQ NUMBER\n                | ID LESS NUMBER\n                | ID LESS_EQ NUMBER\n    \n    variable :   AUTO ID SEMICOLON\n               | AUTO ID ASSIGN NUMBER SEMICOLON\n               | AUTO ID ASSIGN STRING SEMICOLON\n    \n    assigned :    ID ASSIGN NUMBER SEMICOLON\n                | ID ASSIGN STRING SEMICOLON\n    '
+_lr_signature = 'ASSIGN AUTO COMMA ELSE EQ EXTRN GETCHAR GREATER GREATER_EQ ID IF LBRACE LESS LESS_EQ LPAREN MAIN NOT_EQ NUMBER PRINTF RBRACE RPAREN SEMICOLON STRING WHILEfunction : constants MAIN LPAREN RPAREN LBRACE externals expression RBRACE\n    expression :   variable\n                 | expression expression\n                 | while\n                 | if\n                 | assigned\n                 | print\n                 | get\n                 | empty\n    \n    while : WHILE LPAREN statement RPAREN LBRACE expression RBRACE\n    \n    if :   IF LPAREN statement RPAREN LBRACE expression RBRACE\n         | IF LPAREN statement RPAREN LBRACE expression RBRACE ELSE LBRACE expression RBRACE\n    \n    statement :   ID EQ ID\n                | ID NOT_EQ ID\n                | ID GREATER ID\n                | ID GREATER_EQ ID\n                | ID LESS ID\n                | ID LESS_EQ ID\n                | NUMBER EQ ID\n                | NUMBER NOT_EQ ID\n                | NUMBER GREATER ID\n                | NUMBER GREATER_EQ ID\n                | NUMBER LESS ID\n                | NUMBER LESS_EQ ID\n                | ID EQ NUMBER\n                | ID NOT_EQ NUMBER\n                | ID GREATER NUMBER\n                | ID GREATER_EQ NUMBER\n                | ID LESS NUMBER\n                | ID LESS_EQ NUMBER\n    \n    variable :   AUTO ID SEMICOLON\n               | AUTO ID ASSIGN NUMBER SEMICOLON\n               | AUTO ID ASSIGN STRING SEMICOLON\n    \n    constants :   constants constant\n                | constant\n    \n    constant :    ID ASSIGN NUMBER SEMICOLON\n                | ID ASSIGN STRING SEMICOLON\n                | empty\n    \n    print :   PRINTF LPAREN STRING COMMA ID RPAREN SEMICOLON\n            | PRINTF LPAREN STRING COMMA NUMBER RPAREN SEMICOLON\n            | PRINTF LPAREN STRING RPAREN SEMICOLON\n    \n    get :     ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON\n            | ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON\n            | AUTO ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON\n            | AUTO ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON\n    \n    externals :   externals external\n                | external\n    \n    external :    EXTRN ID SEMICOLON\n                | empty\n    \n    assigned :    ID ASSIGN NUMBER SEMICOLON\n                | ID ASSIGN STRING SEMICOLON\n    empty :'
     
-_lr_action_items = {'LESS_EQ':([22,24,],[30,37,]),'LESS':([22,24,],[32,39,]),'NUMBER':([16,17,21,27,37,38,39,40,41,42,],[22,22,28,45,56,57,59,62,64,66,]),'GREATER_EQ':([22,24,],[33,40,]),'WHILE':([5,7,9,10,12,13,15,20,26,46,47,54,67,68,69,70,71,72,73,75,76,77,],[8,-7,-6,-4,-2,8,-5,8,-29,-32,-33,8,8,-31,-30,8,8,-9,-8,8,8,-10,]),'STRING':([21,27,],[29,44,]),'RPAREN':([3,23,25,48,49,50,51,52,53,55,56,57,58,59,60,61,62,63,64,65,66,],[4,36,43,-22,-19,-21,-20,-18,-17,-16,-28,-25,-13,-27,-15,-14,-26,-12,-24,-11,-23,]),'SEMICOLON':([18,28,29,44,45,],[26,46,47,68,69,]),'NOT_EQ':([22,24,],[34,41,]),'ASSIGN':([14,18,],[21,27,]),'$end':([1,19,],[0,-1,]),'RBRACE':([7,9,10,12,13,15,20,26,46,47,68,69,70,71,72,73,76,77,],[-7,-6,-4,-2,19,-5,-3,-29,-32,-33,-31,-30,72,73,-9,-8,77,-10,]),'AUTO':([5,7,9,10,12,13,15,20,26,46,47,54,67,68,69,70,71,72,73,75,76,77,],[11,-7,-6,-4,-2,11,-5,11,-29,-32,-33,11,11,-31,-30,11,11,-9,-8,11,11,-10,]),'ELSE':([72,],[74,]),'LPAREN':([2,6,8,],[3,16,17,]),'EQ':([22,24,],[35,42,]),'ID':([5,7,9,10,11,12,13,15,16,17,20,26,30,31,32,33,34,35,37,38,39,40,41,42,46,47,54,67,68,69,70,71,72,73,75,76,77,],[14,-7,-6,-4,18,-2,14,-5,24,24,14,-29,48,49,50,51,52,53,55,58,60,61,63,65,-32,-33,14,14,-31,-30,14,14,-9,-8,14,14,-10,]),'IF':([5,7,9,10,12,13,15,20,26,46,47,54,67,68,69,70,71,72,73,75,76,77,],[6,-7,-6,-4,-2,6,-5,6,-29,-32,-33,6,6,-31,-30,6,6,-9,-8,6,6,-10,]),'LBRACE':([4,36,43,74,],[5,54,67,75,]),'GREATER':([22,24,],[31,38,]),'EPSILON':([5,7,9,10,12,13,15,20,26,46,47,54,67,68,69,70,71,72,73,75,76,77,],[7,-7,-6,-4,-2,7,-5,7,-29,-32,-33,7,7,-31,-30,7,7,-9,-8,7,7,-10,]),'MAIN':([0,],[2,]),}
+_lr_action_items = {'LESS_EQ':([44,46,],[54,61,]),'LESS':([44,46,],[56,63,]),'NUMBER':([6,36,39,40,48,61,62,63,64,65,66,71,74,97,],[9,44,51,44,68,84,85,87,90,92,94,99,102,106,]),'GREATER_EQ':([44,46,],[57,64,]),'WHILE':([15,17,18,19,21,23,24,25,26,28,30,33,34,35,41,43,47,72,73,82,95,96,98,103,104,109,111,112,113,115,116,117,118,119,121,122,123,],[-52,22,-49,-47,-6,-5,-7,-9,-8,-46,-2,-4,22,-48,-9,22,-31,-51,-50,22,-33,-32,-41,22,22,-42,22,-10,-44,-40,-39,-43,-11,-45,22,22,-12,]),'RBRACE':([15,17,18,19,21,23,24,25,26,28,30,33,34,35,41,43,47,72,73,82,95,96,98,103,104,109,111,112,113,115,116,117,118,119,121,122,123,],[-52,-52,-49,-47,-6,-5,-7,-9,-8,-46,-2,-4,42,-48,-9,-3,-31,-51,-50,-52,-33,-32,-41,-52,112,-42,118,-10,-44,-40,-39,-43,-11,-45,-52,123,-12,]),'RPAREN':([11,45,49,53,74,76,77,78,79,80,81,83,84,85,86,87,88,89,90,91,92,93,94,97,99,100,102,106,],[14,60,70,75,101,-24,-21,-23,-22,-20,-19,-18,-30,-27,-15,-29,-17,-16,-28,-14,-26,-13,-25,105,107,108,110,114,]),'SEMICOLON':([9,10,20,37,50,51,67,68,70,101,105,107,108,110,114,],[12,13,35,47,72,73,95,96,98,109,113,115,116,117,119,]),'COMMA':([49,],[71,]),'NOT_EQ':([44,46,],[58,65,]),'ASSIGN':([4,31,37,],[6,39,48,]),'$end':([1,42,],[0,-1,]),'STRING':([6,38,39,48,],[10,49,50,67,]),'AUTO':([15,17,18,19,21,23,24,25,26,28,30,33,34,35,41,43,47,72,73,82,95,96,98,103,104,109,111,112,113,115,116,117,118,119,121,122,123,],[-52,27,-49,-47,-6,-5,-7,-9,-8,-46,-2,-4,27,-48,-9,27,-31,-51,-50,27,-33,-32,-41,27,27,-42,27,-10,-44,-40,-39,-43,-11,-45,27,27,-12,]),'ELSE':([118,],[120,]),'LPAREN':([8,22,29,32,52,69,],[11,36,38,40,74,97,]),'PRINTF':([15,17,18,19,21,23,24,25,26,28,30,33,34,35,41,43,47,72,73,82,95,96,98,103,104,109,111,112,113,115,116,117,118,119,121,122,123,],[-52,29,-49,-47,-6,-5,-7,-9,-8,-46,-2,-4,29,-48,-9,29,-31,-51,-50,29,-33,-32,-41,29,29,-42,29,-10,-44,-40,-39,-43,-11,-45,29,29,-12,]),'EQ':([44,46,],[59,66,]),'ID':([0,2,3,5,7,12,13,15,16,17,18,19,21,23,24,25,26,27,28,30,33,34,35,36,40,41,43,47,54,55,56,57,58,59,61,62,63,64,65,66,71,72,73,82,95,96,98,103,104,109,111,112,113,115,116,117,118,119,121,122,123,],[4,-38,-35,4,-34,-36,-37,-52,20,31,-49,-47,-6,-5,-7,-9,-8,37,-46,-2,-4,31,-48,46,46,-9,31,-31,76,77,78,79,80,81,83,86,88,89,91,93,100,-51,-50,31,-33,-32,-41,31,31,-42,31,-10,-44,-40,-39,-43,-11,-45,31,31,-12,]),'IF':([15,17,18,19,21,23,24,25,26,28,30,33,34,35,41,43,47,72,73,82,95,96,98,103,104,109,111,112,113,115,116,117,118,119,121,122,123,],[-52,32,-49,-47,-6,-5,-7,-9,-8,-46,-2,-4,32,-48,-9,32,-31,-51,-50,32,-33,-32,-41,32,32,-42,32,-10,-44,-40,-39,-43,-11,-45,32,32,-12,]),'LBRACE':([14,60,75,120,],[15,82,103,121,]),'GREATER':([44,46,],[55,62,]),'EXTRN':([15,17,18,19,25,28,35,],[16,16,-49,-47,-49,-46,-48,]),'MAIN':([0,2,3,5,7,12,13,],[-52,-38,-35,8,-34,-36,-37,]),'GETCHAR':([39,48,],[52,69,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'function':([0,],[1,]),'assigned':([5,13,20,54,67,70,71,75,76,],[9,9,9,9,9,9,9,9,9,]),'while':([5,13,20,54,67,70,71,75,76,],[10,10,10,10,10,10,10,10,10,]),'statement':([16,17,],[23,25,]),'variable':([5,13,20,54,67,70,71,75,76,],[12,12,12,12,12,12,12,12,12,]),'expression':([5,13,20,54,67,70,71,75,76,],[13,20,20,70,71,20,20,76,20,]),'if':([5,13,20,54,67,70,71,75,76,],[15,15,15,15,15,15,15,15,15,]),}
+_lr_goto_items = {'function':([0,],[1,]),'constant':([0,5,],[3,7,]),'get':([17,34,43,82,103,104,111,121,122,],[26,26,26,26,26,26,26,26,26,]),'externals':([15,],[17,]),'assigned':([17,34,43,82,103,104,111,121,122,],[21,21,21,21,21,21,21,21,21,]),'print':([17,34,43,82,103,104,111,121,122,],[24,24,24,24,24,24,24,24,24,]),'while':([17,34,43,82,103,104,111,121,122,],[33,33,33,33,33,33,33,33,33,]),'empty':([0,5,15,17,34,43,82,103,104,111,121,122,],[2,2,18,25,41,41,41,41,41,41,41,41,]),'external':([15,17,],[19,28,]),'statement':([36,40,],[45,53,]),'variable':([17,34,43,82,103,104,111,121,122,],[30,30,30,30,30,30,30,30,30,]),'expression':([17,34,43,82,103,104,111,121,122,],[34,43,43,104,111,43,43,122,43,]),'constants':([0,],[5,]),'if':([17,34,43,82,103,104,111,121,122,],[23,23,23,23,23,23,23,23,23,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,37 +27,56 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> function","S'",1,None,None,None),
-  ('function -> MAIN LPAREN RPAREN LBRACE expression RBRACE','function',6,'p_function','calc.py',124),
-  ('expression -> variable','expression',1,'p_expression','calc.py',128),
-  ('expression -> expression expression','expression',2,'p_expression','calc.py',129),
-  ('expression -> while','expression',1,'p_expression','calc.py',130),
-  ('expression -> if','expression',1,'p_expression','calc.py',131),
-  ('expression -> assigned','expression',1,'p_expression','calc.py',132),
-  ('expression -> EPSILON','expression',1,'p_expression','calc.py',133),
-  ('while -> WHILE LPAREN statement RPAREN LBRACE expression RBRACE','while',7,'p_while','calc.py',138),
-  ('if -> IF LPAREN statement RPAREN LBRACE expression RBRACE','if',7,'p_if','calc.py',143),
-  ('if -> IF LPAREN statement RPAREN LBRACE expression RBRACE ELSE LBRACE expression RBRACE','if',11,'p_if','calc.py',144),
-  ('statement -> ID EQ ID','statement',3,'p_statement','calc.py',149),
-  ('statement -> ID NOT_EQ ID','statement',3,'p_statement','calc.py',150),
-  ('statement -> ID GREATER ID','statement',3,'p_statement','calc.py',151),
-  ('statement -> ID GREATER_EQ ID','statement',3,'p_statement','calc.py',152),
-  ('statement -> ID LESS ID','statement',3,'p_statement','calc.py',153),
-  ('statement -> ID LESS_EQ ID','statement',3,'p_statement','calc.py',154),
-  ('statement -> NUMBER EQ ID','statement',3,'p_statement','calc.py',155),
-  ('statement -> NUMBER NOT_EQ ID','statement',3,'p_statement','calc.py',156),
-  ('statement -> NUMBER GREATER ID','statement',3,'p_statement','calc.py',157),
-  ('statement -> NUMBER GREATER_EQ ID','statement',3,'p_statement','calc.py',158),
-  ('statement -> NUMBER LESS ID','statement',3,'p_statement','calc.py',159),
-  ('statement -> NUMBER LESS_EQ ID','statement',3,'p_statement','calc.py',160),
-  ('statement -> ID EQ NUMBER','statement',3,'p_statement','calc.py',161),
-  ('statement -> ID NOT_EQ NUMBER','statement',3,'p_statement','calc.py',162),
-  ('statement -> ID GREATER NUMBER','statement',3,'p_statement','calc.py',163),
-  ('statement -> ID GREATER_EQ NUMBER','statement',3,'p_statement','calc.py',164),
-  ('statement -> ID LESS NUMBER','statement',3,'p_statement','calc.py',165),
-  ('statement -> ID LESS_EQ NUMBER','statement',3,'p_statement','calc.py',166),
-  ('variable -> AUTO ID SEMICOLON','variable',3,'p_variable','calc.py',171),
-  ('variable -> AUTO ID ASSIGN NUMBER SEMICOLON','variable',5,'p_variable','calc.py',172),
-  ('variable -> AUTO ID ASSIGN STRING SEMICOLON','variable',5,'p_variable','calc.py',173),
-  ('assigned -> ID ASSIGN NUMBER SEMICOLON','assigned',4,'p_assigned','calc.py',178),
-  ('assigned -> ID ASSIGN STRING SEMICOLON','assigned',4,'p_assigned','calc.py',179),
+  ('function -> constants MAIN LPAREN RPAREN LBRACE externals expression RBRACE','function',8,'p_function','calc.py',126),
+  ('expression -> variable','expression',1,'p_expression','calc.py',132),
+  ('expression -> expression expression','expression',2,'p_expression','calc.py',133),
+  ('expression -> while','expression',1,'p_expression','calc.py',134),
+  ('expression -> if','expression',1,'p_expression','calc.py',135),
+  ('expression -> assigned','expression',1,'p_expression','calc.py',136),
+  ('expression -> print','expression',1,'p_expression','calc.py',137),
+  ('expression -> get','expression',1,'p_expression','calc.py',138),
+  ('expression -> empty','expression',1,'p_expression','calc.py',139),
+  ('while -> WHILE LPAREN statement RPAREN LBRACE expression RBRACE','while',7,'p_while','calc.py',144),
+  ('if -> IF LPAREN statement RPAREN LBRACE expression RBRACE','if',7,'p_if','calc.py',149),
+  ('if -> IF LPAREN statement RPAREN LBRACE expression RBRACE ELSE LBRACE expression RBRACE','if',11,'p_if','calc.py',150),
+  ('statement -> ID EQ ID','statement',3,'p_statement','calc.py',155),
+  ('statement -> ID NOT_EQ ID','statement',3,'p_statement','calc.py',156),
+  ('statement -> ID GREATER ID','statement',3,'p_statement','calc.py',157),
+  ('statement -> ID GREATER_EQ ID','statement',3,'p_statement','calc.py',158),
+  ('statement -> ID LESS ID','statement',3,'p_statement','calc.py',159),
+  ('statement -> ID LESS_EQ ID','statement',3,'p_statement','calc.py',160),
+  ('statement -> NUMBER EQ ID','statement',3,'p_statement','calc.py',161),
+  ('statement -> NUMBER NOT_EQ ID','statement',3,'p_statement','calc.py',162),
+  ('statement -> NUMBER GREATER ID','statement',3,'p_statement','calc.py',163),
+  ('statement -> NUMBER GREATER_EQ ID','statement',3,'p_statement','calc.py',164),
+  ('statement -> NUMBER LESS ID','statement',3,'p_statement','calc.py',165),
+  ('statement -> NUMBER LESS_EQ ID','statement',3,'p_statement','calc.py',166),
+  ('statement -> ID EQ NUMBER','statement',3,'p_statement','calc.py',167),
+  ('statement -> ID NOT_EQ NUMBER','statement',3,'p_statement','calc.py',168),
+  ('statement -> ID GREATER NUMBER','statement',3,'p_statement','calc.py',169),
+  ('statement -> ID GREATER_EQ NUMBER','statement',3,'p_statement','calc.py',170),
+  ('statement -> ID LESS NUMBER','statement',3,'p_statement','calc.py',171),
+  ('statement -> ID LESS_EQ NUMBER','statement',3,'p_statement','calc.py',172),
+  ('variable -> AUTO ID SEMICOLON','variable',3,'p_variable','calc.py',177),
+  ('variable -> AUTO ID ASSIGN NUMBER SEMICOLON','variable',5,'p_variable','calc.py',178),
+  ('variable -> AUTO ID ASSIGN STRING SEMICOLON','variable',5,'p_variable','calc.py',179),
+  ('constants -> constants constant','constants',2,'p_constants','calc.py',184),
+  ('constants -> constant','constants',1,'p_constants','calc.py',185),
+  ('constant -> ID ASSIGN NUMBER SEMICOLON','constant',4,'p_constant','calc.py',190),
+  ('constant -> ID ASSIGN STRING SEMICOLON','constant',4,'p_constant','calc.py',191),
+  ('constant -> empty','constant',1,'p_constant','calc.py',192),
+  ('print -> PRINTF LPAREN STRING COMMA ID RPAREN SEMICOLON','print',7,'p_print','calc.py',198),
+  ('print -> PRINTF LPAREN STRING COMMA NUMBER RPAREN SEMICOLON','print',7,'p_print','calc.py',199),
+  ('print -> PRINTF LPAREN STRING RPAREN SEMICOLON','print',5,'p_print','calc.py',200),
+  ('get -> ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON','get',6,'p_get','calc.py',205),
+  ('get -> ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON','get',7,'p_get','calc.py',206),
+  ('get -> AUTO ID ASSIGN GETCHAR LPAREN RPAREN SEMICOLON','get',7,'p_get','calc.py',207),
+  ('get -> AUTO ID ASSIGN GETCHAR LPAREN NUMBER RPAREN SEMICOLON','get',8,'p_get','calc.py',208),
+  ('externals -> externals external','externals',2,'p_externals','calc.py',213),
+  ('externals -> external','externals',1,'p_externals','calc.py',214),
+  ('external -> EXTRN ID SEMICOLON','external',3,'p_external','calc.py',219),
+  ('external -> empty','external',1,'p_external','calc.py',220),
+  ('assigned -> ID ASSIGN NUMBER SEMICOLON','assigned',4,'p_assigned','calc.py',225),
+  ('assigned -> ID ASSIGN STRING SEMICOLON','assigned',4,'p_assigned','calc.py',226),
+  ('empty -> <empty>','empty',0,'p_empty','calc.py',236),
 ]

@@ -2,6 +2,6 @@
 
 main() {
   auto a = 12;
-  auto b = 'String';
+  auto b = "String";
   auto c = 12.45;
 }

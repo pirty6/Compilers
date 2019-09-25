@@ -1,7 +1,7 @@
-//Test5: Un programa sencillo con cadenas.
+/* Test5: Un programa sencillo con cadenas. */
 
 main() {
   auto b;
-  auto a = 'Este es un string';
-  b = 'este tambien';
+  auto a = "Este es un string";
+  b = "este tambien";
 }
