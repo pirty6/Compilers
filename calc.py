@@ -11,13 +11,11 @@ reserved = {
     'bool'      : 'BOOL',
     'else'      : 'ELSE',
     'enum'      : 'ENUM',
-    'false'     : 'FALSE',
     'if'        : 'IF',
     'int'       : 'INT',
     'main'      : 'MAIN',
     'readf'     : 'READF',
     'string'    : 'STR',
-    'true'      : 'TRUE',
     'void'      : 'VOID',
     'while'     : 'WHILE',
     'writeln'   : 'WRITELN',
@@ -41,6 +39,8 @@ tokens = [
     'RPAREN',
     'SEMICOLON',
     'STRING',
+    'TRUE',
+    'FALSE',
 ]
 
 tokens += reserved.values()
@@ -73,6 +73,16 @@ t_AMPERSAND     = r'\&'
 #                   COMPLEX TOKENS
 # -------------------------------------------------------
 
+def t_TRUE(t):
+    r'(true)'
+    t.value = True
+    return t
+
+def t_FALSE(t):
+    r'(false)'
+    t.value = False
+    return t
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     if reserved.has_key(t.value):
@@ -81,12 +91,16 @@ def t_ID(t):
 
 def t_NUMBER( t ) :
     r'[+-]?\d+'
-    t.value = int( t.value )
+    try:
+        t.value = int( t.value )
+    except ValueError:
+        print("Value too long ", t.value)
+        t.value = 0
     return t
 
 def t_STRING(t):
     r'"[^\n]*?(?<!\\)"'
-    temp_str = t.value.replace(r'\\', '')
+    t.value = t.value[1:-1]
     return t
 
 def t_newline( t ):
@@ -114,7 +128,7 @@ def t_LARGERCOMMENT(t):
 # -------------------------------------------------------
 
 def t_error( t ):
-  print("Invalid Token:",t.value[0])
+  print("Illegal character '{0}' at line {1}" .format(t.value[0], t.lineno))
   t.lexer.skip( 1 )
 
 # -------------------------------------------------------
@@ -125,7 +139,6 @@ def t_error( t ):
 def p_start( p ):
     'start : function'
     print("Successfully Parsed")
-    p[0] = p[1]
 
 def p_function( p ):
     'function : constants VOID MAIN LPAREN RPAREN LBRACE expressions RBRACE constants'
