@@ -41,9 +41,11 @@ tokens = [
     'STRING',
     'TRUE',
     'FALSE',
+    'LSQUARE',
+    'RSQUARE',
 ]
 
-tokens += reserved.values()
+tokens = reserved.values() + tokens
 
 
 # -------------------------------------------------------
@@ -57,6 +59,8 @@ t_LPAREN        = r'\('
 t_RPAREN        = r'\)'
 t_LBRACE        = r'\{'
 t_RBRACE        = r'\}'
+t_LSQUARE       = r'\['
+t_RSQUARE       = r'\]'
 t_SEMICOLON     = r'\;'
 t_COMMA         = r'\,'
 t_ASSIGN        = r'='
@@ -141,9 +145,13 @@ def p_start( p ):
     print("Successfully Parsed")
 
 def p_function( p ):
-    'function : constants VOID MAIN LPAREN RPAREN LBRACE expressions RBRACE constants'
-    pass
+    'function : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants'
 
+def p_params( p ):
+    '''
+    params :  STR LSQUARE RSQUARE ID
+            | empty
+    '''
 
 def p_expressions( p ):
     '''
@@ -154,7 +162,7 @@ def p_expressions( p ):
 
 def p_expression( p ):
     '''
-    expression :   variable
+    expression :   constants
                  | while
                  | if
                  | ID assigned SEMICOLON
@@ -221,7 +229,6 @@ def p_boolean( p ):
     boolean :   TRUE
               | FALSE
     '''
-    pass
 
 def p_constants( p ):
     '''
@@ -230,7 +237,6 @@ def p_constants( p ):
                 | constant
                 | variable
     '''
-    pass
 
 def p_constant( p ):
     '''
@@ -240,7 +246,6 @@ def p_constant( p ):
                 | ENUM ID SEMICOLON
                 | empty
     '''
-    pass
 
 
 def p_print( p ):
@@ -250,21 +255,17 @@ def p_print( p ):
             | WRITELN LPAREN NUMBER RPAREN SEMICOLON
             | WRITELN LPAREN boolean RPAREN SEMICOLON
     '''
-    pass
 
 def p_get( p ):
     '''
     get :     READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
     '''
-    pass
 
 def p_empty( p ):
     'empty :'
-    pass
 
 def p_error( p ):
     print("Syntax error at line {0}" .format(p.lineno))
-    pass
 
 def process(data):
     lexer = lex.lex()
@@ -278,13 +279,14 @@ def process(data):
     yacc.parse(data)
 
 
-# -------------------------------------------------------
-#                       PASSING TESTS
-# -------------------------------------------------------
 
 if __name__ == "__main__":
     import sys
 
+    # -------------------------------------------------------
+    #                       PASSING TESTS
+    # -------------------------------------------------------
+    print("--------Valid Tests--------")
     # Test1: Un programa sencillo con un comentario de una palabra
     print("Test 1: Comentario de una palabra")
     f = open('./Tests/Test1.d', 'r')
@@ -358,6 +360,8 @@ if __name__ == "__main__":
 # -------------------------------------------------------
 #                       FAILING TESTS
 # -------------------------------------------------------
+
+    # Test11 y 12: Un programa sencillo con la definicion de una variable en el lugar incorrecto y en el orden incorrecto.
     print("\n--------Invalid tests--------")
     print("Test 11: Variable en el lugar incorrecto")
     f = open('./Tests/Test11.d', 'r')
@@ -365,14 +369,23 @@ if __name__ == "__main__":
     f.close()
     process(data)
 
+
     print("Test 12: Varible en el orden incorrecto.")
     f = open('./Tests/Test12.d', 'r')
     data = f.read()
     f.close()
     process(data)
 
+    # Test13: Un programa sencillo que utiliza una cadena, variable y constante en un lugar que no esta permitido.
     print("Test 13: Cadena en un lugar no permitido")
     f = open('./Tests/Test13.d', 'r')
+    data = f.read()
+    f.close()
+    process(data)
+
+    # Test14: Un programa sencillo con un ciclo definido pero usando una gramatica incorrecta.
+    print("Test 14: Ciclo definido pero usando gramatica incorrecta")
+    f = open('./Tests/Test14.d', 'r')
     data = f.read()
     f.close()
     process(data)

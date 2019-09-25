@@ -3,7 +3,7 @@
 enum J = 10;
 
 
-void main() {
+void main(string[] args) {
   int a;
   readf("%i", &a);
   bool b = true;
