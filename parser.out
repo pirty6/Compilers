@@ -15,101 +15,94 @@ Rule 9     expression -> if
 Rule 10    expression -> ID assigned SEMICOLON
 Rule 11    expression -> print
 Rule 12    expression -> get
-Rule 13    expression -> empty
-Rule 14    while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-Rule 15    if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE
-Rule 16    if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-Rule 17    statement -> type logic_op type
-Rule 18    logic_op -> EQ
-Rule 19    logic_op -> NOT_EQ
-Rule 20    logic_op -> GREATER
-Rule 21    logic_op -> GREATER_EQ
-Rule 22    logic_op -> LESS
-Rule 23    logic_op -> LESS_EQ
-Rule 24    variable -> var_type ID assigned SEMICOLON
-Rule 25    var_type -> INT
-Rule 26    var_type -> STR
-Rule 27    var_type -> BOOL
-Rule 28    assigned -> ASSIGN type
-Rule 29    assigned -> empty
-Rule 30    type -> NUMBER
-Rule 31    type -> STRING
-Rule 32    type -> boolean
-Rule 33    type -> ID
-Rule 34    boolean -> TRUE
-Rule 35    boolean -> FALSE
-Rule 36    constants -> constants constant
-Rule 37    constants -> constants variable
-Rule 38    constants -> constant
-Rule 39    constants -> variable
-Rule 40    constant -> ENUM ID ASSIGN NUMBER SEMICOLON
-Rule 41    constant -> ENUM ID ASSIGN STRING SEMICOLON
-Rule 42    constant -> ENUM ID ASSIGN boolean SEMICOLON
-Rule 43    constant -> ENUM ID SEMICOLON
-Rule 44    constant -> empty
-Rule 45    print -> WRITELN LPAREN ID RPAREN SEMICOLON
-Rule 46    print -> WRITELN LPAREN STRING RPAREN SEMICOLON
-Rule 47    print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON
-Rule 48    print -> WRITELN LPAREN boolean RPAREN SEMICOLON
-Rule 49    get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-Rule 50    empty -> <empty>
+Rule 13    while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+Rule 14    if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE
+Rule 15    if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+Rule 16    statement -> type logic_op type
+Rule 17    logic_op -> EQ
+Rule 18    logic_op -> NOT_EQ
+Rule 19    logic_op -> GREATER
+Rule 20    logic_op -> GREATER_EQ
+Rule 21    logic_op -> LESS
+Rule 22    logic_op -> LESS_EQ
+Rule 23    variable -> var_type ID assigned SEMICOLON
+Rule 24    var_type -> INT
+Rule 25    var_type -> STR
+Rule 26    var_type -> BOOL
+Rule 27    assigned -> ASSIGN type
+Rule 28    assigned -> empty
+Rule 29    type -> NUMBER
+Rule 30    type -> STRING
+Rule 31    type -> boolean
+Rule 32    type -> ID
+Rule 33    boolean -> TRUE
+Rule 34    boolean -> FALSE
+Rule 35    constants -> constants constant
+Rule 36    constants -> constants variable
+Rule 37    constants -> constant
+Rule 38    constants -> variable
+Rule 39    constant -> ENUM ID assigned SEMICOLON
+Rule 40    constant -> empty
+Rule 41    print -> WRITELN LPAREN type RPAREN SEMICOLON
+Rule 42    get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+Rule 43    empty -> <empty>
 
 Terminals, with rules where they appear
 
-AMPERSAND            : 49
-ASSIGN               : 28 40 41 42
-BOOL                 : 27
-COMMA                : 49
-ELSE                 : 16
-ENUM                 : 40 41 42 43
-EQ                   : 18
-FALSE                : 35
-GREATER              : 20
-GREATER_EQ           : 21
-ID                   : 3 10 24 33 40 41 42 43 45 49
-IF                   : 15 16
-INT                  : 25
-LBRACE               : 2 14 15 16 16
-LESS                 : 22
-LESS_EQ              : 23
-LPAREN               : 2 14 15 16 45 46 47 48 49
+AMPERSAND            : 42
+ASSIGN               : 27
+BOOL                 : 26
+COMMA                : 42
+ELSE                 : 15
+ENUM                 : 39
+EQ                   : 17
+FALSE                : 34
+GREATER              : 19
+GREATER_EQ           : 20
+ID                   : 3 10 23 32 39 42
+IF                   : 14 15
+INT                  : 24
+LBRACE               : 2 13 14 15 15
+LESS                 : 21
+LESS_EQ              : 22
+LPAREN               : 2 13 14 15 41 42
 LSQUARE              : 3
 MAIN                 : 2
-NOT_EQ               : 19
-NUMBER               : 30 40 47
-RBRACE               : 2 14 15 16 16
-READF                : 49
-RPAREN               : 2 14 15 16 45 46 47 48 49
+NOT_EQ               : 18
+NUMBER               : 29
+RBRACE               : 2 13 14 15 15
+READF                : 42
+RPAREN               : 2 13 14 15 41 42
 RSQUARE              : 3
-SEMICOLON            : 10 24 40 41 42 43 45 46 47 48 49
-STR                  : 3 26
-STRING               : 31 41 46 49
-TRUE                 : 34
+SEMICOLON            : 10 23 39 41 42
+STR                  : 3 25
+STRING               : 30 42
+TRUE                 : 33
 VOID                 : 2
-WHILE                : 14
-WRITELN              : 45 46 47 48
+WHILE                : 13
+WRITELN              : 41
 error                : 
 
 Nonterminals, with rules where they appear
 
-assigned             : 10 24
-boolean              : 32 42 48
-constant             : 36 38
-constants            : 2 2 7 36 37
-empty                : 4 13 29 44
+assigned             : 10 23 39
+boolean              : 31
+constant             : 35 37
+constants            : 2 2 7 35 36
+empty                : 4 28 40
 expression           : 5 6
-expressions          : 2 5 14 15 16 16
+expressions          : 2 5 13 14 15 15
 function             : 1
 get                  : 12
 if                   : 9
-logic_op             : 17
+logic_op             : 16
 params               : 2
 print                : 11
 start                : 0
-statement            : 14 15 16
-type                 : 17 17 28
-var_type             : 24
-variable             : 37 39
+statement            : 13 14 15
+type                 : 16 16 27 41
+var_type             : 23
+variable             : 36 38
 while                : 8
 
 Parsing method: LALR
@@ -119,35 +112,32 @@ state 0
     (0) S' -> . start
     (1) start -> . function
     (2) function -> . constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (50) empty -> .
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
   ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for STR resolved as shift
   ! shift/reduce conflict for BOOL resolved as shift
     ENUM            shift and go to state 7
-    VOID            reduce using rule 50 (empty -> .)
+    VOID            reduce using rule 43 (empty -> .)
     INT             shift and go to state 10
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
 
     function                       shift and go to state 6
     constant                       shift and go to state 1
@@ -159,32 +149,32 @@ state 0
 
 state 1
 
-    (38) constants -> constant .
+    (37) constants -> constant .
 
-    ENUM            reduce using rule 38 (constants -> constant .)
-    INT             reduce using rule 38 (constants -> constant .)
-    STR             reduce using rule 38 (constants -> constant .)
-    BOOL            reduce using rule 38 (constants -> constant .)
-    $end            reduce using rule 38 (constants -> constant .)
-    RBRACE          reduce using rule 38 (constants -> constant .)
-    ID              reduce using rule 38 (constants -> constant .)
-    WHILE           reduce using rule 38 (constants -> constant .)
-    IF              reduce using rule 38 (constants -> constant .)
-    WRITELN         reduce using rule 38 (constants -> constant .)
-    READF           reduce using rule 38 (constants -> constant .)
-    VOID            reduce using rule 38 (constants -> constant .)
+    ENUM            reduce using rule 37 (constants -> constant .)
+    INT             reduce using rule 37 (constants -> constant .)
+    STR             reduce using rule 37 (constants -> constant .)
+    BOOL            reduce using rule 37 (constants -> constant .)
+    RBRACE          reduce using rule 37 (constants -> constant .)
+    ID              reduce using rule 37 (constants -> constant .)
+    WHILE           reduce using rule 37 (constants -> constant .)
+    IF              reduce using rule 37 (constants -> constant .)
+    WRITELN         reduce using rule 37 (constants -> constant .)
+    READF           reduce using rule 37 (constants -> constant .)
+    VOID            reduce using rule 37 (constants -> constant .)
+    $end            reduce using rule 37 (constants -> constant .)
 
 
 state 2
 
-    (26) var_type -> STR .
+    (25) var_type -> STR .
 
-    ID              reduce using rule 26 (var_type -> STR .)
+    ID              reduce using rule 25 (var_type -> STR .)
 
 
 state 3
 
-    (24) variable -> var_type . ID assigned SEMICOLON
+    (23) variable -> var_type . ID assigned SEMICOLON
 
     ID              shift and go to state 12
 
@@ -197,20 +187,20 @@ state 4
 
 state 5
 
-    (44) constant -> empty .
+    (40) constant -> empty .
 
-    ENUM            reduce using rule 44 (constant -> empty .)
-    INT             reduce using rule 44 (constant -> empty .)
-    STR             reduce using rule 44 (constant -> empty .)
-    BOOL            reduce using rule 44 (constant -> empty .)
-    $end            reduce using rule 44 (constant -> empty .)
-    VOID            reduce using rule 44 (constant -> empty .)
-    RBRACE          reduce using rule 44 (constant -> empty .)
-    ID              reduce using rule 44 (constant -> empty .)
-    WHILE           reduce using rule 44 (constant -> empty .)
-    IF              reduce using rule 44 (constant -> empty .)
-    WRITELN         reduce using rule 44 (constant -> empty .)
-    READF           reduce using rule 44 (constant -> empty .)
+    ENUM            reduce using rule 40 (constant -> empty .)
+    INT             reduce using rule 40 (constant -> empty .)
+    STR             reduce using rule 40 (constant -> empty .)
+    BOOL            reduce using rule 40 (constant -> empty .)
+    RBRACE          reduce using rule 40 (constant -> empty .)
+    ID              reduce using rule 40 (constant -> empty .)
+    WHILE           reduce using rule 40 (constant -> empty .)
+    IF              reduce using rule 40 (constant -> empty .)
+    WRITELN         reduce using rule 40 (constant -> empty .)
+    READF           reduce using rule 40 (constant -> empty .)
+    VOID            reduce using rule 40 (constant -> empty .)
+    $end            reduce using rule 40 (constant -> empty .)
 
 
 state 6
@@ -222,464 +212,377 @@ state 6
 
 state 7
 
-    (40) constant -> ENUM . ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> ENUM . ID ASSIGN STRING SEMICOLON
-    (42) constant -> ENUM . ID ASSIGN boolean SEMICOLON
-    (43) constant -> ENUM . ID SEMICOLON
+    (39) constant -> ENUM . ID assigned SEMICOLON
 
     ID              shift and go to state 13
 
 
 state 8
 
-    (39) constants -> variable .
+    (38) constants -> variable .
 
-    ENUM            reduce using rule 39 (constants -> variable .)
-    INT             reduce using rule 39 (constants -> variable .)
-    STR             reduce using rule 39 (constants -> variable .)
-    BOOL            reduce using rule 39 (constants -> variable .)
-    $end            reduce using rule 39 (constants -> variable .)
-    RBRACE          reduce using rule 39 (constants -> variable .)
-    ID              reduce using rule 39 (constants -> variable .)
-    WHILE           reduce using rule 39 (constants -> variable .)
-    IF              reduce using rule 39 (constants -> variable .)
-    WRITELN         reduce using rule 39 (constants -> variable .)
-    READF           reduce using rule 39 (constants -> variable .)
-    VOID            reduce using rule 39 (constants -> variable .)
+    ENUM            reduce using rule 38 (constants -> variable .)
+    INT             reduce using rule 38 (constants -> variable .)
+    STR             reduce using rule 38 (constants -> variable .)
+    BOOL            reduce using rule 38 (constants -> variable .)
+    RBRACE          reduce using rule 38 (constants -> variable .)
+    ID              reduce using rule 38 (constants -> variable .)
+    WHILE           reduce using rule 38 (constants -> variable .)
+    IF              reduce using rule 38 (constants -> variable .)
+    WRITELN         reduce using rule 38 (constants -> variable .)
+    READF           reduce using rule 38 (constants -> variable .)
+    VOID            reduce using rule 38 (constants -> variable .)
+    $end            reduce using rule 38 (constants -> variable .)
 
 
 state 9
 
     (2) function -> constants . VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants
-    (36) constants -> constants . constant
-    (37) constants -> constants . variable
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (50) empty -> .
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> constants . constant
+    (36) constants -> constants . variable
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
   ! shift/reduce conflict for VOID resolved as shift
   ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for STR resolved as shift
   ! shift/reduce conflict for BOOL resolved as shift
-    VOID            shift and go to state 15
+    VOID            shift and go to state 14
     ENUM            shift and go to state 7
     INT             shift and go to state 10
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! VOID            [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
+  ! VOID            [ reduce using rule 43 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
 
-    constant                       shift and go to state 14
+    constant                       shift and go to state 16
     var_type                       shift and go to state 3
     empty                          shift and go to state 5
-    variable                       shift and go to state 16
+    variable                       shift and go to state 15
 
 state 10
 
-    (25) var_type -> INT .
+    (24) var_type -> INT .
 
-    ID              reduce using rule 25 (var_type -> INT .)
+    ID              reduce using rule 24 (var_type -> INT .)
 
 
 state 11
 
-    (27) var_type -> BOOL .
+    (26) var_type -> BOOL .
 
-    ID              reduce using rule 27 (var_type -> BOOL .)
+    ID              reduce using rule 26 (var_type -> BOOL .)
 
 
 state 12
 
-    (24) variable -> var_type ID . assigned SEMICOLON
-    (28) assigned -> . ASSIGN type
-    (29) assigned -> . empty
-    (50) empty -> .
+    (23) variable -> var_type ID . assigned SEMICOLON
+    (27) assigned -> . ASSIGN type
+    (28) assigned -> . empty
+    (43) empty -> .
 
     ASSIGN          shift and go to state 17
-    SEMICOLON       reduce using rule 50 (empty -> .)
+    SEMICOLON       reduce using rule 43 (empty -> .)
 
     assigned                       shift and go to state 18
     empty                          shift and go to state 19
 
 state 13
 
-    (40) constant -> ENUM ID . ASSIGN NUMBER SEMICOLON
-    (41) constant -> ENUM ID . ASSIGN STRING SEMICOLON
-    (42) constant -> ENUM ID . ASSIGN boolean SEMICOLON
-    (43) constant -> ENUM ID . SEMICOLON
+    (39) constant -> ENUM ID . assigned SEMICOLON
+    (27) assigned -> . ASSIGN type
+    (28) assigned -> . empty
+    (43) empty -> .
 
-    ASSIGN          shift and go to state 21
-    SEMICOLON       shift and go to state 20
+    ASSIGN          shift and go to state 17
+    SEMICOLON       reduce using rule 43 (empty -> .)
 
+    assigned                       shift and go to state 20
+    empty                          shift and go to state 19
 
 state 14
 
-    (36) constants -> constants constant .
+    (2) function -> constants VOID . MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants
 
-    ENUM            reduce using rule 36 (constants -> constants constant .)
-    INT             reduce using rule 36 (constants -> constants constant .)
-    STR             reduce using rule 36 (constants -> constants constant .)
-    BOOL            reduce using rule 36 (constants -> constants constant .)
-    $end            reduce using rule 36 (constants -> constants constant .)
-    RBRACE          reduce using rule 36 (constants -> constants constant .)
-    ID              reduce using rule 36 (constants -> constants constant .)
-    WHILE           reduce using rule 36 (constants -> constants constant .)
-    IF              reduce using rule 36 (constants -> constants constant .)
-    WRITELN         reduce using rule 36 (constants -> constants constant .)
-    READF           reduce using rule 36 (constants -> constants constant .)
-    VOID            reduce using rule 36 (constants -> constants constant .)
+    MAIN            shift and go to state 21
 
 
 state 15
 
-    (2) function -> constants VOID . MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants
+    (36) constants -> constants variable .
 
-    MAIN            shift and go to state 22
+    ENUM            reduce using rule 36 (constants -> constants variable .)
+    INT             reduce using rule 36 (constants -> constants variable .)
+    STR             reduce using rule 36 (constants -> constants variable .)
+    BOOL            reduce using rule 36 (constants -> constants variable .)
+    RBRACE          reduce using rule 36 (constants -> constants variable .)
+    ID              reduce using rule 36 (constants -> constants variable .)
+    WHILE           reduce using rule 36 (constants -> constants variable .)
+    IF              reduce using rule 36 (constants -> constants variable .)
+    WRITELN         reduce using rule 36 (constants -> constants variable .)
+    READF           reduce using rule 36 (constants -> constants variable .)
+    VOID            reduce using rule 36 (constants -> constants variable .)
+    $end            reduce using rule 36 (constants -> constants variable .)
 
 
 state 16
 
-    (37) constants -> constants variable .
+    (35) constants -> constants constant .
 
-    ENUM            reduce using rule 37 (constants -> constants variable .)
-    INT             reduce using rule 37 (constants -> constants variable .)
-    STR             reduce using rule 37 (constants -> constants variable .)
-    BOOL            reduce using rule 37 (constants -> constants variable .)
-    $end            reduce using rule 37 (constants -> constants variable .)
-    RBRACE          reduce using rule 37 (constants -> constants variable .)
-    ID              reduce using rule 37 (constants -> constants variable .)
-    WHILE           reduce using rule 37 (constants -> constants variable .)
-    IF              reduce using rule 37 (constants -> constants variable .)
-    WRITELN         reduce using rule 37 (constants -> constants variable .)
-    READF           reduce using rule 37 (constants -> constants variable .)
-    VOID            reduce using rule 37 (constants -> constants variable .)
+    ENUM            reduce using rule 35 (constants -> constants constant .)
+    INT             reduce using rule 35 (constants -> constants constant .)
+    STR             reduce using rule 35 (constants -> constants constant .)
+    BOOL            reduce using rule 35 (constants -> constants constant .)
+    RBRACE          reduce using rule 35 (constants -> constants constant .)
+    ID              reduce using rule 35 (constants -> constants constant .)
+    WHILE           reduce using rule 35 (constants -> constants constant .)
+    IF              reduce using rule 35 (constants -> constants constant .)
+    WRITELN         reduce using rule 35 (constants -> constants constant .)
+    READF           reduce using rule 35 (constants -> constants constant .)
+    VOID            reduce using rule 35 (constants -> constants constant .)
+    $end            reduce using rule 35 (constants -> constants constant .)
 
 
 state 17
 
-    (28) assigned -> ASSIGN . type
-    (30) type -> . NUMBER
-    (31) type -> . STRING
-    (32) type -> . boolean
-    (33) type -> . ID
-    (34) boolean -> . TRUE
-    (35) boolean -> . FALSE
+    (27) assigned -> ASSIGN . type
+    (29) type -> . NUMBER
+    (30) type -> . STRING
+    (31) type -> . boolean
+    (32) type -> . ID
+    (33) boolean -> . TRUE
+    (34) boolean -> . FALSE
 
-    NUMBER          shift and go to state 26
-    STRING          shift and go to state 24
-    ID              shift and go to state 27
-    TRUE            shift and go to state 25
-    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 25
+    STRING          shift and go to state 23
+    ID              shift and go to state 26
+    TRUE            shift and go to state 24
+    FALSE           shift and go to state 22
 
-    boolean                        shift and go to state 28
-    type                           shift and go to state 29
+    boolean                        shift and go to state 27
+    type                           shift and go to state 28
 
 state 18
 
-    (24) variable -> var_type ID assigned . SEMICOLON
+    (23) variable -> var_type ID assigned . SEMICOLON
 
-    SEMICOLON       shift and go to state 30
+    SEMICOLON       shift and go to state 29
 
 
 state 19
 
-    (29) assigned -> empty .
+    (28) assigned -> empty .
 
-    SEMICOLON       reduce using rule 29 (assigned -> empty .)
+    SEMICOLON       reduce using rule 28 (assigned -> empty .)
 
 
 state 20
 
-    (43) constant -> ENUM ID SEMICOLON .
+    (39) constant -> ENUM ID assigned . SEMICOLON
 
-    ENUM            reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    INT             reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    STR             reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    BOOL            reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    RBRACE          reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    ID              reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    WHILE           reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    IF              reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    WRITELN         reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    READF           reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    $end            reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
-    VOID            reduce using rule 43 (constant -> ENUM ID SEMICOLON .)
+    SEMICOLON       shift and go to state 30
 
 
 state 21
 
-    (40) constant -> ENUM ID ASSIGN . NUMBER SEMICOLON
-    (41) constant -> ENUM ID ASSIGN . STRING SEMICOLON
-    (42) constant -> ENUM ID ASSIGN . boolean SEMICOLON
-    (34) boolean -> . TRUE
-    (35) boolean -> . FALSE
+    (2) function -> constants VOID MAIN . LPAREN params RPAREN LBRACE expressions RBRACE constants
 
-    NUMBER          shift and go to state 32
-    STRING          shift and go to state 31
-    TRUE            shift and go to state 25
-    FALSE           shift and go to state 23
+    LPAREN          shift and go to state 31
 
-    boolean                        shift and go to state 33
 
 state 22
 
-    (2) function -> constants VOID MAIN . LPAREN params RPAREN LBRACE expressions RBRACE constants
+    (34) boolean -> FALSE .
 
-    LPAREN          shift and go to state 34
+    EQ              reduce using rule 34 (boolean -> FALSE .)
+    NOT_EQ          reduce using rule 34 (boolean -> FALSE .)
+    GREATER         reduce using rule 34 (boolean -> FALSE .)
+    GREATER_EQ      reduce using rule 34 (boolean -> FALSE .)
+    LESS            reduce using rule 34 (boolean -> FALSE .)
+    LESS_EQ         reduce using rule 34 (boolean -> FALSE .)
+    RPAREN          reduce using rule 34 (boolean -> FALSE .)
+    SEMICOLON       reduce using rule 34 (boolean -> FALSE .)
 
 
 state 23
 
-    (35) boolean -> FALSE .
+    (30) type -> STRING .
 
-    RPAREN          reduce using rule 35 (boolean -> FALSE .)
-    SEMICOLON       reduce using rule 35 (boolean -> FALSE .)
-    EQ              reduce using rule 35 (boolean -> FALSE .)
-    NOT_EQ          reduce using rule 35 (boolean -> FALSE .)
-    GREATER         reduce using rule 35 (boolean -> FALSE .)
-    GREATER_EQ      reduce using rule 35 (boolean -> FALSE .)
-    LESS            reduce using rule 35 (boolean -> FALSE .)
-    LESS_EQ         reduce using rule 35 (boolean -> FALSE .)
+    RPAREN          reduce using rule 30 (type -> STRING .)
+    SEMICOLON       reduce using rule 30 (type -> STRING .)
+    EQ              reduce using rule 30 (type -> STRING .)
+    NOT_EQ          reduce using rule 30 (type -> STRING .)
+    GREATER         reduce using rule 30 (type -> STRING .)
+    GREATER_EQ      reduce using rule 30 (type -> STRING .)
+    LESS            reduce using rule 30 (type -> STRING .)
+    LESS_EQ         reduce using rule 30 (type -> STRING .)
 
 
 state 24
 
-    (31) type -> STRING .
+    (33) boolean -> TRUE .
 
-    RPAREN          reduce using rule 31 (type -> STRING .)
-    EQ              reduce using rule 31 (type -> STRING .)
-    NOT_EQ          reduce using rule 31 (type -> STRING .)
-    GREATER         reduce using rule 31 (type -> STRING .)
-    GREATER_EQ      reduce using rule 31 (type -> STRING .)
-    LESS            reduce using rule 31 (type -> STRING .)
-    LESS_EQ         reduce using rule 31 (type -> STRING .)
-    SEMICOLON       reduce using rule 31 (type -> STRING .)
+    EQ              reduce using rule 33 (boolean -> TRUE .)
+    NOT_EQ          reduce using rule 33 (boolean -> TRUE .)
+    GREATER         reduce using rule 33 (boolean -> TRUE .)
+    GREATER_EQ      reduce using rule 33 (boolean -> TRUE .)
+    LESS            reduce using rule 33 (boolean -> TRUE .)
+    LESS_EQ         reduce using rule 33 (boolean -> TRUE .)
+    RPAREN          reduce using rule 33 (boolean -> TRUE .)
+    SEMICOLON       reduce using rule 33 (boolean -> TRUE .)
 
 
 state 25
 
-    (34) boolean -> TRUE .
+    (29) type -> NUMBER .
 
-    RPAREN          reduce using rule 34 (boolean -> TRUE .)
-    SEMICOLON       reduce using rule 34 (boolean -> TRUE .)
-    EQ              reduce using rule 34 (boolean -> TRUE .)
-    NOT_EQ          reduce using rule 34 (boolean -> TRUE .)
-    GREATER         reduce using rule 34 (boolean -> TRUE .)
-    GREATER_EQ      reduce using rule 34 (boolean -> TRUE .)
-    LESS            reduce using rule 34 (boolean -> TRUE .)
-    LESS_EQ         reduce using rule 34 (boolean -> TRUE .)
+    RPAREN          reduce using rule 29 (type -> NUMBER .)
+    SEMICOLON       reduce using rule 29 (type -> NUMBER .)
+    EQ              reduce using rule 29 (type -> NUMBER .)
+    NOT_EQ          reduce using rule 29 (type -> NUMBER .)
+    GREATER         reduce using rule 29 (type -> NUMBER .)
+    GREATER_EQ      reduce using rule 29 (type -> NUMBER .)
+    LESS            reduce using rule 29 (type -> NUMBER .)
+    LESS_EQ         reduce using rule 29 (type -> NUMBER .)
 
 
 state 26
 
-    (30) type -> NUMBER .
+    (32) type -> ID .
 
-    RPAREN          reduce using rule 30 (type -> NUMBER .)
-    EQ              reduce using rule 30 (type -> NUMBER .)
-    NOT_EQ          reduce using rule 30 (type -> NUMBER .)
-    GREATER         reduce using rule 30 (type -> NUMBER .)
-    GREATER_EQ      reduce using rule 30 (type -> NUMBER .)
-    LESS            reduce using rule 30 (type -> NUMBER .)
-    LESS_EQ         reduce using rule 30 (type -> NUMBER .)
-    SEMICOLON       reduce using rule 30 (type -> NUMBER .)
+    RPAREN          reduce using rule 32 (type -> ID .)
+    SEMICOLON       reduce using rule 32 (type -> ID .)
+    EQ              reduce using rule 32 (type -> ID .)
+    NOT_EQ          reduce using rule 32 (type -> ID .)
+    GREATER         reduce using rule 32 (type -> ID .)
+    GREATER_EQ      reduce using rule 32 (type -> ID .)
+    LESS            reduce using rule 32 (type -> ID .)
+    LESS_EQ         reduce using rule 32 (type -> ID .)
 
 
 state 27
 
-    (33) type -> ID .
+    (31) type -> boolean .
 
-    RPAREN          reduce using rule 33 (type -> ID .)
-    EQ              reduce using rule 33 (type -> ID .)
-    NOT_EQ          reduce using rule 33 (type -> ID .)
-    GREATER         reduce using rule 33 (type -> ID .)
-    GREATER_EQ      reduce using rule 33 (type -> ID .)
-    LESS            reduce using rule 33 (type -> ID .)
-    LESS_EQ         reduce using rule 33 (type -> ID .)
-    SEMICOLON       reduce using rule 33 (type -> ID .)
+    RPAREN          reduce using rule 31 (type -> boolean .)
+    SEMICOLON       reduce using rule 31 (type -> boolean .)
+    EQ              reduce using rule 31 (type -> boolean .)
+    NOT_EQ          reduce using rule 31 (type -> boolean .)
+    GREATER         reduce using rule 31 (type -> boolean .)
+    GREATER_EQ      reduce using rule 31 (type -> boolean .)
+    LESS            reduce using rule 31 (type -> boolean .)
+    LESS_EQ         reduce using rule 31 (type -> boolean .)
 
 
 state 28
 
-    (32) type -> boolean .
+    (27) assigned -> ASSIGN type .
 
-    RPAREN          reduce using rule 32 (type -> boolean .)
-    EQ              reduce using rule 32 (type -> boolean .)
-    NOT_EQ          reduce using rule 32 (type -> boolean .)
-    GREATER         reduce using rule 32 (type -> boolean .)
-    GREATER_EQ      reduce using rule 32 (type -> boolean .)
-    LESS            reduce using rule 32 (type -> boolean .)
-    LESS_EQ         reduce using rule 32 (type -> boolean .)
-    SEMICOLON       reduce using rule 32 (type -> boolean .)
+    SEMICOLON       reduce using rule 27 (assigned -> ASSIGN type .)
 
 
 state 29
 
-    (28) assigned -> ASSIGN type .
+    (23) variable -> var_type ID assigned SEMICOLON .
 
-    SEMICOLON       reduce using rule 28 (assigned -> ASSIGN type .)
+    ENUM            reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    INT             reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    STR             reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    BOOL            reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    RBRACE          reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    ID              reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    WHILE           reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    IF              reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    WRITELN         reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    READF           reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    $end            reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
+    VOID            reduce using rule 23 (variable -> var_type ID assigned SEMICOLON .)
 
 
 state 30
 
-    (24) variable -> var_type ID assigned SEMICOLON .
+    (39) constant -> ENUM ID assigned SEMICOLON .
 
-    ENUM            reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    INT             reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    STR             reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    BOOL            reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    RBRACE          reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    ID              reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    WHILE           reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    IF              reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    WRITELN         reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    READF           reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    VOID            reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
-    $end            reduce using rule 24 (variable -> var_type ID assigned SEMICOLON .)
+    ENUM            reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    INT             reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    STR             reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    BOOL            reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    RBRACE          reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    ID              reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    WHILE           reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    IF              reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    WRITELN         reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    READF           reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    VOID            reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
+    $end            reduce using rule 39 (constant -> ENUM ID assigned SEMICOLON .)
 
 
 state 31
 
-    (41) constant -> ENUM ID ASSIGN STRING . SEMICOLON
+    (2) function -> constants VOID MAIN LPAREN . params RPAREN LBRACE expressions RBRACE constants
+    (3) params -> . STR LSQUARE RSQUARE ID
+    (4) params -> . empty
+    (43) empty -> .
 
-    SEMICOLON       shift and go to state 35
+    STR             shift and go to state 32
+    RPAREN          reduce using rule 43 (empty -> .)
 
+    params                         shift and go to state 33
+    empty                          shift and go to state 34
 
 state 32
 
-    (40) constant -> ENUM ID ASSIGN NUMBER . SEMICOLON
+    (3) params -> STR . LSQUARE RSQUARE ID
 
-    SEMICOLON       shift and go to state 36
+    LSQUARE         shift and go to state 35
 
 
 state 33
 
-    (42) constant -> ENUM ID ASSIGN boolean . SEMICOLON
+    (2) function -> constants VOID MAIN LPAREN params . RPAREN LBRACE expressions RBRACE constants
 
-    SEMICOLON       shift and go to state 37
+    RPAREN          shift and go to state 36
 
 
 state 34
-
-    (2) function -> constants VOID MAIN LPAREN . params RPAREN LBRACE expressions RBRACE constants
-    (3) params -> . STR LSQUARE RSQUARE ID
-    (4) params -> . empty
-    (50) empty -> .
-
-    STR             shift and go to state 38
-    RPAREN          reduce using rule 50 (empty -> .)
-
-    params                         shift and go to state 39
-    empty                          shift and go to state 40
-
-state 35
-
-    (41) constant -> ENUM ID ASSIGN STRING SEMICOLON .
-
-    ENUM            reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    INT             reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    STR             reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    BOOL            reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    RBRACE          reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    ID              reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    WHILE           reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    IF              reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    WRITELN         reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    READF           reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    $end            reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-    VOID            reduce using rule 41 (constant -> ENUM ID ASSIGN STRING SEMICOLON .)
-
-
-state 36
-
-    (40) constant -> ENUM ID ASSIGN NUMBER SEMICOLON .
-
-    ENUM            reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    INT             reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    STR             reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    BOOL            reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    RBRACE          reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    ID              reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    WHILE           reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    IF              reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    WRITELN         reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    READF           reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    $end            reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-    VOID            reduce using rule 40 (constant -> ENUM ID ASSIGN NUMBER SEMICOLON .)
-
-
-state 37
-
-    (42) constant -> ENUM ID ASSIGN boolean SEMICOLON .
-
-    ENUM            reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    INT             reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    STR             reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    BOOL            reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    RBRACE          reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    ID              reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    WHILE           reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    IF              reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    WRITELN         reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    READF           reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    $end            reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-    VOID            reduce using rule 42 (constant -> ENUM ID ASSIGN boolean SEMICOLON .)
-
-
-state 38
-
-    (3) params -> STR . LSQUARE RSQUARE ID
-
-    LSQUARE         shift and go to state 41
-
-
-state 39
-
-    (2) function -> constants VOID MAIN LPAREN params . RPAREN LBRACE expressions RBRACE constants
-
-    RPAREN          shift and go to state 42
-
-
-state 40
 
     (4) params -> empty .
 
     RPAREN          reduce using rule 4 (params -> empty .)
 
 
-state 41
+state 35
 
     (3) params -> STR LSQUARE . RSQUARE ID
 
-    RSQUARE         shift and go to state 43
+    RSQUARE         shift and go to state 37
 
 
-state 42
+state 36
 
     (2) function -> constants VOID MAIN LPAREN params RPAREN . LBRACE expressions RBRACE constants
 
-    LBRACE          shift and go to state 44
+    LBRACE          shift and go to state 38
 
 
-state 43
+state 37
 
     (3) params -> STR LSQUARE RSQUARE . ID
 
-    ID              shift and go to state 45
+    ID              shift and go to state 39
 
 
-state 44
+state 38
 
     (2) function -> constants VOID MAIN LPAREN params RPAREN LBRACE . expressions RBRACE constants
     (5) expressions -> . expressions expression
@@ -690,87 +593,80 @@ state 44
     (10) expression -> . ID assigned SEMICOLON
     (11) expression -> . print
     (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
+  ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for ID resolved as shift
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
   ! shift/reduce conflict for WRITELN resolved as shift
   ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for STR resolved as shift
   ! shift/reduce conflict for BOOL resolved as shift
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    RBRACE          reduce using rule 50 (empty -> .)
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
     ENUM            shift and go to state 7
+    RBRACE          reduce using rule 43 (empty -> .)
     INT             shift and go to state 10
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
 
     constant                       shift and go to state 1
     var_type                       shift and go to state 3
-    get                            shift and go to state 51
+    get                            shift and go to state 44
     variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expressions                    shift and go to state 47
-    expression                     shift and go to state 58
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expressions                    shift and go to state 41
+    expression                     shift and go to state 51
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
-state 45
+state 39
 
     (3) params -> STR LSQUARE RSQUARE ID .
 
     RPAREN          reduce using rule 3 (params -> STR LSQUARE RSQUARE ID .)
 
 
-state 46
+state 40
 
-    (14) while -> WHILE . LPAREN statement RPAREN LBRACE expressions RBRACE
+    (13) while -> WHILE . LPAREN statement RPAREN LBRACE expressions RBRACE
 
-    LPAREN          shift and go to state 59
+    LPAREN          shift and go to state 52
 
 
-state 47
+state 41
 
     (2) function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions . RBRACE constants
     (5) expressions -> expressions . expression
@@ -780,74 +676,67 @@ state 47
     (10) expression -> . ID assigned SEMICOLON
     (11) expression -> . print
     (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
+  ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for RBRACE resolved as shift
   ! shift/reduce conflict for ID resolved as shift
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
   ! shift/reduce conflict for WRITELN resolved as shift
   ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for STR resolved as shift
   ! shift/reduce conflict for BOOL resolved as shift
-    RBRACE          shift and go to state 60
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
+    RBRACE          shift and go to state 53
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
     ENUM            shift and go to state 7
     INT             shift and go to state 10
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! RBRACE          [ reduce using rule 50 (empty -> .) ]
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
 
     constant                       shift and go to state 1
     var_type                       shift and go to state 3
-    get                            shift and go to state 51
+    get                            shift and go to state 44
     variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expression                     shift and go to state 61
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expression                     shift and go to state 54
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
-state 48
+state 42
 
     (9) expression -> if .
 
@@ -863,7 +752,7 @@ state 48
     BOOL            reduce using rule 9 (expression -> if .)
 
 
-state 49
+state 43
 
     (11) expression -> print .
 
@@ -879,45 +768,7 @@ state 49
     BOOL            reduce using rule 11 (expression -> print .)
 
 
-state 50
-
-    (13) expression -> empty .
-    (44) constant -> empty .
-
-  ! reduce/reduce conflict for ENUM resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for INT resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for STR resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for BOOL resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for RBRACE resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for ID resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for WHILE resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for IF resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for WRITELN resolved using rule 13 (expression -> empty .)
-  ! reduce/reduce conflict for READF resolved using rule 13 (expression -> empty .)
-    RBRACE          reduce using rule 13 (expression -> empty .)
-    ID              reduce using rule 13 (expression -> empty .)
-    WHILE           reduce using rule 13 (expression -> empty .)
-    IF              reduce using rule 13 (expression -> empty .)
-    WRITELN         reduce using rule 13 (expression -> empty .)
-    READF           reduce using rule 13 (expression -> empty .)
-    ENUM            reduce using rule 13 (expression -> empty .)
-    INT             reduce using rule 13 (expression -> empty .)
-    STR             reduce using rule 13 (expression -> empty .)
-    BOOL            reduce using rule 13 (expression -> empty .)
-
-  ! ENUM            [ reduce using rule 44 (constant -> empty .) ]
-  ! INT             [ reduce using rule 44 (constant -> empty .) ]
-  ! STR             [ reduce using rule 44 (constant -> empty .) ]
-  ! BOOL            [ reduce using rule 44 (constant -> empty .) ]
-  ! RBRACE          [ reduce using rule 44 (constant -> empty .) ]
-  ! ID              [ reduce using rule 44 (constant -> empty .) ]
-  ! WHILE           [ reduce using rule 44 (constant -> empty .) ]
-  ! IF              [ reduce using rule 44 (constant -> empty .) ]
-  ! WRITELN         [ reduce using rule 44 (constant -> empty .) ]
-  ! READF           [ reduce using rule 44 (constant -> empty .) ]
-
-
-state 51
+state 44
 
     (12) expression -> get .
 
@@ -933,44 +784,38 @@ state 51
     BOOL            reduce using rule 12 (expression -> get .)
 
 
-state 52
+state 45
 
-    (45) print -> WRITELN . LPAREN ID RPAREN SEMICOLON
-    (46) print -> WRITELN . LPAREN STRING RPAREN SEMICOLON
-    (47) print -> WRITELN . LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> WRITELN . LPAREN boolean RPAREN SEMICOLON
+    (41) print -> WRITELN . LPAREN type RPAREN SEMICOLON
 
-    LPAREN          shift and go to state 62
+    LPAREN          shift and go to state 55
 
 
-state 53
+state 46
 
     (10) expression -> ID . assigned SEMICOLON
-    (28) assigned -> . ASSIGN type
-    (29) assigned -> . empty
-    (50) empty -> .
+    (27) assigned -> . ASSIGN type
+    (28) assigned -> . empty
+    (43) empty -> .
 
     ASSIGN          shift and go to state 17
-    SEMICOLON       reduce using rule 50 (empty -> .)
+    SEMICOLON       reduce using rule 43 (empty -> .)
 
-    assigned                       shift and go to state 63
+    assigned                       shift and go to state 56
     empty                          shift and go to state 19
 
-state 54
+state 47
 
     (7) expression -> constants .
-    (36) constants -> constants . constant
-    (37) constants -> constants . variable
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (50) empty -> .
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> constants . constant
+    (36) constants -> constants . variable
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
   ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for ENUM resolved as shift
@@ -1001,38 +846,38 @@ state 54
   ! INT             [ reduce using rule 7 (expression -> constants .) ]
   ! STR             [ reduce using rule 7 (expression -> constants .) ]
   ! BOOL            [ reduce using rule 7 (expression -> constants .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-  ! RBRACE          [ reduce using rule 50 (empty -> .) ]
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
 
-    constant                       shift and go to state 14
+    constant                       shift and go to state 16
     var_type                       shift and go to state 3
-    variable                       shift and go to state 16
+    variable                       shift and go to state 15
     empty                          shift and go to state 5
 
-state 55
+state 48
 
-    (15) if -> IF . LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> IF . LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (14) if -> IF . LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> IF . LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
 
-    LPAREN          shift and go to state 64
-
-
-state 56
-
-    (49) get -> READF . LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-
-    LPAREN          shift and go to state 65
+    LPAREN          shift and go to state 57
 
 
-state 57
+state 49
+
+    (42) get -> READF . LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 58
+
+
+state 50
 
     (8) expression -> while .
 
@@ -1048,7 +893,7 @@ state 57
     BOOL            reduce using rule 8 (expression -> while .)
 
 
-state 58
+state 51
 
     (6) expressions -> expression .
 
@@ -1064,67 +909,64 @@ state 58
     BOOL            reduce using rule 6 (expressions -> expression .)
 
 
-state 59
+state 52
 
-    (14) while -> WHILE LPAREN . statement RPAREN LBRACE expressions RBRACE
-    (17) statement -> . type logic_op type
-    (30) type -> . NUMBER
-    (31) type -> . STRING
-    (32) type -> . boolean
-    (33) type -> . ID
-    (34) boolean -> . TRUE
-    (35) boolean -> . FALSE
+    (13) while -> WHILE LPAREN . statement RPAREN LBRACE expressions RBRACE
+    (16) statement -> . type logic_op type
+    (29) type -> . NUMBER
+    (30) type -> . STRING
+    (31) type -> . boolean
+    (32) type -> . ID
+    (33) boolean -> . TRUE
+    (34) boolean -> . FALSE
 
-    NUMBER          shift and go to state 26
-    STRING          shift and go to state 24
-    ID              shift and go to state 27
-    TRUE            shift and go to state 25
-    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 25
+    STRING          shift and go to state 23
+    ID              shift and go to state 26
+    TRUE            shift and go to state 24
+    FALSE           shift and go to state 22
 
-    boolean                        shift and go to state 28
-    type                           shift and go to state 67
-    statement                      shift and go to state 66
+    boolean                        shift and go to state 27
+    type                           shift and go to state 60
+    statement                      shift and go to state 59
 
-state 60
+state 53
 
     (2) function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE . constants
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (50) empty -> .
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
   ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for STR resolved as shift
   ! shift/reduce conflict for BOOL resolved as shift
     ENUM            shift and go to state 7
-    $end            reduce using rule 50 (empty -> .)
+    $end            reduce using rule 43 (empty -> .)
     INT             shift and go to state 10
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
 
     constant                       shift and go to state 1
     var_type                       shift and go to state 3
     empty                          shift and go to state 5
     variable                       shift and go to state 8
-    constants                      shift and go to state 68
+    constants                      shift and go to state 61
 
-state 61
+state 54
 
     (5) expressions -> expressions expression .
 
@@ -1140,100 +982,99 @@ state 61
     BOOL            reduce using rule 5 (expressions -> expressions expression .)
 
 
-state 62
+state 55
 
-    (45) print -> WRITELN LPAREN . ID RPAREN SEMICOLON
-    (46) print -> WRITELN LPAREN . STRING RPAREN SEMICOLON
-    (47) print -> WRITELN LPAREN . NUMBER RPAREN SEMICOLON
-    (48) print -> WRITELN LPAREN . boolean RPAREN SEMICOLON
-    (34) boolean -> . TRUE
-    (35) boolean -> . FALSE
+    (41) print -> WRITELN LPAREN . type RPAREN SEMICOLON
+    (29) type -> . NUMBER
+    (30) type -> . STRING
+    (31) type -> . boolean
+    (32) type -> . ID
+    (33) boolean -> . TRUE
+    (34) boolean -> . FALSE
 
-    ID              shift and go to state 72
-    STRING          shift and go to state 69
-    NUMBER          shift and go to state 70
-    TRUE            shift and go to state 25
-    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 25
+    STRING          shift and go to state 23
+    ID              shift and go to state 26
+    TRUE            shift and go to state 24
+    FALSE           shift and go to state 22
 
-    boolean                        shift and go to state 71
+    boolean                        shift and go to state 27
+    type                           shift and go to state 62
 
-state 63
+state 56
 
     (10) expression -> ID assigned . SEMICOLON
 
-    SEMICOLON       shift and go to state 73
+    SEMICOLON       shift and go to state 63
 
 
-state 64
+state 57
 
-    (15) if -> IF LPAREN . statement RPAREN LBRACE expressions RBRACE
-    (16) if -> IF LPAREN . statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (17) statement -> . type logic_op type
-    (30) type -> . NUMBER
-    (31) type -> . STRING
-    (32) type -> . boolean
-    (33) type -> . ID
-    (34) boolean -> . TRUE
-    (35) boolean -> . FALSE
+    (14) if -> IF LPAREN . statement RPAREN LBRACE expressions RBRACE
+    (15) if -> IF LPAREN . statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) statement -> . type logic_op type
+    (29) type -> . NUMBER
+    (30) type -> . STRING
+    (31) type -> . boolean
+    (32) type -> . ID
+    (33) boolean -> . TRUE
+    (34) boolean -> . FALSE
 
-    NUMBER          shift and go to state 26
-    STRING          shift and go to state 24
-    ID              shift and go to state 27
-    TRUE            shift and go to state 25
-    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 25
+    STRING          shift and go to state 23
+    ID              shift and go to state 26
+    TRUE            shift and go to state 24
+    FALSE           shift and go to state 22
 
-    boolean                        shift and go to state 28
-    type                           shift and go to state 67
-    statement                      shift and go to state 74
+    boolean                        shift and go to state 27
+    type                           shift and go to state 60
+    statement                      shift and go to state 64
 
-state 65
+state 58
 
-    (49) get -> READF LPAREN . STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (42) get -> READF LPAREN . STRING COMMA AMPERSAND ID RPAREN SEMICOLON
 
-    STRING          shift and go to state 75
-
-
-state 66
-
-    (14) while -> WHILE LPAREN statement . RPAREN LBRACE expressions RBRACE
-
-    RPAREN          shift and go to state 76
+    STRING          shift and go to state 65
 
 
-state 67
+state 59
 
-    (17) statement -> type . logic_op type
-    (18) logic_op -> . EQ
-    (19) logic_op -> . NOT_EQ
-    (20) logic_op -> . GREATER
-    (21) logic_op -> . GREATER_EQ
-    (22) logic_op -> . LESS
-    (23) logic_op -> . LESS_EQ
+    (13) while -> WHILE LPAREN statement . RPAREN LBRACE expressions RBRACE
 
-    EQ              shift and go to state 81
-    NOT_EQ          shift and go to state 83
-    GREATER         shift and go to state 79
-    GREATER_EQ      shift and go to state 82
-    LESS            shift and go to state 80
-    LESS_EQ         shift and go to state 77
+    RPAREN          shift and go to state 66
 
-    logic_op                       shift and go to state 78
 
-state 68
+state 60
+
+    (16) statement -> type . logic_op type
+    (17) logic_op -> . EQ
+    (18) logic_op -> . NOT_EQ
+    (19) logic_op -> . GREATER
+    (20) logic_op -> . GREATER_EQ
+    (21) logic_op -> . LESS
+    (22) logic_op -> . LESS_EQ
+
+    EQ              shift and go to state 71
+    NOT_EQ          shift and go to state 73
+    GREATER         shift and go to state 69
+    GREATER_EQ      shift and go to state 72
+    LESS            shift and go to state 70
+    LESS_EQ         shift and go to state 67
+
+    logic_op                       shift and go to state 68
+
+state 61
 
     (2) function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants .
-    (36) constants -> constants . constant
-    (37) constants -> constants . variable
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (50) empty -> .
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> constants . constant
+    (36) constants -> constants . variable
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
   ! shift/reduce conflict for ENUM resolved as shift
   ! reduce/reduce conflict for $end resolved using rule 2 (function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants .)
@@ -1246,46 +1087,25 @@ state 68
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-  ! $end            [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! $end            [ reduce using rule 43 (empty -> .) ]
 
-    constant                       shift and go to state 14
+    constant                       shift and go to state 16
     var_type                       shift and go to state 3
     empty                          shift and go to state 5
-    variable                       shift and go to state 16
+    variable                       shift and go to state 15
 
-state 69
+state 62
 
-    (46) print -> WRITELN LPAREN STRING . RPAREN SEMICOLON
+    (41) print -> WRITELN LPAREN type . RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 84
-
-
-state 70
-
-    (47) print -> WRITELN LPAREN NUMBER . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 85
+    RPAREN          shift and go to state 74
 
 
-state 71
-
-    (48) print -> WRITELN LPAREN boolean . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 86
-
-
-state 72
-
-    (45) print -> WRITELN LPAREN ID . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 87
-
-
-state 73
+state 63
 
     (10) expression -> ID assigned SEMICOLON .
 
@@ -1301,159 +1121,521 @@ state 73
     BOOL            reduce using rule 10 (expression -> ID assigned SEMICOLON .)
 
 
+state 64
+
+    (14) if -> IF LPAREN statement . RPAREN LBRACE expressions RBRACE
+    (15) if -> IF LPAREN statement . RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+
+    RPAREN          shift and go to state 75
+
+
+state 65
+
+    (42) get -> READF LPAREN STRING . COMMA AMPERSAND ID RPAREN SEMICOLON
+
+    COMMA           shift and go to state 76
+
+
+state 66
+
+    (13) while -> WHILE LPAREN statement RPAREN . LBRACE expressions RBRACE
+
+    LBRACE          shift and go to state 77
+
+
+state 67
+
+    (22) logic_op -> LESS_EQ .
+
+    NUMBER          reduce using rule 22 (logic_op -> LESS_EQ .)
+    STRING          reduce using rule 22 (logic_op -> LESS_EQ .)
+    ID              reduce using rule 22 (logic_op -> LESS_EQ .)
+    TRUE            reduce using rule 22 (logic_op -> LESS_EQ .)
+    FALSE           reduce using rule 22 (logic_op -> LESS_EQ .)
+
+
+state 68
+
+    (16) statement -> type logic_op . type
+    (29) type -> . NUMBER
+    (30) type -> . STRING
+    (31) type -> . boolean
+    (32) type -> . ID
+    (33) boolean -> . TRUE
+    (34) boolean -> . FALSE
+
+    NUMBER          shift and go to state 25
+    STRING          shift and go to state 23
+    ID              shift and go to state 26
+    TRUE            shift and go to state 24
+    FALSE           shift and go to state 22
+
+    boolean                        shift and go to state 27
+    type                           shift and go to state 78
+
+state 69
+
+    (19) logic_op -> GREATER .
+
+    NUMBER          reduce using rule 19 (logic_op -> GREATER .)
+    STRING          reduce using rule 19 (logic_op -> GREATER .)
+    ID              reduce using rule 19 (logic_op -> GREATER .)
+    TRUE            reduce using rule 19 (logic_op -> GREATER .)
+    FALSE           reduce using rule 19 (logic_op -> GREATER .)
+
+
+state 70
+
+    (21) logic_op -> LESS .
+
+    NUMBER          reduce using rule 21 (logic_op -> LESS .)
+    STRING          reduce using rule 21 (logic_op -> LESS .)
+    ID              reduce using rule 21 (logic_op -> LESS .)
+    TRUE            reduce using rule 21 (logic_op -> LESS .)
+    FALSE           reduce using rule 21 (logic_op -> LESS .)
+
+
+state 71
+
+    (17) logic_op -> EQ .
+
+    NUMBER          reduce using rule 17 (logic_op -> EQ .)
+    STRING          reduce using rule 17 (logic_op -> EQ .)
+    ID              reduce using rule 17 (logic_op -> EQ .)
+    TRUE            reduce using rule 17 (logic_op -> EQ .)
+    FALSE           reduce using rule 17 (logic_op -> EQ .)
+
+
+state 72
+
+    (20) logic_op -> GREATER_EQ .
+
+    NUMBER          reduce using rule 20 (logic_op -> GREATER_EQ .)
+    STRING          reduce using rule 20 (logic_op -> GREATER_EQ .)
+    ID              reduce using rule 20 (logic_op -> GREATER_EQ .)
+    TRUE            reduce using rule 20 (logic_op -> GREATER_EQ .)
+    FALSE           reduce using rule 20 (logic_op -> GREATER_EQ .)
+
+
+state 73
+
+    (18) logic_op -> NOT_EQ .
+
+    NUMBER          reduce using rule 18 (logic_op -> NOT_EQ .)
+    STRING          reduce using rule 18 (logic_op -> NOT_EQ .)
+    ID              reduce using rule 18 (logic_op -> NOT_EQ .)
+    TRUE            reduce using rule 18 (logic_op -> NOT_EQ .)
+    FALSE           reduce using rule 18 (logic_op -> NOT_EQ .)
+
+
 state 74
 
-    (15) if -> IF LPAREN statement . RPAREN LBRACE expressions RBRACE
-    (16) if -> IF LPAREN statement . RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> WRITELN LPAREN type RPAREN . SEMICOLON
 
-    RPAREN          shift and go to state 88
+    SEMICOLON       shift and go to state 79
 
 
 state 75
 
-    (49) get -> READF LPAREN STRING . COMMA AMPERSAND ID RPAREN SEMICOLON
+    (14) if -> IF LPAREN statement RPAREN . LBRACE expressions RBRACE
+    (15) if -> IF LPAREN statement RPAREN . LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
 
-    COMMA           shift and go to state 89
+    LBRACE          shift and go to state 80
 
 
 state 76
 
-    (14) while -> WHILE LPAREN statement RPAREN . LBRACE expressions RBRACE
+    (42) get -> READF LPAREN STRING COMMA . AMPERSAND ID RPAREN SEMICOLON
 
-    LBRACE          shift and go to state 90
+    AMPERSAND       shift and go to state 81
 
 
 state 77
 
-    (23) logic_op -> LESS_EQ .
+    (13) while -> WHILE LPAREN statement RPAREN LBRACE . expressions RBRACE
+    (5) expressions -> . expressions expression
+    (6) expressions -> . expression
+    (7) expression -> . constants
+    (8) expression -> . while
+    (9) expression -> . if
+    (10) expression -> . ID assigned SEMICOLON
+    (11) expression -> . print
+    (12) expression -> . get
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
-    NUMBER          reduce using rule 23 (logic_op -> LESS_EQ .)
-    STRING          reduce using rule 23 (logic_op -> LESS_EQ .)
-    ID              reduce using rule 23 (logic_op -> LESS_EQ .)
-    TRUE            reduce using rule 23 (logic_op -> LESS_EQ .)
-    FALSE           reduce using rule 23 (logic_op -> LESS_EQ .)
+  ! shift/reduce conflict for ENUM resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITELN resolved as shift
+  ! shift/reduce conflict for READF resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for STR resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
+    ENUM            shift and go to state 7
+    RBRACE          reduce using rule 43 (empty -> .)
+    INT             shift and go to state 10
+    STR             shift and go to state 2
+    BOOL            shift and go to state 11
 
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
+
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 44
+    variable                       shift and go to state 8
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expressions                    shift and go to state 82
+    expression                     shift and go to state 51
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
 state 78
 
-    (17) statement -> type logic_op . type
-    (30) type -> . NUMBER
-    (31) type -> . STRING
-    (32) type -> . boolean
-    (33) type -> . ID
-    (34) boolean -> . TRUE
-    (35) boolean -> . FALSE
+    (16) statement -> type logic_op type .
 
-    NUMBER          shift and go to state 26
-    STRING          shift and go to state 24
-    ID              shift and go to state 27
-    TRUE            shift and go to state 25
-    FALSE           shift and go to state 23
+    RPAREN          reduce using rule 16 (statement -> type logic_op type .)
 
-    boolean                        shift and go to state 28
-    type                           shift and go to state 91
 
 state 79
 
-    (20) logic_op -> GREATER .
+    (41) print -> WRITELN LPAREN type RPAREN SEMICOLON .
 
-    NUMBER          reduce using rule 20 (logic_op -> GREATER .)
-    STRING          reduce using rule 20 (logic_op -> GREATER .)
-    ID              reduce using rule 20 (logic_op -> GREATER .)
-    TRUE            reduce using rule 20 (logic_op -> GREATER .)
-    FALSE           reduce using rule 20 (logic_op -> GREATER .)
+    RBRACE          reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    ID              reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    WHILE           reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    IF              reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    WRITELN         reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    READF           reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    ENUM            reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    INT             reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    STR             reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
+    BOOL            reduce using rule 41 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
 
 
 state 80
 
-    (22) logic_op -> LESS .
+    (14) if -> IF LPAREN statement RPAREN LBRACE . expressions RBRACE
+    (15) if -> IF LPAREN statement RPAREN LBRACE . expressions RBRACE ELSE LBRACE expressions RBRACE
+    (5) expressions -> . expressions expression
+    (6) expressions -> . expression
+    (7) expression -> . constants
+    (8) expression -> . while
+    (9) expression -> . if
+    (10) expression -> . ID assigned SEMICOLON
+    (11) expression -> . print
+    (12) expression -> . get
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
-    NUMBER          reduce using rule 22 (logic_op -> LESS .)
-    STRING          reduce using rule 22 (logic_op -> LESS .)
-    ID              reduce using rule 22 (logic_op -> LESS .)
-    TRUE            reduce using rule 22 (logic_op -> LESS .)
-    FALSE           reduce using rule 22 (logic_op -> LESS .)
+  ! shift/reduce conflict for ENUM resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITELN resolved as shift
+  ! shift/reduce conflict for READF resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for STR resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
+    ENUM            shift and go to state 7
+    RBRACE          reduce using rule 43 (empty -> .)
+    INT             shift and go to state 10
+    STR             shift and go to state 2
+    BOOL            shift and go to state 11
 
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
+
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 44
+    variable                       shift and go to state 8
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expressions                    shift and go to state 83
+    expression                     shift and go to state 51
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
 state 81
 
-    (18) logic_op -> EQ .
+    (42) get -> READF LPAREN STRING COMMA AMPERSAND . ID RPAREN SEMICOLON
 
-    NUMBER          reduce using rule 18 (logic_op -> EQ .)
-    STRING          reduce using rule 18 (logic_op -> EQ .)
-    ID              reduce using rule 18 (logic_op -> EQ .)
-    TRUE            reduce using rule 18 (logic_op -> EQ .)
-    FALSE           reduce using rule 18 (logic_op -> EQ .)
+    ID              shift and go to state 84
 
 
 state 82
 
-    (21) logic_op -> GREATER_EQ .
+    (13) while -> WHILE LPAREN statement RPAREN LBRACE expressions . RBRACE
+    (5) expressions -> expressions . expression
+    (7) expression -> . constants
+    (8) expression -> . while
+    (9) expression -> . if
+    (10) expression -> . ID assigned SEMICOLON
+    (11) expression -> . print
+    (12) expression -> . get
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
-    NUMBER          reduce using rule 21 (logic_op -> GREATER_EQ .)
-    STRING          reduce using rule 21 (logic_op -> GREATER_EQ .)
-    ID              reduce using rule 21 (logic_op -> GREATER_EQ .)
-    TRUE            reduce using rule 21 (logic_op -> GREATER_EQ .)
-    FALSE           reduce using rule 21 (logic_op -> GREATER_EQ .)
+  ! shift/reduce conflict for ENUM resolved as shift
+  ! shift/reduce conflict for RBRACE resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITELN resolved as shift
+  ! shift/reduce conflict for READF resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for STR resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+    RBRACE          shift and go to state 85
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
+    ENUM            shift and go to state 7
+    INT             shift and go to state 10
+    STR             shift and go to state 2
+    BOOL            shift and go to state 11
 
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
+
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 44
+    variable                       shift and go to state 8
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expression                     shift and go to state 54
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
 state 83
 
-    (19) logic_op -> NOT_EQ .
+    (14) if -> IF LPAREN statement RPAREN LBRACE expressions . RBRACE
+    (15) if -> IF LPAREN statement RPAREN LBRACE expressions . RBRACE ELSE LBRACE expressions RBRACE
+    (5) expressions -> expressions . expression
+    (7) expression -> . constants
+    (8) expression -> . while
+    (9) expression -> . if
+    (10) expression -> . ID assigned SEMICOLON
+    (11) expression -> . print
+    (12) expression -> . get
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
-    NUMBER          reduce using rule 19 (logic_op -> NOT_EQ .)
-    STRING          reduce using rule 19 (logic_op -> NOT_EQ .)
-    ID              reduce using rule 19 (logic_op -> NOT_EQ .)
-    TRUE            reduce using rule 19 (logic_op -> NOT_EQ .)
-    FALSE           reduce using rule 19 (logic_op -> NOT_EQ .)
+  ! shift/reduce conflict for ENUM resolved as shift
+  ! shift/reduce conflict for RBRACE resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITELN resolved as shift
+  ! shift/reduce conflict for READF resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for STR resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+    RBRACE          shift and go to state 86
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
+    ENUM            shift and go to state 7
+    INT             shift and go to state 10
+    STR             shift and go to state 2
+    BOOL            shift and go to state 11
 
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
+
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 44
+    variable                       shift and go to state 8
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expression                     shift and go to state 54
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
 state 84
 
-    (46) print -> WRITELN LPAREN STRING RPAREN . SEMICOLON
+    (42) get -> READF LPAREN STRING COMMA AMPERSAND ID . RPAREN SEMICOLON
 
-    SEMICOLON       shift and go to state 92
+    RPAREN          shift and go to state 87
 
 
 state 85
 
-    (47) print -> WRITELN LPAREN NUMBER RPAREN . SEMICOLON
+    (13) while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .
 
-    SEMICOLON       shift and go to state 93
+    RBRACE          reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    ID              reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    WHILE           reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    IF              reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    WRITELN         reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    READF           reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    ENUM            reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    INT             reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    STR             reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    BOOL            reduce using rule 13 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
 
 
 state 86
 
-    (48) print -> WRITELN LPAREN boolean RPAREN . SEMICOLON
+    (14) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .
+    (15) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE . ELSE LBRACE expressions RBRACE
 
-    SEMICOLON       shift and go to state 94
+    RBRACE          reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    ID              reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    WHILE           reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    IF              reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    WRITELN         reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    READF           reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    ENUM            reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    INT             reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    STR             reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    BOOL            reduce using rule 14 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    ELSE            shift and go to state 88
 
 
 state 87
 
-    (45) print -> WRITELN LPAREN ID RPAREN . SEMICOLON
+    (42) get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 95
+    SEMICOLON       shift and go to state 89
 
 
 state 88
 
-    (15) if -> IF LPAREN statement RPAREN . LBRACE expressions RBRACE
-    (16) if -> IF LPAREN statement RPAREN . LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (15) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE . LBRACE expressions RBRACE
 
-    LBRACE          shift and go to state 96
+    LBRACE          shift and go to state 90
 
 
 state 89
 
-    (49) get -> READF LPAREN STRING COMMA . AMPERSAND ID RPAREN SEMICOLON
+    (42) get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .
 
-    AMPERSAND       shift and go to state 97
+    RBRACE          reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    ID              reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    WHILE           reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    IF              reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    WRITELN         reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    READF           reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    ENUM            reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    INT             reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    STR             reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
+    BOOL            reduce using rule 42 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
 
 
 state 90
 
-    (14) while -> WHILE LPAREN statement RPAREN LBRACE . expressions RBRACE
+    (15) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE . expressions RBRACE
     (5) expressions -> . expressions expression
     (6) expressions -> . expression
     (7) expression -> . constants
@@ -1462,622 +1644,149 @@ state 90
     (10) expression -> . ID assigned SEMICOLON
     (11) expression -> . print
     (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
+  ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for ID resolved as shift
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for IF resolved as shift
   ! shift/reduce conflict for WRITELN resolved as shift
   ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for STR resolved as shift
   ! shift/reduce conflict for BOOL resolved as shift
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    RBRACE          reduce using rule 50 (empty -> .)
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
     ENUM            shift and go to state 7
+    RBRACE          reduce using rule 43 (empty -> .)
     INT             shift and go to state 10
     STR             shift and go to state 2
     BOOL            shift and go to state 11
 
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
 
     constant                       shift and go to state 1
     var_type                       shift and go to state 3
-    get                            shift and go to state 51
+    get                            shift and go to state 44
     variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expressions                    shift and go to state 98
-    expression                     shift and go to state 58
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expressions                    shift and go to state 91
+    expression                     shift and go to state 51
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
 state 91
 
-    (17) statement -> type logic_op type .
+    (15) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions . RBRACE
+    (5) expressions -> expressions . expression
+    (7) expression -> . constants
+    (8) expression -> . while
+    (9) expression -> . if
+    (10) expression -> . ID assigned SEMICOLON
+    (11) expression -> . print
+    (12) expression -> . get
+    (35) constants -> . constants constant
+    (36) constants -> . constants variable
+    (37) constants -> . constant
+    (38) constants -> . variable
+    (13) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    (14) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (41) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (42) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    (39) constant -> . ENUM ID assigned SEMICOLON
+    (40) constant -> . empty
+    (23) variable -> . var_type ID assigned SEMICOLON
+    (43) empty -> .
+    (24) var_type -> . INT
+    (25) var_type -> . STR
+    (26) var_type -> . BOOL
 
-    RPAREN          reduce using rule 17 (statement -> type logic_op type .)
+  ! shift/reduce conflict for ENUM resolved as shift
+  ! shift/reduce conflict for RBRACE resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITELN resolved as shift
+  ! shift/reduce conflict for READF resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for STR resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+    RBRACE          shift and go to state 92
+    ID              shift and go to state 46
+    WHILE           shift and go to state 40
+    IF              shift and go to state 48
+    WRITELN         shift and go to state 45
+    READF           shift and go to state 49
+    ENUM            shift and go to state 7
+    INT             shift and go to state 10
+    STR             shift and go to state 2
+    BOOL            shift and go to state 11
 
+  ! ENUM            [ reduce using rule 43 (empty -> .) ]
+  ! INT             [ reduce using rule 43 (empty -> .) ]
+  ! STR             [ reduce using rule 43 (empty -> .) ]
+  ! BOOL            [ reduce using rule 43 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 43 (empty -> .) ]
+  ! ID              [ reduce using rule 43 (empty -> .) ]
+  ! WHILE           [ reduce using rule 43 (empty -> .) ]
+  ! IF              [ reduce using rule 43 (empty -> .) ]
+  ! WRITELN         [ reduce using rule 43 (empty -> .) ]
+  ! READF           [ reduce using rule 43 (empty -> .) ]
+
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 44
+    variable                       shift and go to state 8
+    while                          shift and go to state 50
+    empty                          shift and go to state 5
+    print                          shift and go to state 43
+    expression                     shift and go to state 54
+    constants                      shift and go to state 47
+    if                             shift and go to state 42
 
 state 92
 
-    (46) print -> WRITELN LPAREN STRING RPAREN SEMICOLON .
-
-    RBRACE          reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    ID              reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    WHILE           reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    IF              reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    WRITELN         reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    READF           reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    ENUM            reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    INT             reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    STR             reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-    BOOL            reduce using rule 46 (print -> WRITELN LPAREN STRING RPAREN SEMICOLON .)
-
-
-state 93
-
-    (47) print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .
-
-    RBRACE          reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    ID              reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    WHILE           reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    IF              reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    WRITELN         reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    READF           reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    ENUM            reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    INT             reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    STR             reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-    BOOL            reduce using rule 47 (print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON .)
-
-
-state 94
-
-    (48) print -> WRITELN LPAREN boolean RPAREN SEMICOLON .
-
-    RBRACE          reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    ID              reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    WHILE           reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    IF              reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    WRITELN         reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    READF           reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    ENUM            reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    INT             reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    STR             reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-    BOOL            reduce using rule 48 (print -> WRITELN LPAREN boolean RPAREN SEMICOLON .)
-
-
-state 95
-
-    (45) print -> WRITELN LPAREN ID RPAREN SEMICOLON .
-
-    RBRACE          reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    ID              reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    WHILE           reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    IF              reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    WRITELN         reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    READF           reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    ENUM            reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    INT             reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    STR             reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-    BOOL            reduce using rule 45 (print -> WRITELN LPAREN ID RPAREN SEMICOLON .)
-
-
-state 96
-
-    (15) if -> IF LPAREN statement RPAREN LBRACE . expressions RBRACE
-    (16) if -> IF LPAREN statement RPAREN LBRACE . expressions RBRACE ELSE LBRACE expressions RBRACE
-    (5) expressions -> . expressions expression
-    (6) expressions -> . expression
-    (7) expression -> . constants
-    (8) expression -> . while
-    (9) expression -> . if
-    (10) expression -> . ID assigned SEMICOLON
-    (11) expression -> . print
-    (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
-
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for WRITELN resolved as shift
-  ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for BOOL resolved as shift
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    RBRACE          reduce using rule 50 (empty -> .)
-    ENUM            shift and go to state 7
-    INT             shift and go to state 10
-    STR             shift and go to state 2
-    BOOL            shift and go to state 11
-
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 51
-    variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expressions                    shift and go to state 99
-    expression                     shift and go to state 58
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
-
-state 97
-
-    (49) get -> READF LPAREN STRING COMMA AMPERSAND . ID RPAREN SEMICOLON
-
-    ID              shift and go to state 100
-
-
-state 98
-
-    (14) while -> WHILE LPAREN statement RPAREN LBRACE expressions . RBRACE
-    (5) expressions -> expressions . expression
-    (7) expression -> . constants
-    (8) expression -> . while
-    (9) expression -> . if
-    (10) expression -> . ID assigned SEMICOLON
-    (11) expression -> . print
-    (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
-
-  ! shift/reduce conflict for RBRACE resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for WRITELN resolved as shift
-  ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for BOOL resolved as shift
-    RBRACE          shift and go to state 101
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    ENUM            shift and go to state 7
-    INT             shift and go to state 10
-    STR             shift and go to state 2
-    BOOL            shift and go to state 11
-
-  ! RBRACE          [ reduce using rule 50 (empty -> .) ]
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 51
-    variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expression                     shift and go to state 61
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
-
-state 99
-
-    (15) if -> IF LPAREN statement RPAREN LBRACE expressions . RBRACE
-    (16) if -> IF LPAREN statement RPAREN LBRACE expressions . RBRACE ELSE LBRACE expressions RBRACE
-    (5) expressions -> expressions . expression
-    (7) expression -> . constants
-    (8) expression -> . while
-    (9) expression -> . if
-    (10) expression -> . ID assigned SEMICOLON
-    (11) expression -> . print
-    (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
-
-  ! shift/reduce conflict for RBRACE resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for WRITELN resolved as shift
-  ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for BOOL resolved as shift
-    RBRACE          shift and go to state 102
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    ENUM            shift and go to state 7
-    INT             shift and go to state 10
-    STR             shift and go to state 2
-    BOOL            shift and go to state 11
-
-  ! RBRACE          [ reduce using rule 50 (empty -> .) ]
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 51
-    variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expression                     shift and go to state 61
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
-
-state 100
-
-    (49) get -> READF LPAREN STRING COMMA AMPERSAND ID . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 103
-
-
-state 101
-
-    (14) while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .
-
-    RBRACE          reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ID              reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WHILE           reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    IF              reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WRITELN         reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    READF           reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ENUM            reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    INT             reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    STR             reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    BOOL            reduce using rule 14 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-
-
-state 102
-
-    (15) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .
-    (16) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE . ELSE LBRACE expressions RBRACE
-
-    RBRACE          reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ID              reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WHILE           reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    IF              reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WRITELN         reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    READF           reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ENUM            reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    INT             reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    STR             reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    BOOL            reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ELSE            shift and go to state 104
-
-
-state 103
-
-    (49) get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN . SEMICOLON
-
-    SEMICOLON       shift and go to state 105
-
-
-state 104
-
-    (16) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE . LBRACE expressions RBRACE
-
-    LBRACE          shift and go to state 106
-
-
-state 105
-
-    (49) get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .
-
-    RBRACE          reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    ID              reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    WHILE           reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    IF              reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    WRITELN         reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    READF           reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    ENUM            reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    INT             reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    STR             reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-    BOOL            reduce using rule 49 (get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON .)
-
-
-state 106
-
-    (16) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE . expressions RBRACE
-    (5) expressions -> . expressions expression
-    (6) expressions -> . expression
-    (7) expression -> . constants
-    (8) expression -> . while
-    (9) expression -> . if
-    (10) expression -> . ID assigned SEMICOLON
-    (11) expression -> . print
-    (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
-
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for WRITELN resolved as shift
-  ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for BOOL resolved as shift
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    RBRACE          reduce using rule 50 (empty -> .)
-    ENUM            shift and go to state 7
-    INT             shift and go to state 10
-    STR             shift and go to state 2
-    BOOL            shift and go to state 11
-
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 51
-    variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expressions                    shift and go to state 107
-    expression                     shift and go to state 58
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
-
-state 107
-
-    (16) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions . RBRACE
-    (5) expressions -> expressions . expression
-    (7) expression -> . constants
-    (8) expression -> . while
-    (9) expression -> . if
-    (10) expression -> . ID assigned SEMICOLON
-    (11) expression -> . print
-    (12) expression -> . get
-    (13) expression -> . empty
-    (36) constants -> . constants constant
-    (37) constants -> . constants variable
-    (38) constants -> . constant
-    (39) constants -> . variable
-    (14) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (15) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (16) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (45) print -> . WRITELN LPAREN ID RPAREN SEMICOLON
-    (46) print -> . WRITELN LPAREN STRING RPAREN SEMICOLON
-    (47) print -> . WRITELN LPAREN NUMBER RPAREN SEMICOLON
-    (48) print -> . WRITELN LPAREN boolean RPAREN SEMICOLON
-    (49) get -> . READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
-    (50) empty -> .
-    (40) constant -> . ENUM ID ASSIGN NUMBER SEMICOLON
-    (41) constant -> . ENUM ID ASSIGN STRING SEMICOLON
-    (42) constant -> . ENUM ID ASSIGN boolean SEMICOLON
-    (43) constant -> . ENUM ID SEMICOLON
-    (44) constant -> . empty
-    (24) variable -> . var_type ID assigned SEMICOLON
-    (25) var_type -> . INT
-    (26) var_type -> . STR
-    (27) var_type -> . BOOL
-
-  ! shift/reduce conflict for RBRACE resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for WRITELN resolved as shift
-  ! shift/reduce conflict for READF resolved as shift
-  ! shift/reduce conflict for ENUM resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for STR resolved as shift
-  ! shift/reduce conflict for BOOL resolved as shift
-    RBRACE          shift and go to state 108
-    ID              shift and go to state 53
-    WHILE           shift and go to state 46
-    IF              shift and go to state 55
-    WRITELN         shift and go to state 52
-    READF           shift and go to state 56
-    ENUM            shift and go to state 7
-    INT             shift and go to state 10
-    STR             shift and go to state 2
-    BOOL            shift and go to state 11
-
-  ! RBRACE          [ reduce using rule 50 (empty -> .) ]
-  ! ID              [ reduce using rule 50 (empty -> .) ]
-  ! WHILE           [ reduce using rule 50 (empty -> .) ]
-  ! IF              [ reduce using rule 50 (empty -> .) ]
-  ! WRITELN         [ reduce using rule 50 (empty -> .) ]
-  ! READF           [ reduce using rule 50 (empty -> .) ]
-  ! ENUM            [ reduce using rule 50 (empty -> .) ]
-  ! INT             [ reduce using rule 50 (empty -> .) ]
-  ! STR             [ reduce using rule 50 (empty -> .) ]
-  ! BOOL            [ reduce using rule 50 (empty -> .) ]
-
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 51
-    variable                       shift and go to state 8
-    while                          shift and go to state 57
-    empty                          shift and go to state 50
-    print                          shift and go to state 49
-    expression                     shift and go to state 61
-    constants                      shift and go to state 54
-    if                             shift and go to state 48
-
-state 108
-
-    (16) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .
-
-    RBRACE          reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    ID              reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    WHILE           reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    IF              reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    WRITELN         reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    READF           reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    ENUM            reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    INT             reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    STR             reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    BOOL            reduce using rule 16 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    (15) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .
+
+    RBRACE          reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    ID              reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    WHILE           reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    IF              reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    WRITELN         reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    READF           reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    ENUM            reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    INT             reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    STR             reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    BOOL            reduce using rule 15 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -2091,98 +1800,96 @@ WARNING: shift/reduce conflict for ENUM in state 9 resolved as shift
 WARNING: shift/reduce conflict for INT in state 9 resolved as shift
 WARNING: shift/reduce conflict for STR in state 9 resolved as shift
 WARNING: shift/reduce conflict for BOOL in state 9 resolved as shift
-WARNING: shift/reduce conflict for ID in state 44 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 44 resolved as shift
-WARNING: shift/reduce conflict for IF in state 44 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 44 resolved as shift
-WARNING: shift/reduce conflict for READF in state 44 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 44 resolved as shift
-WARNING: shift/reduce conflict for INT in state 44 resolved as shift
-WARNING: shift/reduce conflict for STR in state 44 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 44 resolved as shift
-WARNING: shift/reduce conflict for RBRACE in state 47 resolved as shift
-WARNING: shift/reduce conflict for ID in state 47 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 47 resolved as shift
-WARNING: shift/reduce conflict for IF in state 47 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 47 resolved as shift
-WARNING: shift/reduce conflict for READF in state 47 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 38 resolved as shift
+WARNING: shift/reduce conflict for ID in state 38 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 38 resolved as shift
+WARNING: shift/reduce conflict for IF in state 38 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 38 resolved as shift
+WARNING: shift/reduce conflict for READF in state 38 resolved as shift
+WARNING: shift/reduce conflict for INT in state 38 resolved as shift
+WARNING: shift/reduce conflict for STR in state 38 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 38 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 41 resolved as shift
+WARNING: shift/reduce conflict for RBRACE in state 41 resolved as shift
+WARNING: shift/reduce conflict for ID in state 41 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 41 resolved as shift
+WARNING: shift/reduce conflict for IF in state 41 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 41 resolved as shift
+WARNING: shift/reduce conflict for READF in state 41 resolved as shift
+WARNING: shift/reduce conflict for INT in state 41 resolved as shift
+WARNING: shift/reduce conflict for STR in state 41 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 41 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 47 resolved as shift
 WARNING: shift/reduce conflict for ENUM in state 47 resolved as shift
 WARNING: shift/reduce conflict for INT in state 47 resolved as shift
 WARNING: shift/reduce conflict for STR in state 47 resolved as shift
 WARNING: shift/reduce conflict for BOOL in state 47 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 54 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 54 resolved as shift
-WARNING: shift/reduce conflict for INT in state 54 resolved as shift
-WARNING: shift/reduce conflict for STR in state 54 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 54 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 60 resolved as shift
-WARNING: shift/reduce conflict for INT in state 60 resolved as shift
-WARNING: shift/reduce conflict for STR in state 60 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 60 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 68 resolved as shift
-WARNING: shift/reduce conflict for INT in state 68 resolved as shift
-WARNING: shift/reduce conflict for STR in state 68 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 68 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 53 resolved as shift
+WARNING: shift/reduce conflict for INT in state 53 resolved as shift
+WARNING: shift/reduce conflict for STR in state 53 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 53 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 61 resolved as shift
+WARNING: shift/reduce conflict for INT in state 61 resolved as shift
+WARNING: shift/reduce conflict for STR in state 61 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 61 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 77 resolved as shift
+WARNING: shift/reduce conflict for ID in state 77 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 77 resolved as shift
+WARNING: shift/reduce conflict for IF in state 77 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 77 resolved as shift
+WARNING: shift/reduce conflict for READF in state 77 resolved as shift
+WARNING: shift/reduce conflict for INT in state 77 resolved as shift
+WARNING: shift/reduce conflict for STR in state 77 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 77 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 80 resolved as shift
+WARNING: shift/reduce conflict for ID in state 80 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 80 resolved as shift
+WARNING: shift/reduce conflict for IF in state 80 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 80 resolved as shift
+WARNING: shift/reduce conflict for READF in state 80 resolved as shift
+WARNING: shift/reduce conflict for INT in state 80 resolved as shift
+WARNING: shift/reduce conflict for STR in state 80 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 80 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 82 resolved as shift
+WARNING: shift/reduce conflict for RBRACE in state 82 resolved as shift
+WARNING: shift/reduce conflict for ID in state 82 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 82 resolved as shift
+WARNING: shift/reduce conflict for IF in state 82 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 82 resolved as shift
+WARNING: shift/reduce conflict for READF in state 82 resolved as shift
+WARNING: shift/reduce conflict for INT in state 82 resolved as shift
+WARNING: shift/reduce conflict for STR in state 82 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 82 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 83 resolved as shift
+WARNING: shift/reduce conflict for RBRACE in state 83 resolved as shift
+WARNING: shift/reduce conflict for ID in state 83 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 83 resolved as shift
+WARNING: shift/reduce conflict for IF in state 83 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 83 resolved as shift
+WARNING: shift/reduce conflict for READF in state 83 resolved as shift
+WARNING: shift/reduce conflict for INT in state 83 resolved as shift
+WARNING: shift/reduce conflict for STR in state 83 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 83 resolved as shift
+WARNING: shift/reduce conflict for ENUM in state 90 resolved as shift
 WARNING: shift/reduce conflict for ID in state 90 resolved as shift
 WARNING: shift/reduce conflict for WHILE in state 90 resolved as shift
 WARNING: shift/reduce conflict for IF in state 90 resolved as shift
 WARNING: shift/reduce conflict for WRITELN in state 90 resolved as shift
 WARNING: shift/reduce conflict for READF in state 90 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 90 resolved as shift
 WARNING: shift/reduce conflict for INT in state 90 resolved as shift
 WARNING: shift/reduce conflict for STR in state 90 resolved as shift
 WARNING: shift/reduce conflict for BOOL in state 90 resolved as shift
-WARNING: shift/reduce conflict for ID in state 96 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 96 resolved as shift
-WARNING: shift/reduce conflict for IF in state 96 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 96 resolved as shift
-WARNING: shift/reduce conflict for READF in state 96 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 96 resolved as shift
-WARNING: shift/reduce conflict for INT in state 96 resolved as shift
-WARNING: shift/reduce conflict for STR in state 96 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 96 resolved as shift
-WARNING: shift/reduce conflict for RBRACE in state 98 resolved as shift
-WARNING: shift/reduce conflict for ID in state 98 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 98 resolved as shift
-WARNING: shift/reduce conflict for IF in state 98 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 98 resolved as shift
-WARNING: shift/reduce conflict for READF in state 98 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 98 resolved as shift
-WARNING: shift/reduce conflict for INT in state 98 resolved as shift
-WARNING: shift/reduce conflict for STR in state 98 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 98 resolved as shift
-WARNING: shift/reduce conflict for RBRACE in state 99 resolved as shift
-WARNING: shift/reduce conflict for ID in state 99 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 99 resolved as shift
-WARNING: shift/reduce conflict for IF in state 99 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 99 resolved as shift
-WARNING: shift/reduce conflict for READF in state 99 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 99 resolved as shift
-WARNING: shift/reduce conflict for INT in state 99 resolved as shift
-WARNING: shift/reduce conflict for STR in state 99 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 99 resolved as shift
-WARNING: shift/reduce conflict for ID in state 106 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 106 resolved as shift
-WARNING: shift/reduce conflict for IF in state 106 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 106 resolved as shift
-WARNING: shift/reduce conflict for READF in state 106 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 106 resolved as shift
-WARNING: shift/reduce conflict for INT in state 106 resolved as shift
-WARNING: shift/reduce conflict for STR in state 106 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 106 resolved as shift
-WARNING: shift/reduce conflict for RBRACE in state 107 resolved as shift
-WARNING: shift/reduce conflict for ID in state 107 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 107 resolved as shift
-WARNING: shift/reduce conflict for IF in state 107 resolved as shift
-WARNING: shift/reduce conflict for WRITELN in state 107 resolved as shift
-WARNING: shift/reduce conflict for READF in state 107 resolved as shift
-WARNING: shift/reduce conflict for ENUM in state 107 resolved as shift
-WARNING: shift/reduce conflict for INT in state 107 resolved as shift
-WARNING: shift/reduce conflict for STR in state 107 resolved as shift
-WARNING: shift/reduce conflict for BOOL in state 107 resolved as shift
-WARNING: reduce/reduce conflict in state 50 resolved using rule (expression -> empty)
-WARNING: rejected rule (constant -> empty) in state 50
-WARNING: reduce/reduce conflict in state 54 resolved using rule (expression -> constants)
-WARNING: rejected rule (empty -> <empty>) in state 54
-WARNING: reduce/reduce conflict in state 68 resolved using rule (function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants)
-WARNING: rejected rule (empty -> <empty>) in state 68
+WARNING: shift/reduce conflict for ENUM in state 91 resolved as shift
+WARNING: shift/reduce conflict for RBRACE in state 91 resolved as shift
+WARNING: shift/reduce conflict for ID in state 91 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 91 resolved as shift
+WARNING: shift/reduce conflict for IF in state 91 resolved as shift
+WARNING: shift/reduce conflict for WRITELN in state 91 resolved as shift
+WARNING: shift/reduce conflict for READF in state 91 resolved as shift
+WARNING: shift/reduce conflict for INT in state 91 resolved as shift
+WARNING: shift/reduce conflict for STR in state 91 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 91 resolved as shift
+WARNING: reduce/reduce conflict in state 47 resolved using rule (expression -> constants)
+WARNING: rejected rule (empty -> <empty>) in state 47
+WARNING: reduce/reduce conflict in state 61 resolved using rule (function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants)
+WARNING: rejected rule (empty -> <empty>) in state 61

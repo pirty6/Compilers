@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AMPERSAND ASSIGN BOOL COMMA ELSE ENUM EQ FALSE GREATER GREATER_EQ ID IF INT LBRACE LESS LESS_EQ LPAREN LSQUARE MAIN NOT_EQ NUMBER RBRACE READF RPAREN RSQUARE SEMICOLON STR STRING TRUE VOID WHILE WRITELNstart : functionfunction : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants\n    params :  STR LSQUARE RSQUARE ID\n            | empty\n    \n    expressions :     expressions expression\n                    | expression\n    \n    expression :   constants\n                 | while\n                 | if\n                 | ID assigned SEMICOLON\n                 | print\n                 | get\n                 | empty\n    \n    while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE\n    \n    if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE\n         | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE\n    \n    statement :   type logic_op type\n    \n    logic_op :    EQ\n                | NOT_EQ\n                | GREATER\n                | GREATER_EQ\n                | LESS\n                | LESS_EQ\n    \n    variable :   var_type ID assigned SEMICOLON\n    \n    var_type :    INT\n                | STR\n                | BOOL\n    \n    assigned :    ASSIGN type\n                | empty\n    \n    type :    NUMBER\n            | STRING\n            | boolean\n            | ID\n    \n    boolean :   TRUE\n              | FALSE\n    \n    constants :   constants constant\n                | constants variable\n                | constant\n                | variable\n    \n    constant :    ENUM ID ASSIGN NUMBER SEMICOLON\n                | ENUM ID ASSIGN STRING SEMICOLON\n                | ENUM ID ASSIGN boolean SEMICOLON\n                | ENUM ID SEMICOLON\n                | empty\n    \n    print :   WRITELN LPAREN ID RPAREN SEMICOLON\n            | WRITELN LPAREN STRING RPAREN SEMICOLON\n            | WRITELN LPAREN NUMBER RPAREN SEMICOLON\n            | WRITELN LPAREN boolean RPAREN SEMICOLON\n    \n    get :     READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON\n    empty :'
+_lr_signature = 'AMPERSAND ASSIGN BOOL COMMA ELSE ENUM EQ FALSE GREATER GREATER_EQ ID IF INT LBRACE LESS LESS_EQ LPAREN LSQUARE MAIN NOT_EQ NUMBER RBRACE READF RPAREN RSQUARE SEMICOLON STR STRING TRUE VOID WHILE WRITELNstart : functionfunction : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants\n    params :  STR LSQUARE RSQUARE ID\n            | empty\n    \n    expressions :     expressions expression\n                    | expression\n    \n    expression :   constants\n                 | while\n                 | if\n                 | ID assigned SEMICOLON\n                 | print\n                 | get\n    \n    while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE\n    \n    if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE\n         | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE\n    \n    statement :   type logic_op type\n    \n    logic_op :    EQ\n                | NOT_EQ\n                | GREATER\n                | GREATER_EQ\n                | LESS\n                | LESS_EQ\n    \n    variable :   var_type ID assigned SEMICOLON\n    \n    var_type :    INT\n                | STR\n                | BOOL\n    \n    assigned :    ASSIGN type\n                | empty\n    \n    type :    NUMBER\n            | STRING\n            | boolean\n            | ID\n    \n    boolean :   TRUE\n              | FALSE\n    \n    constants :   constants constant\n                | constants variable\n                | constant\n                | variable\n    \n    constant :    ENUM ID assigned SEMICOLON\n                | empty\n    \n    print :   WRITELN LPAREN type RPAREN SEMICOLON\n    \n    get :     READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON\n    empty :'
     
-_lr_action_items = {'LSQUARE':([38,],[41,]),'LESS_EQ':([23,24,25,26,27,28,67,],[-35,-31,-34,-30,-33,-32,77,]),'LPAREN':([22,46,52,55,56,],[34,59,62,64,65,]),'LESS':([23,24,25,26,27,28,67,],[-35,-31,-34,-30,-33,-32,80,]),'VOID':([0,1,5,8,9,14,16,20,30,35,36,37,],[-50,-38,-44,-39,15,-36,-37,-43,-24,-41,-40,-42,]),'NUMBER':([17,21,59,62,64,77,78,79,80,81,82,83,],[26,32,26,70,26,-23,26,-20,-22,-18,-21,-19,]),'GREATER_EQ':([23,24,25,26,27,28,67,],[-35,-31,-34,-30,-33,-32,82,]),'WHILE':([1,5,8,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,61,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[-38,-44,-39,-36,-37,-43,-24,-41,-40,-42,46,46,-9,-11,-13,-12,-7,-8,-6,-5,-10,46,-46,-47,-48,-45,46,46,46,-14,-15,-49,46,46,-16,]),'TRUE':([17,21,59,62,64,77,78,79,80,81,82,83,],[25,25,25,25,25,-23,25,-20,-22,-18,-21,-19,]),'STRING':([17,21,59,62,64,65,77,78,79,80,81,82,83,],[24,31,24,69,24,75,-23,24,-20,-22,-18,-21,-19,]),'RSQUARE':([41,],[43,]),'RPAREN':([23,24,25,26,27,28,34,39,40,45,66,69,70,71,72,74,91,100,],[-35,-31,-34,-30,-33,-32,-50,42,-4,-3,76,84,85,86,87,88,-17,103,]),'SEMICOLON':([12,13,18,19,23,24,25,26,27,28,29,31,32,33,53,63,84,85,86,87,103,],[-50,20,30,-29,-35,-31,-34,-30,-33,-32,-28,35,36,37,-50,73,92,93,94,95,105,]),'COMMA':([75,],[89,]),'NOT_EQ':([23,24,25,26,27,28,67,],[-35,-31,-34,-30,-33,-32,83,]),'ASSIGN':([12,13,53,],[17,21,17,]),'$end':([1,4,5,6,8,14,16,20,30,35,36,37,60,68,],[-38,0,-44,-1,-39,-36,-37,-43,-24,-41,-40,-42,-50,-2,]),'RBRACE':([1,5,8,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,61,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[-38,-44,-39,-36,-37,-43,-24,-41,-40,-42,-50,60,-9,-11,-13,-12,-7,-8,-6,-5,-10,-50,-46,-47,-48,-45,-50,101,102,-14,-15,-49,-50,108,-16,]),'ENUM':([0,1,5,8,9,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,60,61,68,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[7,-38,-44,-39,7,-36,-37,-43,-24,-41,-40,-42,7,7,-9,-11,-13,-12,7,-8,-6,7,-5,7,-10,7,-46,-47,-48,-45,7,7,7,-14,-15,-49,7,7,-16,]),'ELSE':([102,],[104,]),'WRITELN':([1,5,8,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,61,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[-38,-44,-39,-36,-37,-43,-24,-41,-40,-42,52,52,-9,-11,-13,-12,-7,-8,-6,-5,-10,52,-46,-47,-48,-45,52,52,52,-14,-15,-49,52,52,-16,]),'AMPERSAND':([89,],[97,]),'STR':([0,1,5,8,9,14,16,20,30,34,35,36,37,44,47,48,49,50,51,54,57,58,60,61,68,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[2,-38,-44,-39,2,-36,-37,-43,-24,38,-41,-40,-42,2,2,-9,-11,-13,-12,2,-8,-6,2,-5,2,-10,2,-46,-47,-48,-45,2,2,2,-14,-15,-49,2,2,-16,]),'EQ':([23,24,25,26,27,28,67,],[-35,-31,-34,-30,-33,-32,81,]),'ID':([1,2,3,5,7,8,10,11,14,16,17,20,30,35,36,37,43,44,47,48,49,50,51,54,57,58,59,61,62,64,73,77,78,79,80,81,82,83,90,92,93,94,95,96,97,98,99,101,102,105,106,107,108,],[-38,-26,12,-44,13,-39,-25,-27,-36,-37,27,-43,-24,-41,-40,-42,45,53,53,-9,-11,-13,-12,-7,-8,-6,27,-5,72,27,-10,-23,27,-20,-22,-18,-21,-19,53,-46,-47,-48,-45,53,100,53,53,-14,-15,-49,53,53,-16,]),'IF':([1,5,8,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,61,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[-38,-44,-39,-36,-37,-43,-24,-41,-40,-42,55,55,-9,-11,-13,-12,-7,-8,-6,-5,-10,55,-46,-47,-48,-45,55,55,55,-14,-15,-49,55,55,-16,]),'LBRACE':([42,76,88,104,],[44,90,96,106,]),'FALSE':([17,21,59,62,64,77,78,79,80,81,82,83,],[23,23,23,23,23,-23,23,-20,-22,-18,-21,-19,]),'GREATER':([23,24,25,26,27,28,67,],[-35,-31,-34,-30,-33,-32,79,]),'READF':([1,5,8,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,61,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[-38,-44,-39,-36,-37,-43,-24,-41,-40,-42,56,56,-9,-11,-13,-12,-7,-8,-6,-5,-10,56,-46,-47,-48,-45,56,56,56,-14,-15,-49,56,56,-16,]),'INT':([0,1,5,8,9,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,60,61,68,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[10,-38,-44,-39,10,-36,-37,-43,-24,-41,-40,-42,10,10,-9,-11,-13,-12,10,-8,-6,10,-5,10,-10,10,-46,-47,-48,-45,10,10,10,-14,-15,-49,10,10,-16,]),'BOOL':([0,1,5,8,9,14,16,20,30,35,36,37,44,47,48,49,50,51,54,57,58,60,61,68,73,90,92,93,94,95,96,98,99,101,102,105,106,107,108,],[11,-38,-44,-39,11,-36,-37,-43,-24,-41,-40,-42,11,11,-9,-11,-13,-12,11,-8,-6,11,-5,11,-10,11,-46,-47,-48,-45,11,11,11,-14,-15,-49,11,11,-16,]),'MAIN':([15,],[22,]),}
+_lr_action_items = {'LSQUARE':([32,],[35,]),'LESS_EQ':([22,23,24,25,26,27,60,],[-34,-30,-33,-29,-32,-31,67,]),'LPAREN':([21,40,45,48,49,],[31,52,55,57,58,]),'LESS':([22,23,24,25,26,27,60,],[-34,-30,-33,-29,-32,-31,70,]),'VOID':([0,1,5,8,9,15,16,29,30,],[-43,-37,-40,-38,14,-36,-35,-23,-39,]),'NUMBER':([17,52,55,57,67,68,69,70,71,72,73,],[25,25,25,25,-22,25,-19,-21,-17,-20,-18,]),'GREATER_EQ':([22,23,24,25,26,27,60,],[-34,-30,-33,-29,-32,-31,72,]),'WHILE':([1,5,8,15,16,29,30,38,41,42,43,44,47,50,51,54,63,77,79,80,82,83,85,86,89,90,91,92,],[-37,-40,-38,-36,-35,-23,-39,40,40,-9,-11,-12,-7,-8,-6,-5,-10,40,-41,40,40,40,-13,-14,-42,40,40,-15,]),'TRUE':([17,52,55,57,67,68,69,70,71,72,73,],[24,24,24,24,-22,24,-19,-21,-17,-20,-18,]),'STRING':([17,52,55,57,58,67,68,69,70,71,72,73,],[23,23,23,23,65,-22,23,-19,-21,-17,-20,-18,]),'RSQUARE':([35,],[37,]),'RPAREN':([22,23,24,25,26,27,31,33,34,39,59,62,64,78,84,],[-34,-30,-33,-29,-32,-31,-43,36,-4,-3,66,74,75,-16,87,]),'SEMICOLON':([12,13,18,19,20,22,23,24,25,26,27,28,46,56,74,87,],[-43,-43,29,-28,30,-34,-30,-33,-29,-32,-31,-27,-43,63,79,89,]),'COMMA':([65,],[76,]),'NOT_EQ':([22,23,24,25,26,27,60,],[-34,-30,-33,-29,-32,-31,73,]),'ASSIGN':([12,13,46,],[17,17,17,]),'$end':([1,4,5,6,8,15,16,29,30,53,61,],[-37,0,-40,-1,-38,-36,-35,-23,-39,-43,-2,]),'RBRACE':([1,5,8,15,16,29,30,38,41,42,43,44,47,50,51,54,63,77,79,80,82,83,85,86,89,90,91,92,],[-37,-40,-38,-36,-35,-23,-39,-43,53,-9,-11,-12,-7,-8,-6,-5,-10,-43,-41,-43,85,86,-13,-14,-42,-43,92,-15,]),'ENUM':([0,1,5,8,9,15,16,29,30,38,41,42,43,44,47,50,51,53,54,61,63,77,79,80,82,83,85,86,89,90,91,92,],[7,-37,-40,-38,7,-36,-35,-23,-39,7,7,-9,-11,-12,7,-8,-6,7,-5,7,-10,7,-41,7,7,7,-13,-14,-42,7,7,-15,]),'ELSE':([86,],[88,]),'WRITELN':([1,5,8,15,16,29,30,38,41,42,43,44,47,50,51,54,63,77,79,80,82,83,85,86,89,90,91,92,],[-37,-40,-38,-36,-35,-23,-39,45,45,-9,-11,-12,-7,-8,-6,-5,-10,45,-41,45,45,45,-13,-14,-42,45,45,-15,]),'AMPERSAND':([76,],[81,]),'STR':([0,1,5,8,9,15,16,29,30,31,38,41,42,43,44,47,50,51,53,54,61,63,77,79,80,82,83,85,86,89,90,91,92,],[2,-37,-40,-38,2,-36,-35,-23,-39,32,2,2,-9,-11,-12,2,-8,-6,2,-5,2,-10,2,-41,2,2,2,-13,-14,-42,2,2,-15,]),'EQ':([22,23,24,25,26,27,60,],[-34,-30,-33,-29,-32,-31,71,]),'ID':([1,2,3,5,7,8,10,11,15,16,17,29,30,37,38,41,42,43,44,47,50,51,52,54,55,57,63,67,68,69,70,71,72,73,77,79,80,81,82,83,85,86,89,90,91,92,],[-37,-25,12,-40,13,-38,-24,-26,-36,-35,26,-23,-39,39,46,46,-9,-11,-12,-7,-8,-6,26,-5,26,26,-10,-22,26,-19,-21,-17,-20,-18,46,-41,46,84,46,46,-13,-14,-42,46,46,-15,]),'IF':([1,5,8,15,16,29,30,38,41,42,43,44,47,50,51,54,63,77,79,80,82,83,85,86,89,90,91,92,],[-37,-40,-38,-36,-35,-23,-39,48,48,-9,-11,-12,-7,-8,-6,-5,-10,48,-41,48,48,48,-13,-14,-42,48,48,-15,]),'LBRACE':([36,66,75,88,],[38,77,80,90,]),'FALSE':([17,52,55,57,67,68,69,70,71,72,73,],[22,22,22,22,-22,22,-19,-21,-17,-20,-18,]),'GREATER':([22,23,24,25,26,27,60,],[-34,-30,-33,-29,-32,-31,69,]),'READF':([1,5,8,15,16,29,30,38,41,42,43,44,47,50,51,54,63,77,79,80,82,83,85,86,89,90,91,92,],[-37,-40,-38,-36,-35,-23,-39,49,49,-9,-11,-12,-7,-8,-6,-5,-10,49,-41,49,49,49,-13,-14,-42,49,49,-15,]),'INT':([0,1,5,8,9,15,16,29,30,38,41,42,43,44,47,50,51,53,54,61,63,77,79,80,82,83,85,86,89,90,91,92,],[10,-37,-40,-38,10,-36,-35,-23,-39,10,10,-9,-11,-12,10,-8,-6,10,-5,10,-10,10,-41,10,10,10,-13,-14,-42,10,10,-15,]),'BOOL':([0,1,5,8,9,15,16,29,30,38,41,42,43,44,47,50,51,53,54,61,63,77,79,80,82,83,85,86,89,90,91,92,],[11,-37,-40,-38,11,-36,-35,-23,-39,11,11,-9,-11,-12,11,-8,-6,11,-5,11,-10,11,-41,11,11,11,-13,-14,-42,11,11,-15,]),'MAIN':([14,],[21,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'function':([0,],[6,]),'constant':([0,9,44,47,54,60,68,90,96,98,99,106,107,],[1,14,1,1,14,1,14,1,1,1,1,1,1,]),'var_type':([0,9,44,47,54,60,68,90,96,98,99,106,107,],[3,3,3,3,3,3,3,3,3,3,3,3,3,]),'get':([44,47,90,96,98,99,106,107,],[51,51,51,51,51,51,51,51,]),'expression':([44,47,90,96,98,99,106,107,],[58,61,58,58,61,61,58,61,]),'print':([44,47,90,96,98,99,106,107,],[49,49,49,49,49,49,49,49,]),'assigned':([12,53,],[18,63,]),'start':([0,],[4,]),'while':([44,47,90,96,98,99,106,107,],[57,57,57,57,57,57,57,57,]),'boolean':([17,21,59,62,64,78,],[28,33,28,71,28,28,]),'params':([34,],[39,]),'empty':([0,9,12,34,44,47,53,54,60,68,90,96,98,99,106,107,],[5,5,19,40,50,50,19,5,5,5,50,50,50,50,50,50,]),'statement':([59,64,],[66,74,]),'variable':([0,9,44,47,54,60,68,90,96,98,99,106,107,],[8,16,8,8,16,8,16,8,8,8,8,8,8,]),'logic_op':([67,],[78,]),'expressions':([44,90,96,106,],[47,98,99,107,]),'type':([17,59,64,78,],[29,67,67,91,]),'constants':([0,44,47,60,90,96,98,99,106,107,],[9,54,54,68,54,54,54,54,54,54,]),'if':([44,47,90,96,98,99,106,107,],[48,48,48,48,48,48,48,48,]),}
+_lr_goto_items = {'function':([0,],[6,]),'constant':([0,9,38,41,47,53,61,77,80,82,83,90,91,],[1,16,1,1,16,1,16,1,1,1,1,1,1,]),'var_type':([0,9,38,41,47,53,61,77,80,82,83,90,91,],[3,3,3,3,3,3,3,3,3,3,3,3,3,]),'get':([38,41,77,80,82,83,90,91,],[44,44,44,44,44,44,44,44,]),'expression':([38,41,77,80,82,83,90,91,],[51,54,51,51,54,54,51,54,]),'print':([38,41,77,80,82,83,90,91,],[43,43,43,43,43,43,43,43,]),'assigned':([12,13,46,],[18,20,56,]),'start':([0,],[4,]),'while':([38,41,77,80,82,83,90,91,],[50,50,50,50,50,50,50,50,]),'boolean':([17,52,55,57,68,],[27,27,27,27,27,]),'params':([31,],[33,]),'empty':([0,9,12,13,31,38,41,46,47,53,61,77,80,82,83,90,91,],[5,5,19,19,34,5,5,19,5,5,5,5,5,5,5,5,5,]),'statement':([52,57,],[59,64,]),'variable':([0,9,38,41,47,53,61,77,80,82,83,90,91,],[8,15,8,8,15,8,15,8,8,8,8,8,8,]),'logic_op':([60,],[68,]),'expressions':([38,77,80,90,],[41,82,83,91,]),'type':([17,52,55,57,68,],[28,60,62,60,78,]),'constants':([0,38,41,53,77,80,82,83,90,91,],[9,47,47,61,47,47,47,47,47,47,]),'if':([38,41,77,80,82,83,90,91,],[42,42,42,42,42,42,42,42,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,54 +27,47 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> function','start',1,'p_start','calc.py',144),
-  ('function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants','function',10,'p_function','calc.py',148),
-  ('params -> STR LSQUARE RSQUARE ID','params',4,'p_params','calc.py',152),
-  ('params -> empty','params',1,'p_params','calc.py',153),
-  ('expressions -> expressions expression','expressions',2,'p_expressions','calc.py',158),
-  ('expressions -> expression','expressions',1,'p_expressions','calc.py',159),
-  ('expression -> constants','expression',1,'p_expression','calc.py',165),
-  ('expression -> while','expression',1,'p_expression','calc.py',166),
-  ('expression -> if','expression',1,'p_expression','calc.py',167),
-  ('expression -> ID assigned SEMICOLON','expression',3,'p_expression','calc.py',168),
-  ('expression -> print','expression',1,'p_expression','calc.py',169),
-  ('expression -> get','expression',1,'p_expression','calc.py',170),
-  ('expression -> empty','expression',1,'p_expression','calc.py',171),
-  ('while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE','while',7,'p_while','calc.py',177),
-  ('if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE','if',7,'p_if','calc.py',182),
-  ('if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE','if',11,'p_if','calc.py',183),
-  ('statement -> type logic_op type','statement',3,'p_statement','calc.py',188),
-  ('logic_op -> EQ','logic_op',1,'p_logic_op','calc.py',193),
-  ('logic_op -> NOT_EQ','logic_op',1,'p_logic_op','calc.py',194),
-  ('logic_op -> GREATER','logic_op',1,'p_logic_op','calc.py',195),
-  ('logic_op -> GREATER_EQ','logic_op',1,'p_logic_op','calc.py',196),
-  ('logic_op -> LESS','logic_op',1,'p_logic_op','calc.py',197),
-  ('logic_op -> LESS_EQ','logic_op',1,'p_logic_op','calc.py',198),
-  ('variable -> var_type ID assigned SEMICOLON','variable',4,'p_variable','calc.py',203),
-  ('var_type -> INT','var_type',1,'p_var_type','calc.py',208),
-  ('var_type -> STR','var_type',1,'p_var_type','calc.py',209),
-  ('var_type -> BOOL','var_type',1,'p_var_type','calc.py',210),
-  ('assigned -> ASSIGN type','assigned',2,'p_assigned','calc.py',215),
-  ('assigned -> empty','assigned',1,'p_assigned','calc.py',216),
-  ('type -> NUMBER','type',1,'p_type','calc.py',221),
-  ('type -> STRING','type',1,'p_type','calc.py',222),
-  ('type -> boolean','type',1,'p_type','calc.py',223),
-  ('type -> ID','type',1,'p_type','calc.py',224),
-  ('boolean -> TRUE','boolean',1,'p_boolean','calc.py',229),
-  ('boolean -> FALSE','boolean',1,'p_boolean','calc.py',230),
-  ('constants -> constants constant','constants',2,'p_constants','calc.py',235),
-  ('constants -> constants variable','constants',2,'p_constants','calc.py',236),
-  ('constants -> constant','constants',1,'p_constants','calc.py',237),
-  ('constants -> variable','constants',1,'p_constants','calc.py',238),
-  ('constant -> ENUM ID ASSIGN NUMBER SEMICOLON','constant',5,'p_constant','calc.py',243),
-  ('constant -> ENUM ID ASSIGN STRING SEMICOLON','constant',5,'p_constant','calc.py',244),
-  ('constant -> ENUM ID ASSIGN boolean SEMICOLON','constant',5,'p_constant','calc.py',245),
-  ('constant -> ENUM ID SEMICOLON','constant',3,'p_constant','calc.py',246),
-  ('constant -> empty','constant',1,'p_constant','calc.py',247),
-  ('print -> WRITELN LPAREN ID RPAREN SEMICOLON','print',5,'p_print','calc.py',253),
-  ('print -> WRITELN LPAREN STRING RPAREN SEMICOLON','print',5,'p_print','calc.py',254),
-  ('print -> WRITELN LPAREN NUMBER RPAREN SEMICOLON','print',5,'p_print','calc.py',255),
-  ('print -> WRITELN LPAREN boolean RPAREN SEMICOLON','print',5,'p_print','calc.py',256),
-  ('get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON','get',8,'p_get','calc.py',261),
-  ('empty -> <empty>','empty',0,'p_empty','calc.py',265),
+  ('start -> function','start',1,'p_start','calc.py',147),
+  ('function -> constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants','function',10,'p_function','calc.py',153),
+  ('params -> STR LSQUARE RSQUARE ID','params',4,'p_params','calc.py',159),
+  ('params -> empty','params',1,'p_params','calc.py',160),
+  ('expressions -> expressions expression','expressions',2,'p_expressions','calc.py',165),
+  ('expressions -> expression','expressions',1,'p_expressions','calc.py',166),
+  ('expression -> constants','expression',1,'p_expression','calc.py',172),
+  ('expression -> while','expression',1,'p_expression','calc.py',173),
+  ('expression -> if','expression',1,'p_expression','calc.py',174),
+  ('expression -> ID assigned SEMICOLON','expression',3,'p_expression','calc.py',175),
+  ('expression -> print','expression',1,'p_expression','calc.py',176),
+  ('expression -> get','expression',1,'p_expression','calc.py',177),
+  ('while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE','while',7,'p_while','calc.py',183),
+  ('if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE','if',7,'p_if','calc.py',189),
+  ('if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE','if',11,'p_if','calc.py',190),
+  ('statement -> type logic_op type','statement',3,'p_statement','calc.py',198),
+  ('logic_op -> EQ','logic_op',1,'p_logic_op','calc.py',204),
+  ('logic_op -> NOT_EQ','logic_op',1,'p_logic_op','calc.py',205),
+  ('logic_op -> GREATER','logic_op',1,'p_logic_op','calc.py',206),
+  ('logic_op -> GREATER_EQ','logic_op',1,'p_logic_op','calc.py',207),
+  ('logic_op -> LESS','logic_op',1,'p_logic_op','calc.py',208),
+  ('logic_op -> LESS_EQ','logic_op',1,'p_logic_op','calc.py',209),
+  ('variable -> var_type ID assigned SEMICOLON','variable',4,'p_variable','calc.py',218),
+  ('var_type -> INT','var_type',1,'p_var_type','calc.py',224),
+  ('var_type -> STR','var_type',1,'p_var_type','calc.py',225),
+  ('var_type -> BOOL','var_type',1,'p_var_type','calc.py',226),
+  ('assigned -> ASSIGN type','assigned',2,'p_assigned','calc.py',233),
+  ('assigned -> empty','assigned',1,'p_assigned','calc.py',234),
+  ('type -> NUMBER','type',1,'p_type','calc.py',241),
+  ('type -> STRING','type',1,'p_type','calc.py',242),
+  ('type -> boolean','type',1,'p_type','calc.py',243),
+  ('type -> ID','type',1,'p_type','calc.py',244),
+  ('boolean -> TRUE','boolean',1,'p_boolean','calc.py',250),
+  ('boolean -> FALSE','boolean',1,'p_boolean','calc.py',251),
+  ('constants -> constants constant','constants',2,'p_constants','calc.py',257),
+  ('constants -> constants variable','constants',2,'p_constants','calc.py',258),
+  ('constants -> constant','constants',1,'p_constants','calc.py',259),
+  ('constants -> variable','constants',1,'p_constants','calc.py',260),
+  ('constant -> ENUM ID assigned SEMICOLON','constant',4,'p_constant','calc.py',267),
+  ('constant -> empty','constant',1,'p_constant','calc.py',268),
+  ('print -> WRITELN LPAREN type RPAREN SEMICOLON','print',5,'p_print','calc.py',274),
+  ('get -> READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON','get',8,'p_get','calc.py',279),
+  ('empty -> <empty>','empty',0,'p_empty','calc.py',283),
 ]

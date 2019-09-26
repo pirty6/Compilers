@@ -1,3 +1,7 @@
+# Author: Mariana Perez
+# D compiler
+# Can be run using the following command: python calc.py
+
 from ply import lex
 import ply.yacc as yacc
 import decimal
@@ -7,6 +11,7 @@ import decimal
 #                   LIST OF TOKENS
 # -------------------------------------------------------
 
+# List of reserved words
 reserved = {
     'bool'      : 'BOOL',
     'else'      : 'ELSE',
@@ -21,6 +26,7 @@ reserved = {
     'writeln'   : 'WRITELN',
 }
 
+# List of available tokens
 tokens = [
     'AMPERSAND',
     'ASSIGN',
@@ -78,37 +84,37 @@ t_AMPERSAND     = r'\&'
 # -------------------------------------------------------
 
 def t_TRUE(t):
-    r'(true)'
+    r'(true)' # regex for true
     t.value = True
     return t
 
 def t_FALSE(t):
-    r'(false)'
+    r'(false)'  # regrex for false
     t.value = False
     return t
 
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    if reserved.has_key(t.value):
-        t.type = reserved[t.value]
+    r'[a-zA-Z_][a-zA-Z0-9_]*' # regex for the name of the variables and constants
+    if reserved.has_key(t.value): # Checks if the value is present the reserved words first
+        t.type = reserved[t.value] # If true then it is a reserved word, otherwise it is an id
     return t
 
 def t_NUMBER( t ) :
-    r'[+-]?\d+'
+    r'[+-]?\d+' # regex for positive and negative numbers
     try:
-        t.value = int( t.value )
-    except ValueError:
+        t.value = int( t.value ) # try to put the number into an int
+    except ValueError: #If it is not possible raise error
         print("Value too long ", t.value)
         t.value = 0
     return t
 
 def t_STRING(t):
-    r'"[^\n]*?(?<!\\)"'
+    r'"[^\n]*?(?<!\\)"' #regex to match everything that is surrounded by ""
     t.value = t.value[1:-1]
     return t
 
 def t_newline( t ):
-  r'\n+'
+  r'\n+'    # regex for a new line
   t.lexer.lineno += len( t.value )
 
 # -------------------------------------------------------
@@ -131,6 +137,7 @@ def t_LARGERCOMMENT(t):
 #                   ERROR HANDLER
 # -------------------------------------------------------
 
+# If there is a character that doesn't match any of the previous rules throw an error
 def t_error( t ):
   print("Illegal character '{0}' at line {1}" .format(t.value[0], t.lineno))
   t.lexer.skip( 1 )
@@ -139,26 +146,31 @@ def t_error( t ):
 #                   RULES
 # -------------------------------------------------------
 
-
+# Starting rule
 def p_start( p ):
     'start : function'
     print("Successfully Parsed")
 
+# Rule that defines consonants and variables before and after the main function, where the main can have parameters
+# and inside the main an expression
 def p_function( p ):
     'function : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants'
 
+# Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
+# where args can be any name
 def p_params( p ):
     '''
     params :  STR LSQUARE RSQUARE ID
             | empty
     '''
-
+# Recursive rule that defines that an expression can have at least one expression or multiple expressions
 def p_expressions( p ):
     '''
     expressions :     expressions expression
                     | expression
     '''
-
+# Rule that defines the type of expression, this can be variable and constants declarations, while loop, if condition,
+# print a value in the console, get value from the console or be empty (via the constant rule)
 def p_expression( p ):
     '''
     expression :   constants
@@ -167,26 +179,30 @@ def p_expression( p ):
                  | ID assigned SEMICOLON
                  | print
                  | get
-                 | empty
     '''
 
-
+# Rule that defines the while loop, inside the while loop it is possible to have multiple expressions
 def p_while( p ):
     '''
     while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
     '''
 
+# Rule that defines the if statement, this statment can have an else
 def p_if( p ):
     '''
     if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
          | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
     '''
 
+# Rule that defines the statments that are inside the while loop and if condition, they have a type which is translated to
+# numbers, strings, and boolean values or ids and a logic_op that stands for logical operator that can be ==, <=, >=, <, > and !=
+# Example: x == 1
 def p_statement( p ):
     '''
     statement :   type logic_op type
     '''
 
+# Rule that states the possible value for the logical operator
 def p_logic_op( p ):
     '''
     logic_op :    EQ
@@ -197,11 +213,16 @@ def p_logic_op( p ):
                 | LESS_EQ
     '''
 
+# Rule that defines that a variable should have a type which is the var_type, an id and assigned statment and finish with a
+# semicolon. The current var types are int, string, and bool.
+# Example: int x = 12;
+# Example: string y;
 def p_variable( p ):
     '''
     variable :   var_type ID assigned SEMICOLON
     '''
 
+# Rule that states all the possible values for the type of variables: int, string and bool
 def p_var_type( p ):
     '''
     var_type :    INT
@@ -209,12 +230,16 @@ def p_var_type( p ):
                 | BOOL
     '''
 
+# Rule that states that an assigment could be the assigned value (=) and a type of value (number, boolean, string or another id),
+# or an assigment can also be empty in order to just declare the variable without assigning anything
 def p_assigned( p ):
     '''
     assigned :    ASSIGN type
                 | empty
     '''
 
+# Rule that states the different types of values: number(1,2,5,-5,-7, ...), string("Hello", "", "kd", ...), boolean(true, false)
+# and id(var_x, x, Var_x, ...)
 def p_type( p ):
     '''
     type :    NUMBER
@@ -223,12 +248,14 @@ def p_type( p ):
             | ID
     '''
 
+# Rule that defines the only two values in a boolean
 def p_boolean( p ):
     '''
     boolean :   TRUE
               | FALSE
     '''
 
+# Rule that defines constants and variables, it uses recursion to be able to have more than one constant or variable
 def p_constants( p ):
     '''
     constants :   constants constant
@@ -237,36 +264,41 @@ def p_constants( p ):
                 | variable
     '''
 
+# Rule that states that a constant always start with the reserved word enum then an id and then the assigned statement and finish
+# with a semicolon, it also states that constant can be empty
 def p_constant( p ):
     '''
-    constant :    ENUM ID ASSIGN NUMBER SEMICOLON
-                | ENUM ID ASSIGN STRING SEMICOLON
-                | ENUM ID ASSIGN boolean SEMICOLON
-                | ENUM ID SEMICOLON
+    constant :    ENUM ID assigned SEMICOLON
                 | empty
     '''
 
-
+# Rule that states that a print statment starts with the reserved word writeln then a left parenthesis then a different type of value
+# followed by a right parenthesis and finish with a semicolon
+# The types of possible values can be a number, a string, a boolean value or a variable (id)
+# Example: writeln(x);
 def p_print( p ):
     '''
-    print :   WRITELN LPAREN ID RPAREN SEMICOLON
-            | WRITELN LPAREN STRING RPAREN SEMICOLON
-            | WRITELN LPAREN NUMBER RPAREN SEMICOLON
-            | WRITELN LPAREN boolean RPAREN SEMICOLON
+    print :   WRITELN LPAREN type RPAREN SEMICOLON
     '''
 
+# Rule that states a get statement wich states that is starts with the reserved word readf followed by a left parenthesis, a string
+# a comma, and ampersand, an id, a right parenthesis and finish with a semicolon
+# Example: readf("%i", &x);
 def p_get( p ):
     '''
     get :     READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
     '''
 
+# Rule that states an empty state
 def p_empty( p ):
     'empty :'
     pass
 
+# Error handler for when it passed the lexer but failed at the grammatic rules
 def p_error( p ):
     print("Syntax error at line {0}" .format(p.lineno))
 
+# Function to give the data from the files to the lexer and then to the yacc
 def process(data):
     lexer = lex.lex()
     lexer.input(data)
@@ -368,7 +400,6 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     process(data)
-
 
     print("Test 12: Varible en el orden incorrecto.")
     f = open('./Tests/Test12.d', 'r')
