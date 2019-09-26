@@ -1,2 +1,7 @@
 # Compilers
-Compiler for the B programming language
+Compiler for the D programming language
+
+To run the compiler type the following command:
+python calc.py
+
+
