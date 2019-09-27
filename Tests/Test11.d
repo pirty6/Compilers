@@ -1,8 +1,5 @@
 // Test11: variable en el lugar incorrecto.
 
-void main() {
+void main(int x;) {
   $
-}
-if(x == 1) {
-  writeln("Hola");
 }

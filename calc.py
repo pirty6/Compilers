@@ -305,7 +305,7 @@ def process(data):
     #while True:
     #    tok = lexer.token()
     #    if not tok:
-    #        break      # No more input
+    #       break      # No more input
     #    print(tok)
     yacc.yacc()
     yacc.parse(data)
@@ -417,6 +417,12 @@ if __name__ == "__main__":
     # Test14: Un programa sencillo con un ciclo definido pero usando una gramatica incorrecta.
     print("Test 14: Ciclo definido pero usando gramatica incorrecta")
     f = open('./Tests/Test14.d', 'r')
+    data = f.read()
+    f.close()
+    process(data)
+
+    print("Test 15: Constante en el lugar incorrecto")
+    f = open('./Tests/Test15.d', 'r')
     data = f.read()
     f.close()
     process(data)

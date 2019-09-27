@@ -1,5 +1,5 @@
-/* Un programa sencillo con un ciclo definido pero usando una gramática incorrecta.*/
+/* Test13: Un programa sencillo que utiliza una cadena, en un lugar que no está permitido.*/
 
 void main("ERROR") {
-  
+
 }
