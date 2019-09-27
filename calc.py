@@ -49,6 +49,9 @@ tokens = [
     'FALSE',
     'LSQUARE',
     'RSQUARE',
+    'GET_INT',
+    'GET_STRING',
+    'GET_BOOL',
 ]
 
 tokens = reserved.values() + tokens
@@ -99,13 +102,25 @@ def t_ID(t):
         t.type = reserved[t.value] # If true then it is a reserved word, otherwise it is an id
     return t
 
-def t_NUMBER( t ) :
+def t_NUMBER( t ):
     r'[+-]?\d+' # regex for positive and negative numbers
     try:
         t.value = int( t.value ) # try to put the number into an int
     except ValueError: #If it is not possible raise error
         print("Value too long ", t.value)
         t.value = 0
+    return t
+
+def t_GET_INT( t ):
+    r'("%i")'
+    return t
+
+def t_GET_STRING( t ):
+    r'("%s")'
+    return t
+
+def t_GET_BOOL( t ):
+    r'("%d")'
     return t
 
 def t_STRING(t):
@@ -286,7 +301,14 @@ def p_print( p ):
 # Example: readf("%i", &x);
 def p_get( p ):
     '''
-    get :     READF LPAREN STRING COMMA AMPERSAND ID RPAREN SEMICOLON
+    get :     READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
+    '''
+
+def p_gets( p ):
+    '''
+    gets :    GET_INT
+            | GET_STRING
+            | GET_BOOL
     '''
 
 # Rule that states an empty state

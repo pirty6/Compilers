@@ -7,7 +7,8 @@ void main(string[] args) {
   int a;
   readf("%i", &a);
   bool b = true;
-  string c = "Fin";
+  string c;
+  readf("%s", &c);
   if(b  == true) {
     while(a < 1) {
       if(a == 0) {
