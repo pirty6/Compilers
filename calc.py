@@ -4,7 +4,6 @@
 
 from ply import lex
 import ply.yacc as yacc
-from TypeChecker import TypeChecker
 
 
 # -------------------------------------------------------
@@ -554,8 +553,8 @@ def process(data):
     #       break      # No more input
     #    print(tok)
     parser = yacc.yacc()
-    ast = parser.parse(data, lexer = lexer)
-    ast.accept(TypeChecker())
+    parser.parse(data)
+
 
 
 if __name__ == "__main__":
