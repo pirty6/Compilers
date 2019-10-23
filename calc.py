@@ -4,7 +4,7 @@
 
 from ply import lex
 import ply.yacc as yacc
-from ast import *
+from TypeChecker import TypeChecker
 
 
 # -------------------------------------------------------
@@ -175,8 +175,25 @@ predecende = (
 #                      CLASSES
 # -------------------------------------------------------
 
-class Node:
+class Node(object):
+
+  def __init__(self, node_info):
+      self.lineno = node_info['lno']
+
+  def accept(self, visitor, table = None):
+      className = self.__class__.__name__
+      # return visitor.visit_<className>(self)
+      meth = getattr(visitor, 'visit_' + className, None)
+      if meth!=None:
+          return meth(self, table)
+
+class ErrorNode(Node):
     pass
+
+class Start(Node):
+    def __init__(self, Function, pos):
+        self.Function = Function
+        self.pos = pos
 
 class Type(Node):
     def __init__(self, value):
@@ -191,34 +208,45 @@ class String(Type):
 class Boolean(Type):
     pass
 
-class ID(Type):
-    pass
+class ID(Node):
+    def __init__(self, id, pos):
+        self.id = id
+        self.pos = pos
 
-class Iden(Node):
-    def __init__(self, name, lineno):
-        self.name = name
-        self.lineno = lineno
+class Variable(Node):
+    def __init__(self, type, inits, pos):
+        self.type = type
+        self.inits = inits
+        self.pos = pos
 
-class Start(Node):
-    def __init__(self, Function):
-        self.name = 'Start'
-        self.Function = Function
-        #self.show()
+class InitList(Node):
+    def __init__(self, inits):
+        self.inits = inits
 
-    def show(self):
-        print("Start => Function")
-        self.Function.show()
+class Init(Node):
+    def __init__(self, id, expr):
+        self.id = id
+        self.expr = expr
 
 class Function(Node):
-    def __init__(self, constants1, params, expression, constants2):
+    def __init__(self, constants, params, expression):
         self.name = 'Function'
-        self.constants = constants1
+        self.constants = constants
         self.params = params
         self.expression = expression
-        self.constants = constants2
 
-    def show(self):
-        print("Function => constants VOID MAIN LPAREN params RPAREN LBRACE expression RBRACE constants")
+class Expressions(Node):
+    def __init__(self, expressions):
+        self.expressions = expressions
+
+class ConstantList(Node):
+    def __init__(self, constants):
+        self.constants = constants
+
+class Constant(Node):
+    def __init__(self, inits, pos):
+        self.inits = inits
+        self.pos = pos
 
 class Statement(Node):
     def __init__(self, left, op, right, pos):
@@ -227,7 +255,34 @@ class Statement(Node):
         self.right = right
         self.pos = pos
 
+class While(Node):
+    def __init__(self, kw, cond, instr):
+        self.keyword = kw
+        self.cond = cond
+        self.instr = instr
 
+
+class If(Node):
+    def __init__(self, cond, ithen, ielse = None):
+        self.cond = cond
+        self.ithen = ithen
+        self.ielse = ielse
+
+class Get(Node):
+    def __init__(self, type, id):
+        self.type = type
+        self.id = id
+
+class Args(Node):
+    def __init__(self, type, id):
+        self.type = type
+        self.id = id
+
+class Assigment(Node):
+    def __init__(self, id, expr, pos):
+        self.id = id
+        self.expr = expr
+        self.pos = pos
 
 # -------------------------------------------------------
 #                   RULES
@@ -236,29 +291,43 @@ class Statement(Node):
 # Starting rule
 def p_start( p ):
     'start : function'
-    p[0] = Start(p[1])
+    p[0] = Start(p[1], p.lineno)
     print("Successfully Parsed")
     pass
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
 def p_function( p ):
-    'function : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants'
-    p[0] = Function(p[1], p[5], p[8], p[10])
+    'function : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
+    p[0] = Function(p[1], p[5], p[8])
 
 # Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
 # where args can be any name
 def p_params( p ):
     '''
     params :  STR LSQUARE RSQUARE ID
-            | empty
     '''
+    p[0] = Args(p[1], p[4])
+
+def p_empty_params( p ):
+    '''
+    params : empty
+    '''
+    p[0] = []
+
 # Recursive rule that defines that an expression can have at least one expression or multiple expressions
-def p_expressions( p ):
+def p_list_expressions( p ):
     '''
     expressions :     expressions expression
-                    | expression
     '''
+    p[0] = Expressions(p[1].expressions + [p[2]])
+
+def p_expressions( p ) :
+    '''
+    expressions : expression
+    '''
+    p[0] = Expressions([p[1]])
+
 # Rule that defines the type of expression, this can be variable and constants declarations, while loop, if condition,
 # print a value in the console, get value from the console or be empty (via the constant rule)
 def p_expression( p ):
@@ -266,23 +335,38 @@ def p_expression( p ):
     expression :   constants
                  | while
                  | if
-                 | ID ASSIGN type SEMICOLON
+                 | assigned
                  | print
                  | get
     '''
+    p[0] = p[1]
+
+def p_assigned( p ):
+    '''
+    assigned : ID ASSIGN type SEMICOLON
+    '''
+    p[0] = Assigment(p[1], p[3], p.lineno)
 
 # Rule that defines the while loop, inside the while loop it is possible to have multiple expressions
 def p_while( p ):
     '''
     while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
     '''
+    p[0] = While(p[1], p[2], p[6])
 
 # Rule that defines the if statement, this statment can have an else
 def p_if( p ):
     '''
     if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
-         | IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
     '''
+    p[0] = If(p[3], p[6])
+
+def p_if_else( p ):
+    '''
+    if :  IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    '''
+    p[0] = If(p[3], p[6], p[10])
+
 
 # Rule that defines the statments that are inside the while loop and if condition, they have a type which is translated to
 # numbers, strings, and boolean values or ids and a logic_op that stands for logical operator that can be ==, <=, >=, <, > and !=
@@ -313,27 +397,31 @@ def p_variable( p ):
     '''
     variable :    var_type inits SEMICOLON
     '''
+    p[0] = Variable(p[1], p[2], p.lineno)
 
 def p_inits( p ):
     '''
     inits : inits COMMA init
     '''
+    p[0] = InitList(p[1].inits + [p[3]])
 
 def p_inits_single( p ):
     '''
     inits : init
     '''
+    p[0] = InitList([p[1]])
 
 def p_init_value( p ):
     '''
     init :  ID ASSIGN type
     '''
+    p[0] = Init(p[1], p[3])
 
 def p_init( p ):
     '''
     init : ID
     '''
-
+    p[0] = Init(p[1], [])
 
 # Rule that states all the possible values for the type of variables: int, string and bool
 def p_var_type( p ):
@@ -369,7 +457,7 @@ def p_type_id( p ):
     '''
     type : ID
     '''
-    p[0] = ID(p[1])
+    p[0] = ID(p[1], p.lineno)
 
 # Rule that defines the only two values in a boolean
 def p_boolean( p ):
@@ -380,22 +468,39 @@ def p_boolean( p ):
     p[0] = p[1]
 
 # Rule that defines constants and variables, it uses recursion to be able to have more than one constant or variable
-def p_constants( p ):
+def p_list_constants( p ):
     '''
     constants :   constants constant
                 | constants variable
-                | constant
-                | variable
     '''
+    if p[2]:
+        p[0] = ConstantList(p[1].constants + [p[2]])
+    else:
+        p[0] = p[1]
+
+def p_constants( p ):
+    '''
+    constants :    constant
+                |  variable
+    '''
+    if p[1]:
+        p[0] = ConstantList([p[1]])
+    else:
+        p[0] = ConstantList([])
 
 # Rule that states that a constant always start with the reserved word enum then an id and then the assigned statement and finish
 # with a semicolon, it also states that constant can be empty
 def p_constant( p ):
     '''
-    constant :    ENUM ID ASSIGN type SEMICOLON
-                | ENUM ID SEMICOLON
-                | empty
+    constant :    ENUM inits SEMICOLON
     '''
+    p[0] = Constant(p[2], p.lineno)
+
+def p_no_constant( p ):
+    '''
+    constant : empty
+    '''
+    p[0] = Constant([], p.lineno)
 
 # Rule that states that a print statment starts with the reserved word writeln then a left parenthesis then a different type of value
 # followed by a right parenthesis and finish with a semicolon
@@ -405,6 +510,7 @@ def p_print( p ):
     '''
     print :   WRITELN LPAREN type RPAREN SEMICOLON
     '''
+    p[0] = p[3]
 
 # Rule that states a get statement wich states that is starts with the reserved word readf followed by a left parenthesis, a string
 # a comma, and ampersand, an id, a right parenthesis and finish with a semicolon
@@ -413,6 +519,7 @@ def p_get( p ):
     '''
     get :     READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
     '''
+    p[0] = Get(p[3], p[6])
 
 def p_gets( p ):
     '''
@@ -427,9 +534,15 @@ def p_empty( p ):
     'empty :'
     pass
 
+
+def handle_error(self, where, p):
+    print("Syntax error in %s at line %d, column %d, at token LexToken(%s, '%s')" %\
+      (where, p.lineno, self.scanner.find_tok_column(p), p.type, p.value))
+
 # Error handler for when it passed the lexer but failed at the grammatic rules
 def p_error( p ):
     print("Syntax error at line {0}" .format(p.lineno))
+
 
 # Function to give the data from the files to the lexer and then to the yacc
 def process(data):
@@ -440,9 +553,9 @@ def process(data):
     #    if not tok:
     #       break      # No more input
     #    print(tok)
-    yacc.yacc()
-    yacc.parse(data)
-
+    parser = yacc.yacc()
+    ast = parser.parse(data, lexer = lexer)
+    ast.accept(TypeChecker())
 
 
 if __name__ == "__main__":
