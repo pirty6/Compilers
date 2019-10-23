@@ -178,6 +178,22 @@ predecende = (
 class Node:
     pass
 
+class Type(Node):
+    def __init__(self, value):
+        self.value = value
+
+class Integer(Type):
+    pass
+
+class String(Type):
+    pass
+
+class Boolean(Type):
+    pass
+
+class ID(Type):
+    pass
+
 class Iden(Node):
     def __init__(self, name, lineno):
         self.name = name
@@ -187,7 +203,7 @@ class Start(Node):
     def __init__(self, Function):
         self.name = 'Start'
         self.Function = Function
-        self.show()
+        #self.show()
 
     def show(self):
         print("Start => Function")
@@ -295,9 +311,29 @@ def p_logic_op( p ):
 # Example: string y;
 def p_variable( p ):
     '''
-    variable :    var_type ID ASSIGN type SEMICOLON
-                | var_type ID SEMICOLON
+    variable :    var_type inits SEMICOLON
     '''
+
+def p_inits( p ):
+    '''
+    inits : inits COMMA init
+    '''
+
+def p_inits_single( p ):
+    '''
+    inits : init
+    '''
+
+def p_init_value( p ):
+    '''
+    init :  ID ASSIGN type
+    '''
+
+def p_init( p ):
+    '''
+    init : ID
+    '''
+
 
 # Rule that states all the possible values for the type of variables: int, string and bool
 def p_var_type( p ):
@@ -311,14 +347,29 @@ def p_var_type( p ):
 
 # Rule that states the different types of values: number(1,2,5,-5,-7, ...), string("Hello", "", "kd", ...), boolean(true, false)
 # and id(var_x, x, Var_x, ...)
-def p_type( p ):
+def p_type_integer( p ):
     '''
-    type :    NUMBER
-            | STRING
-            | boolean
-            | ID
+    type : NUMBER
     '''
-    p[0] = p[1]
+    p[0] = Integer(p[1])
+
+def p_type_string( p ):
+    '''
+    type : STRING
+    '''
+    p[0] = String(p[1])
+
+def p_type_boolean( p ):
+    '''
+    type : boolean
+    '''
+    p[0] = Boolean(p[1])
+
+def p_type_id( p ):
+    '''
+    type : ID
+    '''
+    p[0] = ID(p[1])
 
 # Rule that defines the only two values in a boolean
 def p_boolean( p ):

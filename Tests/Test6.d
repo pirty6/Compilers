@@ -3,5 +3,5 @@
 void main() {
   int a = -12;
   string b = "String";
-  bool d = false;
+  bool b = false;
 }
