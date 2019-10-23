@@ -163,14 +163,18 @@ def t_error( t ):
 # -------------------------------------------------------
 
 predecende = (
+    ('nonassoc', 'IF'),
+    ('nonassoc', 'ELSE'),
     ('left', 'COMMA'),
     ('right', 'EQUALS'),
+    ('nonassoc', 'EQ', 'NOT_EQ', 'LESS_EQ', 'GREATER_EQ'),
 )
 
 
 # -------------------------------------------------------
 #                      CLASSES
 # -------------------------------------------------------
+
 class Node:
     pass
 
@@ -200,6 +204,14 @@ class Function(Node):
     def show(self):
         print("Function => constants VOID MAIN LPAREN params RPAREN LBRACE expression RBRACE constants")
 
+class Statement(Node):
+    def __init__(self, left, op, right, pos):
+        self.left = left
+        self.op = op
+        self.right = right
+        self.pos = pos
+
+
 
 # -------------------------------------------------------
 #                   RULES
@@ -210,6 +222,7 @@ def p_start( p ):
     'start : function'
     p[0] = Start(p[1])
     print("Successfully Parsed")
+    pass
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
@@ -237,7 +250,7 @@ def p_expression( p ):
     expression :   constants
                  | while
                  | if
-                 | ID assigned SEMICOLON
+                 | ID ASSIGN type SEMICOLON
                  | print
                  | get
     '''
@@ -262,6 +275,7 @@ def p_statement( p ):
     '''
     statement :   type logic_op type
     '''
+    p[0] = Statement(p[1], p[2], p[3], p.lineno)
 
 # Rule that states the possible value for the logical operator
 def p_logic_op( p ):
@@ -273,6 +287,7 @@ def p_logic_op( p ):
                 | LESS
                 | LESS_EQ
     '''
+    p[0] = p[1]
 
 # Rule that defines that a variable should have a type which is the var_type, an id and assigned statment and finish with a
 # semicolon. The current var types are int, string, and bool.
@@ -280,7 +295,8 @@ def p_logic_op( p ):
 # Example: string y;
 def p_variable( p ):
     '''
-    variable :   var_type ID assigned SEMICOLON
+    variable :    var_type ID ASSIGN type SEMICOLON
+                | var_type ID SEMICOLON
     '''
 
 # Rule that states all the possible values for the type of variables: int, string and bool
@@ -290,14 +306,8 @@ def p_var_type( p ):
                 | STR
                 | BOOL
     '''
+    p[0] = p[1]
 
-# Rule that states that an assigment could be the assigned value (=) and a type of value (number, boolean, string or another id),
-# or an assigment can also be empty in order to just declare the variable without assigning anything
-def p_assigned( p ):
-    '''
-    assigned :    ASSIGN type
-                | empty
-    '''
 
 # Rule that states the different types of values: number(1,2,5,-5,-7, ...), string("Hello", "", "kd", ...), boolean(true, false)
 # and id(var_x, x, Var_x, ...)
@@ -308,6 +318,7 @@ def p_type( p ):
             | boolean
             | ID
     '''
+    p[0] = p[1]
 
 # Rule that defines the only two values in a boolean
 def p_boolean( p ):
@@ -315,6 +326,7 @@ def p_boolean( p ):
     boolean :   TRUE
               | FALSE
     '''
+    p[0] = p[1]
 
 # Rule that defines constants and variables, it uses recursion to be able to have more than one constant or variable
 def p_constants( p ):
@@ -329,7 +341,8 @@ def p_constants( p ):
 # with a semicolon, it also states that constant can be empty
 def p_constant( p ):
     '''
-    constant :    ENUM ID assigned SEMICOLON
+    constant :    ENUM ID ASSIGN type SEMICOLON
+                | ENUM ID SEMICOLON
                 | empty
     '''
 
@@ -356,6 +369,7 @@ def p_gets( p ):
             | GET_STRING
             | GET_BOOL
     '''
+    p[0] = p[1]
 
 # Rule that states an empty state
 def p_empty( p ):
@@ -491,6 +505,18 @@ if __name__ == "__main__":
 
     print("Test 15: Constante en el lugar incorrecto")
     f = open('./Tests/Test15.d', 'r')
+    data = f.read()
+    f.close()
+    process(data)
+
+    print("Test 16: Asignar el valor a una variable que no corresponde con su tipo.")
+    f = open('./Tests/Test16.d', 'r')
+    data = f.read()
+    f.close()
+    process(data)
+
+    print("Test 17: Usar una variable fuera de su alcance")
+    f = open('./Tests/Test17.d', 'r')
     data = f.read()
     f.close()
     process(data)
