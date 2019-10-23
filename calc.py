@@ -4,7 +4,7 @@
 
 from ply import lex
 import ply.yacc as yacc
-import decimal
+from ast import *
 
 
 # -------------------------------------------------------
@@ -157,6 +157,50 @@ def t_error( t ):
   print("Illegal character '{0}' at line {1}" .format(t.value[0], t.lineno))
   t.lexer.skip( 1 )
 
+
+# -------------------------------------------------------
+#                      PRECEDENCE
+# -------------------------------------------------------
+
+predecende = (
+    ('left', 'COMMA'),
+    ('right', 'EQUALS'),
+)
+
+
+# -------------------------------------------------------
+#                      CLASSES
+# -------------------------------------------------------
+class Node:
+    pass
+
+class Iden(Node):
+    def __init__(self, name, lineno):
+        self.name = name
+        self.lineno = lineno
+
+class Start(Node):
+    def __init__(self, Function):
+        self.name = 'Start'
+        self.Function = Function
+        self.show()
+
+    def show(self):
+        print("Start => Function")
+        self.Function.show()
+
+class Function(Node):
+    def __init__(self, constants1, params, expression, constants2):
+        self.name = 'Function'
+        self.constants = constants1
+        self.params = params
+        self.expression = expression
+        self.constants = constants2
+
+    def show(self):
+        print("Function => constants VOID MAIN LPAREN params RPAREN LBRACE expression RBRACE constants")
+
+
 # -------------------------------------------------------
 #                   RULES
 # -------------------------------------------------------
@@ -164,12 +208,14 @@ def t_error( t ):
 # Starting rule
 def p_start( p ):
     'start : function'
+    p[0] = Start(p[1])
     print("Successfully Parsed")
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
 def p_function( p ):
     'function : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE constants'
+    p[0] = Function(p[1], p[5], p[8], p[10])
 
 # Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
 # where args can be any name
