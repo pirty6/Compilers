@@ -194,9 +194,10 @@ class ErrorNode(Node):
     pass
 
 class Start(Node):
-    def __init__(self, Function, pos):
+    def __init__(self, Function, pos, constants = None):
         self.Function = Function
         self.pos = pos
+        self.constants = constants
 
 class Type(Node):
     def __init__(self, value):
@@ -232,9 +233,7 @@ class Init(Node):
         self.expr = expr
 
 class Function(Node):
-    def __init__(self, constants, params, expression):
-        self.name = 'Function'
-        self.constants = constants
+    def __init__(self, params, expression):
         self.params = params
         self.expression = expression
 
@@ -293,16 +292,31 @@ class Assigment(Node):
 
 # Starting rule
 def p_start( p ):
-    'start : function'
+    '''
+    start : function
+    '''
     p[0] = Start(p[1], p.lineno)
     print("Successfully Parsed")
     pass
 
+def p_start_constants( p ):
+    '''
+    start :  constants function
+    '''
+    p[0] = Start(p[2], p.lineno, p[1])
+    print("Successfully Parsed")
+    pass
+
+
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
 def p_function( p ):
-    'function : constants VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
-    p[0] = Function(p[1], p[5], p[8])
+    'function : VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
+    p[0] = Function(p[4], p[7])
+
+def p_empty_function( p ):
+    'function : VOID MAIN LPAREN params RPAREN LBRACE RBRACE'
+    p[0] = Function(p[4], [])
 
 # Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
 # where args can be any name
@@ -499,11 +513,6 @@ def p_constant( p ):
     '''
     p[0] = Constant(p[2], p.lineno)
 
-def p_no_constant( p ):
-    '''
-    constant : empty
-    '''
-    p[0] = Constant([], p.lineno)
 
 # Rule that states that a print statment starts with the reserved word writeln then a left parenthesis then a different type of value
 # followed by a right parenthesis and finish with a semicolon
@@ -544,7 +553,8 @@ def handle_error(self, where, p):
 
 # Error handler for when it passed the lexer but failed at the grammatic rules
 def p_error( p ):
-    print("Syntax error at line {0}" .format(p.lineno))
+    if not p:
+        print("Syntax error at EOF")
 
 
 # Function to give the data from the files to the lexer and then to the yacc
