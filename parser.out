@@ -18,9 +18,9 @@ Rule 12    expression -> assigned
 Rule 13    expression -> print
 Rule 14    expression -> get
 Rule 15    assigned -> ID ASSIGN type SEMICOLON
-Rule 16    while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-Rule 17    if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE
-Rule 18    if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+Rule 16    while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+Rule 17    if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+Rule 18    if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 Rule 19    statement -> type logic_op type
 Rule 20    logic_op -> EQ
 Rule 21    logic_op -> NOT_EQ
@@ -109,7 +109,7 @@ gets                 : 44
 if                   : 11
 init                 : 26 42
 logic_op             : 19
-new_scope            : 3 4
+new_scope            : 3 4 16 17 18 18
 params               : 3 4
 print                : 13
 start                : 0
@@ -207,6 +207,15 @@ state 6
 
     (49) new_scope -> empty .
 
+    WHILE           reduce using rule 49 (new_scope -> empty .)
+    IF              reduce using rule 49 (new_scope -> empty .)
+    ID              reduce using rule 49 (new_scope -> empty .)
+    WRITELN         reduce using rule 49 (new_scope -> empty .)
+    READF           reduce using rule 49 (new_scope -> empty .)
+    ENUM            reduce using rule 49 (new_scope -> empty .)
+    INT             reduce using rule 49 (new_scope -> empty .)
+    STR             reduce using rule 49 (new_scope -> empty .)
+    BOOL            reduce using rule 49 (new_scope -> empty .)
     VOID            reduce using rule 49 (new_scope -> empty .)
 
 
@@ -584,9 +593,9 @@ state 38
     (39) constants -> . constants variable
     (40) constants -> . constant
     (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (15) assigned -> . ID ASSIGN type SEMICOLON
     (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
     (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
@@ -644,7 +653,7 @@ state 40
 
 state 41
 
-    (16) while -> WHILE . LPAREN statement RPAREN LBRACE expressions RBRACE
+    (16) while -> WHILE . LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
 
     LPAREN          shift and go to state 54
 
@@ -663,9 +672,9 @@ state 42
     (39) constants -> . constants variable
     (40) constants -> . constant
     (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (15) assigned -> . ID ASSIGN type SEMICOLON
     (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
     (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
@@ -807,8 +816,8 @@ state 49
 
 state 50
 
-    (17) if -> IF . LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> IF . LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (17) if -> IF . LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> IF . LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 
     LPAREN          shift and go to state 61
 
@@ -854,7 +863,7 @@ state 53
 
 state 54
 
-    (16) while -> WHILE LPAREN . statement RPAREN LBRACE expressions RBRACE
+    (16) while -> WHILE LPAREN . statement RPAREN LBRACE new_scope expressions RBRACE
     (19) statement -> . type logic_op type
     (32) type -> . NUMBER
     (33) type -> . STRING
@@ -870,8 +879,8 @@ state 54
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    type                           shift and go to state 64
     statement                      shift and go to state 63
+    type                           shift and go to state 64
 
 state 55
 
@@ -954,8 +963,8 @@ state 60
 
 state 61
 
-    (17) if -> IF LPAREN . statement RPAREN LBRACE expressions RBRACE
-    (18) if -> IF LPAREN . statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (17) if -> IF LPAREN . statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> IF LPAREN . statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (19) statement -> . type logic_op type
     (32) type -> . NUMBER
     (33) type -> . STRING
@@ -971,8 +980,8 @@ state 61
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    type                           shift and go to state 64
     statement                      shift and go to state 68
+    type                           shift and go to state 64
 
 state 62
 
@@ -989,7 +998,7 @@ state 62
 
 state 63
 
-    (16) while -> WHILE LPAREN statement . RPAREN LBRACE expressions RBRACE
+    (16) while -> WHILE LPAREN statement . RPAREN LBRACE new_scope expressions RBRACE
 
     RPAREN          shift and go to state 73
 
@@ -1036,8 +1045,8 @@ state 67
 
 state 68
 
-    (17) if -> IF LPAREN statement . RPAREN LBRACE expressions RBRACE
-    (18) if -> IF LPAREN statement . RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (17) if -> IF LPAREN statement . RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> IF LPAREN statement . RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 
     RPAREN          shift and go to state 83
 
@@ -1072,7 +1081,7 @@ state 72
 
 state 73
 
-    (16) while -> WHILE LPAREN statement RPAREN . LBRACE expressions RBRACE
+    (16) while -> WHILE LPAREN statement RPAREN . LBRACE new_scope expressions RBRACE
 
     LBRACE          shift and go to state 85
 
@@ -1187,8 +1196,8 @@ state 82
 
 state 83
 
-    (17) if -> IF LPAREN statement RPAREN . LBRACE expressions RBRACE
-    (18) if -> IF LPAREN statement RPAREN . LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (17) if -> IF LPAREN statement RPAREN . LBRACE new_scope expressions RBRACE
+    (18) if -> IF LPAREN statement RPAREN . LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 
     LBRACE          shift and go to state 88
 
@@ -1202,52 +1211,22 @@ state 84
 
 state 85
 
-    (16) while -> WHILE LPAREN statement RPAREN LBRACE . expressions RBRACE
-    (7) expressions -> . expressions expression
-    (8) expressions -> . expression
-    (9) expression -> . constants
-    (10) expression -> . while
-    (11) expression -> . if
-    (12) expression -> . assigned
-    (13) expression -> . print
-    (14) expression -> . get
-    (38) constants -> . constants constant
-    (39) constants -> . constants variable
-    (40) constants -> . constant
-    (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (15) assigned -> . ID ASSIGN type SEMICOLON
-    (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
-    (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
-    (42) constant -> . ENUM init SEMICOLON
-    (26) variable -> . var_type init SEMICOLON
-    (29) var_type -> . INT
-    (30) var_type -> . STR
-    (31) var_type -> . BOOL
+    (16) while -> WHILE LPAREN statement RPAREN LBRACE . new_scope expressions RBRACE
+    (49) new_scope -> . empty
+    (48) empty -> .
 
-    WHILE           shift and go to state 41
-    IF              shift and go to state 50
-    ID              shift and go to state 48
-    WRITELN         shift and go to state 47
-    READF           shift and go to state 51
-    ENUM            shift and go to state 8
-    INT             shift and go to state 11
-    STR             shift and go to state 2
-    BOOL            shift and go to state 12
+    WHILE           reduce using rule 48 (empty -> .)
+    IF              reduce using rule 48 (empty -> .)
+    ID              reduce using rule 48 (empty -> .)
+    WRITELN         reduce using rule 48 (empty -> .)
+    READF           reduce using rule 48 (empty -> .)
+    ENUM            reduce using rule 48 (empty -> .)
+    INT             reduce using rule 48 (empty -> .)
+    STR             reduce using rule 48 (empty -> .)
+    BOOL            reduce using rule 48 (empty -> .)
 
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 46
-    assigned                       shift and go to state 40
-    variable                       shift and go to state 9
-    while                          shift and go to state 52
-    print                          shift and go to state 44
-    expressions                    shift and go to state 90
-    expression                     shift and go to state 53
-    constants                      shift and go to state 49
-    if                             shift and go to state 43
+    new_scope                      shift and go to state 90
+    empty                          shift and go to state 6
 
 state 86
 
@@ -1274,8 +1253,34 @@ state 87
 
 state 88
 
-    (17) if -> IF LPAREN statement RPAREN LBRACE . expressions RBRACE
-    (18) if -> IF LPAREN statement RPAREN LBRACE . expressions RBRACE ELSE LBRACE expressions RBRACE
+    (17) if -> IF LPAREN statement RPAREN LBRACE . new_scope expressions RBRACE
+    (18) if -> IF LPAREN statement RPAREN LBRACE . new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
+    (49) new_scope -> . empty
+    (48) empty -> .
+
+    WHILE           reduce using rule 48 (empty -> .)
+    IF              reduce using rule 48 (empty -> .)
+    ID              reduce using rule 48 (empty -> .)
+    WRITELN         reduce using rule 48 (empty -> .)
+    READF           reduce using rule 48 (empty -> .)
+    ENUM            reduce using rule 48 (empty -> .)
+    INT             reduce using rule 48 (empty -> .)
+    STR             reduce using rule 48 (empty -> .)
+    BOOL            reduce using rule 48 (empty -> .)
+
+    new_scope                      shift and go to state 91
+    empty                          shift and go to state 6
+
+state 89
+
+    (44) get -> READF LPAREN gets COMMA AMPERSAND . ID RPAREN SEMICOLON
+
+    ID              shift and go to state 92
+
+
+state 90
+
+    (16) while -> WHILE LPAREN statement RPAREN LBRACE new_scope . expressions RBRACE
     (7) expressions -> . expressions expression
     (8) expressions -> . expression
     (9) expression -> . constants
@@ -1288,9 +1293,9 @@ state 88
     (39) constants -> . constants variable
     (40) constants -> . constant
     (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (15) assigned -> . ID ASSIGN type SEMICOLON
     (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
     (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
@@ -1317,71 +1322,17 @@ state 88
     variable                       shift and go to state 9
     while                          shift and go to state 52
     print                          shift and go to state 44
-    expressions                    shift and go to state 91
+    expressions                    shift and go to state 93
     expression                     shift and go to state 53
-    constants                      shift and go to state 49
-    if                             shift and go to state 43
-
-state 89
-
-    (44) get -> READF LPAREN gets COMMA AMPERSAND . ID RPAREN SEMICOLON
-
-    ID              shift and go to state 92
-
-
-state 90
-
-    (16) while -> WHILE LPAREN statement RPAREN LBRACE expressions . RBRACE
-    (7) expressions -> expressions . expression
-    (9) expression -> . constants
-    (10) expression -> . while
-    (11) expression -> . if
-    (12) expression -> . assigned
-    (13) expression -> . print
-    (14) expression -> . get
-    (38) constants -> . constants constant
-    (39) constants -> . constants variable
-    (40) constants -> . constant
-    (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
-    (15) assigned -> . ID ASSIGN type SEMICOLON
-    (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
-    (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
-    (42) constant -> . ENUM init SEMICOLON
-    (26) variable -> . var_type init SEMICOLON
-    (29) var_type -> . INT
-    (30) var_type -> . STR
-    (31) var_type -> . BOOL
-
-    RBRACE          shift and go to state 93
-    WHILE           shift and go to state 41
-    IF              shift and go to state 50
-    ID              shift and go to state 48
-    WRITELN         shift and go to state 47
-    READF           shift and go to state 51
-    ENUM            shift and go to state 8
-    INT             shift and go to state 11
-    STR             shift and go to state 2
-    BOOL            shift and go to state 12
-
-    constant                       shift and go to state 1
-    var_type                       shift and go to state 3
-    get                            shift and go to state 46
-    assigned                       shift and go to state 40
-    variable                       shift and go to state 9
-    while                          shift and go to state 52
-    print                          shift and go to state 44
-    expression                     shift and go to state 56
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
 state 91
 
-    (17) if -> IF LPAREN statement RPAREN LBRACE expressions . RBRACE
-    (18) if -> IF LPAREN statement RPAREN LBRACE expressions . RBRACE ELSE LBRACE expressions RBRACE
-    (7) expressions -> expressions . expression
+    (17) if -> IF LPAREN statement RPAREN LBRACE new_scope . expressions RBRACE
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope . expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
+    (7) expressions -> . expressions expression
+    (8) expressions -> . expression
     (9) expression -> . constants
     (10) expression -> . while
     (11) expression -> . if
@@ -1392,9 +1343,9 @@ state 91
     (39) constants -> . constants variable
     (40) constants -> . constant
     (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (15) assigned -> . ID ASSIGN type SEMICOLON
     (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
     (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
@@ -1404,7 +1355,6 @@ state 91
     (30) var_type -> . STR
     (31) var_type -> . BOOL
 
-    RBRACE          shift and go to state 94
     WHILE           shift and go to state 41
     IF              shift and go to state 50
     ID              shift and go to state 48
@@ -1422,7 +1372,8 @@ state 91
     variable                       shift and go to state 9
     while                          shift and go to state 52
     print                          shift and go to state 44
-    expression                     shift and go to state 56
+    expressions                    shift and go to state 94
+    expression                     shift and go to state 53
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
@@ -1435,53 +1386,143 @@ state 92
 
 state 93
 
-    (16) while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .
+    (16) while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions . RBRACE
+    (7) expressions -> expressions . expression
+    (9) expression -> . constants
+    (10) expression -> . while
+    (11) expression -> . if
+    (12) expression -> . assigned
+    (13) expression -> . print
+    (14) expression -> . get
+    (38) constants -> . constants constant
+    (39) constants -> . constants variable
+    (40) constants -> . constant
+    (41) constants -> . variable
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
+    (15) assigned -> . ID ASSIGN type SEMICOLON
+    (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
+    (42) constant -> . ENUM init SEMICOLON
+    (26) variable -> . var_type init SEMICOLON
+    (29) var_type -> . INT
+    (30) var_type -> . STR
+    (31) var_type -> . BOOL
 
-    RBRACE          reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WHILE           reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    IF              reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ID              reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WRITELN         reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    READF           reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ENUM            reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    INT             reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    STR             reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    BOOL            reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE expressions RBRACE .)
+    RBRACE          shift and go to state 96
+    WHILE           shift and go to state 41
+    IF              shift and go to state 50
+    ID              shift and go to state 48
+    WRITELN         shift and go to state 47
+    READF           shift and go to state 51
+    ENUM            shift and go to state 8
+    INT             shift and go to state 11
+    STR             shift and go to state 2
+    BOOL            shift and go to state 12
 
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 46
+    assigned                       shift and go to state 40
+    variable                       shift and go to state 9
+    while                          shift and go to state 52
+    print                          shift and go to state 44
+    expression                     shift and go to state 56
+    constants                      shift and go to state 49
+    if                             shift and go to state 43
 
 state 94
 
-    (17) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .
-    (18) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE . ELSE LBRACE expressions RBRACE
+    (17) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions . RBRACE
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions . RBRACE ELSE LBRACE new_scope expressions RBRACE
+    (7) expressions -> expressions . expression
+    (9) expression -> . constants
+    (10) expression -> . while
+    (11) expression -> . if
+    (12) expression -> . assigned
+    (13) expression -> . print
+    (14) expression -> . get
+    (38) constants -> . constants constant
+    (39) constants -> . constants variable
+    (40) constants -> . constant
+    (41) constants -> . variable
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
+    (15) assigned -> . ID ASSIGN type SEMICOLON
+    (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
+    (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
+    (42) constant -> . ENUM init SEMICOLON
+    (26) variable -> . var_type init SEMICOLON
+    (29) var_type -> . INT
+    (30) var_type -> . STR
+    (31) var_type -> . BOOL
 
-    RBRACE          reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WHILE           reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    IF              reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ID              reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    WRITELN         reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    READF           reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ENUM            reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    INT             reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    STR             reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    BOOL            reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE .)
-    ELSE            shift and go to state 96
+    RBRACE          shift and go to state 97
+    WHILE           shift and go to state 41
+    IF              shift and go to state 50
+    ID              shift and go to state 48
+    WRITELN         shift and go to state 47
+    READF           shift and go to state 51
+    ENUM            shift and go to state 8
+    INT             shift and go to state 11
+    STR             shift and go to state 2
+    BOOL            shift and go to state 12
 
+    constant                       shift and go to state 1
+    var_type                       shift and go to state 3
+    get                            shift and go to state 46
+    assigned                       shift and go to state 40
+    variable                       shift and go to state 9
+    while                          shift and go to state 52
+    print                          shift and go to state 44
+    expression                     shift and go to state 56
+    constants                      shift and go to state 49
+    if                             shift and go to state 43
 
 state 95
 
     (44) get -> READF LPAREN gets COMMA AMPERSAND ID RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 97
+    SEMICOLON       shift and go to state 98
 
 
 state 96
 
-    (18) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE . LBRACE expressions RBRACE
+    (16) while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .
 
-    LBRACE          shift and go to state 98
+    RBRACE          reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    WHILE           reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    IF              reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    ID              reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    WRITELN         reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    READF           reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    ENUM            reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    INT             reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    STR             reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    BOOL            reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
 
 
 state 97
+
+    (17) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE . ELSE LBRACE new_scope expressions RBRACE
+
+    RBRACE          reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    WHILE           reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    IF              reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    ID              reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    WRITELN         reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    READF           reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    ENUM            reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    INT             reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    STR             reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    BOOL            reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
+    ELSE            shift and go to state 99
+
+
+state 98
 
     (44) get -> READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON .
 
@@ -1497,9 +1538,35 @@ state 97
     BOOL            reduce using rule 44 (get -> READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON .)
 
 
-state 98
+state 99
 
-    (18) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE . expressions RBRACE
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE . LBRACE new_scope expressions RBRACE
+
+    LBRACE          shift and go to state 100
+
+
+state 100
+
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE . new_scope expressions RBRACE
+    (49) new_scope -> . empty
+    (48) empty -> .
+
+    WHILE           reduce using rule 48 (empty -> .)
+    IF              reduce using rule 48 (empty -> .)
+    ID              reduce using rule 48 (empty -> .)
+    WRITELN         reduce using rule 48 (empty -> .)
+    READF           reduce using rule 48 (empty -> .)
+    ENUM            reduce using rule 48 (empty -> .)
+    INT             reduce using rule 48 (empty -> .)
+    STR             reduce using rule 48 (empty -> .)
+    BOOL            reduce using rule 48 (empty -> .)
+
+    new_scope                      shift and go to state 101
+    empty                          shift and go to state 6
+
+state 101
+
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope . expressions RBRACE
     (7) expressions -> . expressions expression
     (8) expressions -> . expression
     (9) expression -> . constants
@@ -1512,9 +1579,9 @@ state 98
     (39) constants -> . constants variable
     (40) constants -> . constant
     (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (15) assigned -> . ID ASSIGN type SEMICOLON
     (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
     (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
@@ -1541,14 +1608,14 @@ state 98
     variable                       shift and go to state 9
     while                          shift and go to state 52
     print                          shift and go to state 44
-    expressions                    shift and go to state 99
+    expressions                    shift and go to state 102
     expression                     shift and go to state 53
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 99
+state 102
 
-    (18) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions . RBRACE
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions . RBRACE
     (7) expressions -> expressions . expression
     (9) expression -> . constants
     (10) expression -> . while
@@ -1560,9 +1627,9 @@ state 99
     (39) constants -> . constants variable
     (40) constants -> . constant
     (41) constants -> . variable
-    (16) while -> . WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
-    (17) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE
-    (18) if -> . IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    (16) while -> . WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (17) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
+    (18) if -> . IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
     (15) assigned -> . ID ASSIGN type SEMICOLON
     (43) print -> . WRITELN LPAREN type RPAREN SEMICOLON
     (44) get -> . READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
@@ -1572,7 +1639,7 @@ state 99
     (30) var_type -> . STR
     (31) var_type -> . BOOL
 
-    RBRACE          shift and go to state 100
+    RBRACE          shift and go to state 103
     WHILE           shift and go to state 41
     IF              shift and go to state 50
     ID              shift and go to state 48
@@ -1594,20 +1661,20 @@ state 99
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 100
+state 103
 
-    (18) if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .
+    (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .
 
-    RBRACE          reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    WHILE           reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    IF              reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    ID              reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    WRITELN         reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    READF           reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    ENUM            reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    INT             reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    STR             reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
-    BOOL            reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE .)
+    RBRACE          reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    WHILE           reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    IF              reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    ID              reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    WRITELN         reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    READF           reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    ENUM            reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    INT             reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    STR             reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
+    BOOL            reduce using rule 18 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .)
 
 WARNING: 
 WARNING: Conflicts:

@@ -9,6 +9,7 @@ import pprint as pp
 class Scope(object):
     def __init__(self):
         self.i = 1
+        self.path = [1]
 
 def del_scope():
     scope.i = scope.i - 1
@@ -21,6 +22,16 @@ def get_scope():
 
 def reset_scope():
     scope.i = 1
+    scope.path = [1]
+
+def add_to_path():
+    scope.path.append(get_scope())
+
+def get_path():
+    return scope.path
+
+def pop_path():
+    scope.path.pop()
 
 class Scope_table(object):
     def __init__(self):
@@ -320,6 +331,7 @@ def p_function( p ):
 def p_empty_function( p ):
     'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope'
     p[0] = Function(p[4], [])
+    pop_path()
 
 # Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
 # where args can be any name
@@ -374,22 +386,26 @@ def p_assigned( p ):
 # Rule that defines the while loop, inside the while loop it is possible to have multiple expressions
 def p_while( p ):
     '''
-    while : WHILE LPAREN statement RPAREN LBRACE  expressions  RBRACE
+    while : WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
     '''
-    p[0] = While(p[1], p[2], p[6])
+    p[0] = While(p[1], p[2], p[7])
+    pop_path()
 
 # Rule that defines the if statement, this statment can have an else
 def p_if( p ):
     '''
-    if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    if :   IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
     '''
-    p[0] = If(p[3], p[6])
+    p[0] = If(p[3], p[7])
+    pop_path()
 
 def p_if_else( p ):
     '''
-    if :  IF LPAREN statement RPAREN LBRACE  expressions RBRACE ELSE LBRACE  expressions  RBRACE
+    if :  IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions  RBRACE
     '''
-    p[0] = If(p[3], p[6], p[10])
+    p[0] = If(p[3], p[7], p[12])
+    pop_path()
+    pop_path()
 
 
 # Rule that defines the statments that are inside the while loop and if condition, they have a type which is translated to
@@ -423,9 +439,9 @@ def p_variable( p ):
     '''
     p[0] = Variable(p[1], p[2], p.lineno)
     entry = {
-        p[0].init.id : (p[0].init.expr, 'variable')
+        p[0].init.id : (p[0].init.expr, p[1])
     }
-    add_table(get_scope(), entry)
+    add_table(tuple(get_path()), entry)
 
 def p_init_value( p ):
     '''
@@ -543,6 +559,7 @@ def p_empty( p ):
 def p_new_scope( p ):
     'new_scope : empty'
     add_scope()
+    add_to_path()
 
 
 def p_end_scope( p ):
