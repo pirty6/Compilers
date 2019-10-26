@@ -378,7 +378,7 @@ def p_while( p ):
 # Rule that defines the if statement, this statment can have an else
 def p_if( p ):
     '''
-    if :   IF LPAREN statement RPAREN LBRACE  expressions  RBRACE
+    if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
     '''
     p[0] = If(p[3], p[6])
 
@@ -537,13 +537,13 @@ def p_empty( p ):
 #                  SCOPE RULES
 # -------------------------------------------------------
 
-def p_new_scope(t):
-    "new_scope : empty"
+def p_new_scope( p ):
+    'new_scope : empty'
     add_scope()
 
 
-def p_end_scope(t):
-    " end_scope : empty"
+def p_end_scope( p ):
+    'end_scope : empty'
     del_scope()
 
 # -------------------------------------------------------

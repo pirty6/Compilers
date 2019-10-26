@@ -12,6 +12,7 @@ void main(string[] args) {
   readf("%s", &c);
   if(b  == true) {
     while(a < 1) {
+      int c = 10;
       if(a == 0) {
         a = 1;
       }
