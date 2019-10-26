@@ -19,6 +19,9 @@ def add_scope():
 def get_scope():
     return scope.i
 
+def reset_scope():
+    scope.i = 1
+
 class Scope_table(object):
     def __init__(self):
         self.table = {}
@@ -291,10 +294,10 @@ def p_start( p ):
     start : function
     '''
     p[0] = Start(p[1])
-    print("Successfully Parsed")
     pp.pprint(vars(scope_table))
+    print("Successfully Parsed")
     clear_table()
-    pass
+    reset_scope()
 
 def p_start_constants( p ):
     '''
@@ -302,10 +305,10 @@ def p_start_constants( p ):
     '''
 
     p[0] = Start(p[2], p[1])
-    print("Successfully Parsed")
     pp.pprint(vars(scope_table))
+    print("Successfully Parsed")
     clear_table()
-    pass
+    reset_scope()
 
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
@@ -558,7 +561,10 @@ def handle_error(self, where, p):
 def p_error( p ):
     if not p:
         print("Syntax error at EOF")
-
+    else :
+        print("Syntax error at line {0}" .format(p.lineno))
+    clear_table()
+    reset_scope()
 
 
 
