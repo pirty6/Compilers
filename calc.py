@@ -1,6 +1,6 @@
 from ply import lex
 import ply.yacc as yacc
-import pprint as pp
+#import pprint as pp
 import sys
 
 # -------------------------------------------------------
@@ -312,7 +312,7 @@ def p_start( p ):
     start : function
     '''
     p[0] = Start(p[1])
-    pp.pprint(vars(scope_table))
+    #pp.pprint(vars(scope_table))
     if get_good():
         print("Successfully Parsed")
     clear_table()
@@ -324,7 +324,7 @@ def p_start_constants( p ):
     '''
 
     p[0] = Start(p[2], p[1])
-    pp.pprint(vars(scope_table))
+    #pp.pprint(vars(scope_table))
     if get_good():
         print("Successfully Parsed")
     clear_table()
@@ -605,15 +605,15 @@ def p_get( p ):
             if p[6] in scope_table.table[tuple(path)]:
                 temp = scope_table.table[tuple(path)][p[6]]
                 if temp[1] == 'int':
-                    if p[3] is not '%i':
+                    if str(p[3]) != '"%i"':
                         print('ERROR: Cannot use "' + str(p[3]) + ' to get an int')
                         exit = True
-                elif temp[1] is not 'string':
-                    if p[3] != '%s':
+                elif temp[1] == 'string':
+                    if str(p[3]) != '"%s"':
                         print('ERROR: Cannot use "' + str(p[3]) + 'to get a string')
                         exit = True
-                elif temp[1] is not 'bool':
-                    if p[3] != '%d':
+                elif temp[1] == 'bool':
+                    if str(p[3]) != '"%d"':
                         print('ERROR: Cannot use "' + str(p[3]) + 'to get a bool')
                         exit = True
                 exist = True
