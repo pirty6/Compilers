@@ -574,6 +574,20 @@ def p_print( p ):
     print :   WRITELN LPAREN type RPAREN SEMICOLON
     '''
     p[0] = p[3]
+    path = get_path()[:]
+    exist = False
+    exit = False
+    while(path):
+        if tuple(path) in scope_table.table:
+            if p[3] in scope_table.table[tuple(path)]:
+                exist = True
+                break
+        path.pop()
+    if exist == False:
+        print('Error: Variable "' + str(p[3]) + '" was not declared')
+        exit = True
+    if exit == True:
+        not_good()
 
 # Rule that states a get statement wich states that is starts with the reserved word readf followed by a left parenthesis, a string
 # a comma, and ampersand, an id, a right parenthesis and finish with a semicolon
