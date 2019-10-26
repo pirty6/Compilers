@@ -6,6 +6,7 @@ void main() {
 
   if(num1 > num2) {
     int result = nums1;
+    a = 5;
   } else {
     int result = num2;
   }

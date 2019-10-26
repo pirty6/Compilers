@@ -1,6 +1,7 @@
 from ply import lex
 import ply.yacc as yacc
 import pprint as pp
+import sys
 
 # -------------------------------------------------------
 #                   DEFINE SCOPE CLASS
@@ -10,6 +11,7 @@ class Scope(object):
     def __init__(self):
         self.i = 1
         self.path = [1]
+        self.good = True
 
 def add_scope():
     scope.i = scope.i + 1
@@ -20,6 +22,13 @@ def get_scope():
 def reset_scope():
     scope.i = 1
     scope.path = [1]
+    scope.good = True
+
+def not_good():
+    scope.good = False
+
+def get_good():
+    return scope.good
 
 def add_to_path():
     scope.path.append(get_scope())
@@ -304,7 +313,8 @@ def p_start( p ):
     '''
     p[0] = Start(p[1])
     pp.pprint(vars(scope_table))
-    print("Successfully Parsed")
+    if get_good():
+        print("Successfully Parsed")
     clear_table()
     reset_scope()
 
@@ -315,7 +325,8 @@ def p_start_constants( p ):
 
     p[0] = Start(p[2], p[1])
     pp.pprint(vars(scope_table))
-    print("Successfully Parsed")
+    if get_good():
+        print("Successfully Parsed")
     clear_table()
     reset_scope()
 
@@ -380,6 +391,35 @@ def p_assigned( p ):
     assigned : ID ASSIGN type SEMICOLON
     '''
     p[0] = Assigment(p[1], p[3], p.lineno)
+    path = get_path()[:]
+    exist = False
+    exit = False
+    while(path):
+        if tuple(path) in scope_table.table:
+            if p[1] in scope_table.table[tuple(path)]:
+                temp = scope_table.table[tuple(path)][p[1]]
+                print('OWO ', temp)
+                if temp[1] == 'int':
+                    if not isinstance(p[3], int):
+                        print('ERROR : Cannot assign "' + str(p[3]) + '" to ' + str(temp[1]))
+                        exit = True
+                elif temp[1] == 'string':
+                    if not isinstance(p[3], str):
+                        print('ERROR : Cannot assign "' + str(p[3]) + '" to ' + str(temp[1]))
+                        exit = True
+                elif temp[1] == 'bool':
+                    if p[3] != False and p[3] != True:
+                        print('ERROR : Cannot assign "' + str(p[3]) + '" to ' + str(temp[1]))
+                        exit = True
+                exist = True
+                break
+        path.pop()
+    if exist == False:
+        print('Error: Variable "' +  str(p[1]) + '" was not declared')
+        exit = True
+    if exit == True:
+        not_good()
+
 
 # Rule that defines the while loop, inside the while loop it is possible to have multiple expressions
 def p_while( p ):
