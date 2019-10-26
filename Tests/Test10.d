@@ -15,11 +15,14 @@ void main(string[] args) {
       int c = 10;
       if(a == 0) {
         a = 1;
+        int c = 9;
       }
       if(a == 1) {
        b = false;
+       int c = 3;
       }
     }
+    int x = -5;
   }
   writeln(c);
 }

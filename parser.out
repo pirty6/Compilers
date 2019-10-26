@@ -5,8 +5,8 @@ Grammar
 Rule 0     S' -> start
 Rule 1     start -> function
 Rule 2     start -> constants function
-Rule 3     function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope
-Rule 4     function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope
+Rule 3     function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE
+Rule 4     function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE
 Rule 5     params -> STR LSQUARE RSQUARE ID
 Rule 6     params -> empty
 Rule 7     expressions -> expressions expression
@@ -52,7 +52,6 @@ Rule 46    gets -> GET_STRING
 Rule 47    gets -> GET_BOOL
 Rule 48    empty -> <empty>
 Rule 49    new_scope -> empty
-Rule 50    end_scope -> empty
 
 Terminals, with rules where they appear
 
@@ -99,8 +98,7 @@ assigned             : 12
 boolean              : 34
 constant             : 38 40
 constants            : 2 9 38 39
-empty                : 6 49 50
-end_scope            : 3 4
+empty                : 6 49
 expression           : 7 8
 expressions          : 3 7 16 17 18 18
 function             : 1 2
@@ -126,8 +124,8 @@ state 0
     (0) S' -> . start
     (1) start -> . function
     (2) start -> . constants function
-    (3) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope
+    (3) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE
+    (4) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE
     (38) constants -> . constants constant
     (39) constants -> . constants variable
     (40) constants -> . constant
@@ -191,8 +189,8 @@ state 3
 
 state 4
 
-    (3) function -> new_scope . VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> new_scope . VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope
+    (3) function -> new_scope . VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE
+    (4) function -> new_scope . VOID MAIN LPAREN params RPAREN LBRACE RBRACE
 
     VOID            shift and go to state 15
 
@@ -258,8 +256,8 @@ state 10
     (2) start -> constants . function
     (38) constants -> constants . constant
     (39) constants -> constants . variable
-    (3) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope
+    (3) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE
+    (4) function -> . new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE
     (42) constant -> . ENUM init SEMICOLON
     (26) variable -> . var_type init SEMICOLON
     (49) new_scope -> . empty
@@ -274,8 +272,8 @@ state 10
     BOOL            shift and go to state 12
     VOID            reduce using rule 48 (empty -> .)
 
-    function                       shift and go to state 18
-    constant                       shift and go to state 17
+    function                       shift and go to state 17
+    constant                       shift and go to state 18
     var_type                       shift and go to state 3
     new_scope                      shift and go to state 4
     empty                          shift and go to state 6
@@ -313,8 +311,8 @@ state 14
 
 state 15
 
-    (3) function -> new_scope VOID . MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> new_scope VOID . MAIN LPAREN params RPAREN LBRACE RBRACE end_scope
+    (3) function -> new_scope VOID . MAIN LPAREN params RPAREN LBRACE expressions RBRACE
+    (4) function -> new_scope VOID . MAIN LPAREN params RPAREN LBRACE RBRACE
 
     MAIN            shift and go to state 22
 
@@ -327,6 +325,13 @@ state 16
 
 
 state 17
+
+    (2) start -> constants function .
+
+    $end            reduce using rule 2 (start -> constants function .)
+
+
+state 18
 
     (38) constants -> constants constant .
 
@@ -341,13 +346,6 @@ state 17
     WRITELN         reduce using rule 38 (constants -> constants constant .)
     READF           reduce using rule 38 (constants -> constants constant .)
     VOID            reduce using rule 38 (constants -> constants constant .)
-
-
-state 18
-
-    (2) start -> constants function .
-
-    $end            reduce using rule 2 (start -> constants function .)
 
 
 state 19
@@ -405,8 +403,8 @@ state 21
 
 state 22
 
-    (3) function -> new_scope VOID MAIN . LPAREN params RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> new_scope VOID MAIN . LPAREN params RPAREN LBRACE RBRACE end_scope
+    (3) function -> new_scope VOID MAIN . LPAREN params RPAREN LBRACE expressions RBRACE
+    (4) function -> new_scope VOID MAIN . LPAREN params RPAREN LBRACE RBRACE
 
     LPAREN          shift and go to state 31
 
@@ -446,7 +444,6 @@ state 25
 
     (33) type -> STRING .
 
-    SEMICOLON       reduce using rule 33 (type -> STRING .)
     EQ              reduce using rule 33 (type -> STRING .)
     NOT_EQ          reduce using rule 33 (type -> STRING .)
     GREATER         reduce using rule 33 (type -> STRING .)
@@ -454,6 +451,7 @@ state 25
     LESS            reduce using rule 33 (type -> STRING .)
     LESS_EQ         reduce using rule 33 (type -> STRING .)
     RPAREN          reduce using rule 33 (type -> STRING .)
+    SEMICOLON       reduce using rule 33 (type -> STRING .)
 
 
 state 26
@@ -474,7 +472,6 @@ state 27
 
     (32) type -> NUMBER .
 
-    SEMICOLON       reduce using rule 32 (type -> NUMBER .)
     EQ              reduce using rule 32 (type -> NUMBER .)
     NOT_EQ          reduce using rule 32 (type -> NUMBER .)
     GREATER         reduce using rule 32 (type -> NUMBER .)
@@ -482,13 +479,13 @@ state 27
     LESS            reduce using rule 32 (type -> NUMBER .)
     LESS_EQ         reduce using rule 32 (type -> NUMBER .)
     RPAREN          reduce using rule 32 (type -> NUMBER .)
+    SEMICOLON       reduce using rule 32 (type -> NUMBER .)
 
 
 state 28
 
     (34) type -> boolean .
 
-    SEMICOLON       reduce using rule 34 (type -> boolean .)
     EQ              reduce using rule 34 (type -> boolean .)
     NOT_EQ          reduce using rule 34 (type -> boolean .)
     GREATER         reduce using rule 34 (type -> boolean .)
@@ -496,6 +493,7 @@ state 28
     LESS            reduce using rule 34 (type -> boolean .)
     LESS_EQ         reduce using rule 34 (type -> boolean .)
     RPAREN          reduce using rule 34 (type -> boolean .)
+    SEMICOLON       reduce using rule 34 (type -> boolean .)
 
 
 state 29
@@ -509,7 +507,6 @@ state 30
 
     (35) type -> ID .
 
-    SEMICOLON       reduce using rule 35 (type -> ID .)
     EQ              reduce using rule 35 (type -> ID .)
     NOT_EQ          reduce using rule 35 (type -> ID .)
     GREATER         reduce using rule 35 (type -> ID .)
@@ -517,12 +514,13 @@ state 30
     LESS            reduce using rule 35 (type -> ID .)
     LESS_EQ         reduce using rule 35 (type -> ID .)
     RPAREN          reduce using rule 35 (type -> ID .)
+    SEMICOLON       reduce using rule 35 (type -> ID .)
 
 
 state 31
 
-    (3) function -> new_scope VOID MAIN LPAREN . params RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> new_scope VOID MAIN LPAREN . params RPAREN LBRACE RBRACE end_scope
+    (3) function -> new_scope VOID MAIN LPAREN . params RPAREN LBRACE expressions RBRACE
+    (4) function -> new_scope VOID MAIN LPAREN . params RPAREN LBRACE RBRACE
     (5) params -> . STR LSQUARE RSQUARE ID
     (6) params -> . empty
     (48) empty -> .
@@ -542,8 +540,8 @@ state 32
 
 state 33
 
-    (3) function -> new_scope VOID MAIN LPAREN params . RPAREN LBRACE expressions RBRACE end_scope
-    (4) function -> new_scope VOID MAIN LPAREN params . RPAREN LBRACE RBRACE end_scope
+    (3) function -> new_scope VOID MAIN LPAREN params . RPAREN LBRACE expressions RBRACE
+    (4) function -> new_scope VOID MAIN LPAREN params . RPAREN LBRACE RBRACE
 
     RPAREN          shift and go to state 36
 
@@ -564,8 +562,8 @@ state 35
 
 state 36
 
-    (3) function -> new_scope VOID MAIN LPAREN params RPAREN . LBRACE expressions RBRACE end_scope
-    (4) function -> new_scope VOID MAIN LPAREN params RPAREN . LBRACE RBRACE end_scope
+    (3) function -> new_scope VOID MAIN LPAREN params RPAREN . LBRACE expressions RBRACE
+    (4) function -> new_scope VOID MAIN LPAREN params RPAREN . LBRACE RBRACE
 
     LBRACE          shift and go to state 38
 
@@ -579,8 +577,8 @@ state 37
 
 state 38
 
-    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE . expressions RBRACE end_scope
-    (4) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE . RBRACE end_scope
+    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE . expressions RBRACE
+    (4) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE . RBRACE
     (7) expressions -> . expressions expression
     (8) expressions -> . expression
     (9) expression -> . constants
@@ -660,7 +658,7 @@ state 41
 
 state 42
 
-    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions . RBRACE end_scope
+    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions . RBRACE
     (7) expressions -> expressions . expression
     (9) expression -> . constants
     (10) expression -> . while
@@ -740,14 +738,10 @@ state 44
 
 state 45
 
-    (4) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE . end_scope
-    (50) end_scope -> . empty
-    (48) empty -> .
+    (4) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE .
 
-    $end            reduce using rule 48 (empty -> .)
+    $end            reduce using rule 4 (function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE .)
 
-    empty                          shift and go to state 58
-    end_scope                      shift and go to state 57
 
 state 46
 
@@ -769,14 +763,14 @@ state 47
 
     (43) print -> WRITELN . LPAREN type RPAREN SEMICOLON
 
-    LPAREN          shift and go to state 59
+    LPAREN          shift and go to state 57
 
 
 state 48
 
     (15) assigned -> ID . ASSIGN type SEMICOLON
 
-    ASSIGN          shift and go to state 60
+    ASSIGN          shift and go to state 58
 
 
 state 49
@@ -811,7 +805,7 @@ state 49
   ! BOOL            [ reduce using rule 9 (expression -> constants .) ]
 
     variable                       shift and go to state 19
-    constant                       shift and go to state 17
+    constant                       shift and go to state 18
     var_type                       shift and go to state 3
 
 state 50
@@ -819,14 +813,14 @@ state 50
     (17) if -> IF . LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
     (18) if -> IF . LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 
-    LPAREN          shift and go to state 61
+    LPAREN          shift and go to state 59
 
 
 state 51
 
     (44) get -> READF . LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
 
-    LPAREN          shift and go to state 62
+    LPAREN          shift and go to state 60
 
 
 state 52
@@ -879,19 +873,15 @@ state 54
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    statement                      shift and go to state 63
-    type                           shift and go to state 64
+    statement                      shift and go to state 61
+    type                           shift and go to state 62
 
 state 55
 
-    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE . end_scope
-    (50) end_scope -> . empty
-    (48) empty -> .
+    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE .
 
-    $end            reduce using rule 48 (empty -> .)
+    $end            reduce using rule 3 (function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE .)
 
-    empty                          shift and go to state 58
-    end_scope                      shift and go to state 65
 
 state 56
 
@@ -911,20 +901,6 @@ state 56
 
 state 57
 
-    (4) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope .
-
-    $end            reduce using rule 4 (function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope .)
-
-
-state 58
-
-    (50) end_scope -> empty .
-
-    $end            reduce using rule 50 (end_scope -> empty .)
-
-
-state 59
-
     (43) print -> WRITELN LPAREN . type RPAREN SEMICOLON
     (32) type -> . NUMBER
     (33) type -> . STRING
@@ -940,9 +916,9 @@ state 59
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    type                           shift and go to state 66
+    type                           shift and go to state 63
 
-state 60
+state 58
 
     (15) assigned -> ID ASSIGN . type SEMICOLON
     (32) type -> . NUMBER
@@ -959,9 +935,9 @@ state 60
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    type                           shift and go to state 67
+    type                           shift and go to state 64
 
-state 61
+state 59
 
     (17) if -> IF LPAREN . statement RPAREN LBRACE new_scope expressions RBRACE
     (18) if -> IF LPAREN . statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
@@ -980,30 +956,30 @@ state 61
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    statement                      shift and go to state 68
-    type                           shift and go to state 64
+    statement                      shift and go to state 65
+    type                           shift and go to state 62
 
-state 62
+state 60
 
     (44) get -> READF LPAREN . gets COMMA AMPERSAND ID RPAREN SEMICOLON
     (45) gets -> . GET_INT
     (46) gets -> . GET_STRING
     (47) gets -> . GET_BOOL
 
-    GET_INT         shift and go to state 71
-    GET_STRING      shift and go to state 70
-    GET_BOOL        shift and go to state 69
+    GET_INT         shift and go to state 68
+    GET_STRING      shift and go to state 67
+    GET_BOOL        shift and go to state 66
 
-    gets                           shift and go to state 72
+    gets                           shift and go to state 69
 
-state 63
+state 61
 
     (16) while -> WHILE LPAREN statement . RPAREN LBRACE new_scope expressions RBRACE
 
-    RPAREN          shift and go to state 73
+    RPAREN          shift and go to state 70
 
 
-state 64
+state 62
 
     (19) statement -> type . logic_op type
     (20) logic_op -> . EQ
@@ -1013,80 +989,73 @@ state 64
     (24) logic_op -> . LESS
     (25) logic_op -> . LESS_EQ
 
-    EQ              shift and go to state 78
-    NOT_EQ          shift and go to state 80
-    GREATER         shift and go to state 76
-    GREATER_EQ      shift and go to state 79
-    LESS            shift and go to state 77
-    LESS_EQ         shift and go to state 74
+    EQ              shift and go to state 75
+    NOT_EQ          shift and go to state 77
+    GREATER         shift and go to state 73
+    GREATER_EQ      shift and go to state 76
+    LESS            shift and go to state 74
+    LESS_EQ         shift and go to state 71
 
-    logic_op                       shift and go to state 75
+    logic_op                       shift and go to state 72
 
-state 65
-
-    (3) function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope .
-
-    $end            reduce using rule 3 (function -> new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope .)
-
-
-state 66
+state 63
 
     (43) print -> WRITELN LPAREN type . RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 81
+    RPAREN          shift and go to state 78
 
 
-state 67
+state 64
 
     (15) assigned -> ID ASSIGN type . SEMICOLON
 
-    SEMICOLON       shift and go to state 82
+    SEMICOLON       shift and go to state 79
 
 
-state 68
+state 65
 
     (17) if -> IF LPAREN statement . RPAREN LBRACE new_scope expressions RBRACE
     (18) if -> IF LPAREN statement . RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 
-    RPAREN          shift and go to state 83
+    RPAREN          shift and go to state 80
 
 
-state 69
+state 66
 
     (47) gets -> GET_BOOL .
 
     COMMA           reduce using rule 47 (gets -> GET_BOOL .)
 
 
-state 70
+state 67
 
     (46) gets -> GET_STRING .
 
     COMMA           reduce using rule 46 (gets -> GET_STRING .)
 
 
-state 71
+state 68
 
     (45) gets -> GET_INT .
 
     COMMA           reduce using rule 45 (gets -> GET_INT .)
 
 
-state 72
+state 69
 
     (44) get -> READF LPAREN gets . COMMA AMPERSAND ID RPAREN SEMICOLON
 
-    COMMA           shift and go to state 84
+    COMMA           shift and go to state 81
 
 
-state 73
+state 70
 
     (16) while -> WHILE LPAREN statement RPAREN . LBRACE new_scope expressions RBRACE
 
-    LBRACE          shift and go to state 85
+    LBRACE          shift and go to state 82
 
 
-state 74
+state 71
 
     (25) logic_op -> LESS_EQ .
 
@@ -1097,7 +1066,7 @@ state 74
     FALSE           reduce using rule 25 (logic_op -> LESS_EQ .)
 
 
-state 75
+state 72
 
     (19) statement -> type logic_op . type
     (32) type -> . NUMBER
@@ -1114,9 +1083,9 @@ state 75
     FALSE           shift and go to state 24
 
     boolean                        shift and go to state 28
-    type                           shift and go to state 86
+    type                           shift and go to state 83
 
-state 76
+state 73
 
     (22) logic_op -> GREATER .
 
@@ -1127,7 +1096,7 @@ state 76
     FALSE           reduce using rule 22 (logic_op -> GREATER .)
 
 
-state 77
+state 74
 
     (24) logic_op -> LESS .
 
@@ -1138,7 +1107,7 @@ state 77
     FALSE           reduce using rule 24 (logic_op -> LESS .)
 
 
-state 78
+state 75
 
     (20) logic_op -> EQ .
 
@@ -1149,7 +1118,7 @@ state 78
     FALSE           reduce using rule 20 (logic_op -> EQ .)
 
 
-state 79
+state 76
 
     (23) logic_op -> GREATER_EQ .
 
@@ -1160,7 +1129,7 @@ state 79
     FALSE           reduce using rule 23 (logic_op -> GREATER_EQ .)
 
 
-state 80
+state 77
 
     (21) logic_op -> NOT_EQ .
 
@@ -1171,14 +1140,14 @@ state 80
     FALSE           reduce using rule 21 (logic_op -> NOT_EQ .)
 
 
-state 81
+state 78
 
     (43) print -> WRITELN LPAREN type RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 87
+    SEMICOLON       shift and go to state 84
 
 
-state 82
+state 79
 
     (15) assigned -> ID ASSIGN type SEMICOLON .
 
@@ -1194,22 +1163,22 @@ state 82
     BOOL            reduce using rule 15 (assigned -> ID ASSIGN type SEMICOLON .)
 
 
-state 83
+state 80
 
     (17) if -> IF LPAREN statement RPAREN . LBRACE new_scope expressions RBRACE
     (18) if -> IF LPAREN statement RPAREN . LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
 
-    LBRACE          shift and go to state 88
+    LBRACE          shift and go to state 85
 
 
-state 84
+state 81
 
     (44) get -> READF LPAREN gets COMMA . AMPERSAND ID RPAREN SEMICOLON
 
-    AMPERSAND       shift and go to state 89
+    AMPERSAND       shift and go to state 86
 
 
-state 85
+state 82
 
     (16) while -> WHILE LPAREN statement RPAREN LBRACE . new_scope expressions RBRACE
     (49) new_scope -> . empty
@@ -1225,17 +1194,17 @@ state 85
     STR             reduce using rule 48 (empty -> .)
     BOOL            reduce using rule 48 (empty -> .)
 
-    new_scope                      shift and go to state 90
+    new_scope                      shift and go to state 87
     empty                          shift and go to state 6
 
-state 86
+state 83
 
     (19) statement -> type logic_op type .
 
     RPAREN          reduce using rule 19 (statement -> type logic_op type .)
 
 
-state 87
+state 84
 
     (43) print -> WRITELN LPAREN type RPAREN SEMICOLON .
 
@@ -1251,7 +1220,7 @@ state 87
     BOOL            reduce using rule 43 (print -> WRITELN LPAREN type RPAREN SEMICOLON .)
 
 
-state 88
+state 85
 
     (17) if -> IF LPAREN statement RPAREN LBRACE . new_scope expressions RBRACE
     (18) if -> IF LPAREN statement RPAREN LBRACE . new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
@@ -1268,17 +1237,17 @@ state 88
     STR             reduce using rule 48 (empty -> .)
     BOOL            reduce using rule 48 (empty -> .)
 
-    new_scope                      shift and go to state 91
+    new_scope                      shift and go to state 88
     empty                          shift and go to state 6
 
-state 89
+state 86
 
     (44) get -> READF LPAREN gets COMMA AMPERSAND . ID RPAREN SEMICOLON
 
-    ID              shift and go to state 92
+    ID              shift and go to state 89
 
 
-state 90
+state 87
 
     (16) while -> WHILE LPAREN statement RPAREN LBRACE new_scope . expressions RBRACE
     (7) expressions -> . expressions expression
@@ -1322,12 +1291,12 @@ state 90
     variable                       shift and go to state 9
     while                          shift and go to state 52
     print                          shift and go to state 44
-    expressions                    shift and go to state 93
+    expressions                    shift and go to state 90
     expression                     shift and go to state 53
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 91
+state 88
 
     (17) if -> IF LPAREN statement RPAREN LBRACE new_scope . expressions RBRACE
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope . expressions RBRACE ELSE LBRACE new_scope expressions RBRACE
@@ -1372,19 +1341,19 @@ state 91
     variable                       shift and go to state 9
     while                          shift and go to state 52
     print                          shift and go to state 44
-    expressions                    shift and go to state 94
+    expressions                    shift and go to state 91
     expression                     shift and go to state 53
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 92
+state 89
 
     (44) get -> READF LPAREN gets COMMA AMPERSAND ID . RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 95
+    RPAREN          shift and go to state 92
 
 
-state 93
+state 90
 
     (16) while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions . RBRACE
     (7) expressions -> expressions . expression
@@ -1410,7 +1379,7 @@ state 93
     (30) var_type -> . STR
     (31) var_type -> . BOOL
 
-    RBRACE          shift and go to state 96
+    RBRACE          shift and go to state 93
     WHILE           shift and go to state 41
     IF              shift and go to state 50
     ID              shift and go to state 48
@@ -1432,7 +1401,7 @@ state 93
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 94
+state 91
 
     (17) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions . RBRACE
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions . RBRACE ELSE LBRACE new_scope expressions RBRACE
@@ -1459,7 +1428,7 @@ state 94
     (30) var_type -> . STR
     (31) var_type -> . BOOL
 
-    RBRACE          shift and go to state 97
+    RBRACE          shift and go to state 94
     WHILE           shift and go to state 41
     IF              shift and go to state 50
     ID              shift and go to state 48
@@ -1481,14 +1450,14 @@ state 94
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 95
+state 92
 
     (44) get -> READF LPAREN gets COMMA AMPERSAND ID RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 98
+    SEMICOLON       shift and go to state 95
 
 
-state 96
+state 93
 
     (16) while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .
 
@@ -1504,7 +1473,7 @@ state 96
     BOOL            reduce using rule 16 (while -> WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
 
 
-state 97
+state 94
 
     (17) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE . ELSE LBRACE new_scope expressions RBRACE
@@ -1519,10 +1488,10 @@ state 97
     INT             reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
     STR             reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
     BOOL            reduce using rule 17 (if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE .)
-    ELSE            shift and go to state 99
+    ELSE            shift and go to state 96
 
 
-state 98
+state 95
 
     (44) get -> READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON .
 
@@ -1538,14 +1507,14 @@ state 98
     BOOL            reduce using rule 44 (get -> READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON .)
 
 
-state 99
+state 96
 
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE . LBRACE new_scope expressions RBRACE
 
-    LBRACE          shift and go to state 100
+    LBRACE          shift and go to state 97
 
 
-state 100
+state 97
 
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE . new_scope expressions RBRACE
     (49) new_scope -> . empty
@@ -1561,10 +1530,10 @@ state 100
     STR             reduce using rule 48 (empty -> .)
     BOOL            reduce using rule 48 (empty -> .)
 
-    new_scope                      shift and go to state 101
+    new_scope                      shift and go to state 98
     empty                          shift and go to state 6
 
-state 101
+state 98
 
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope . expressions RBRACE
     (7) expressions -> . expressions expression
@@ -1608,12 +1577,12 @@ state 101
     variable                       shift and go to state 9
     while                          shift and go to state 52
     print                          shift and go to state 44
-    expressions                    shift and go to state 102
+    expressions                    shift and go to state 99
     expression                     shift and go to state 53
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 102
+state 99
 
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions . RBRACE
     (7) expressions -> expressions . expression
@@ -1639,7 +1608,7 @@ state 102
     (30) var_type -> . STR
     (31) var_type -> . BOOL
 
-    RBRACE          shift and go to state 103
+    RBRACE          shift and go to state 100
     WHILE           shift and go to state 41
     IF              shift and go to state 50
     ID              shift and go to state 48
@@ -1661,7 +1630,7 @@ state 102
     constants                      shift and go to state 49
     if                             shift and go to state 43
 
-state 103
+state 100
 
     (18) if -> IF LPAREN statement RPAREN LBRACE new_scope expressions RBRACE ELSE LBRACE new_scope expressions RBRACE .
 

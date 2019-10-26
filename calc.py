@@ -11,9 +11,6 @@ class Scope(object):
         self.i = 1
         self.path = [1]
 
-def del_scope():
-    scope.i = scope.i - 1
-
 def add_scope():
     scope.i = scope.i + 1
 
@@ -48,6 +45,7 @@ def clear_table():
 
 scope = Scope()
 scope_table = Scope_table()
+
 # -------------------------------------------------------
 #                   LIST OF TOKENS
 # -------------------------------------------------------
@@ -325,11 +323,11 @@ def p_start_constants( p ):
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
 def p_function( p ):
-    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope'
+    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
     p[0] = Function(p[4], p[7])
 
 def p_empty_function( p ):
-    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope'
+    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE'
     p[0] = Function(p[4], [])
     pop_path()
 
@@ -341,9 +339,9 @@ def p_params( p ):
     '''
     p[0] = Args(p[1], p[4])
     entry = {
-        p[0].id : (p[0].type, 'params')
+        p[0].id : ('array', 'str[]', 'params')
     }
-    add_table(get_scope(), entry)
+    add_table(tuple(get_path()), entry)
 
 def p_empty_params( p ):
     '''
@@ -439,7 +437,7 @@ def p_variable( p ):
     '''
     p[0] = Variable(p[1], p[2], p.lineno)
     entry = {
-        p[0].init.id : (p[0].init.expr, p[1])
+        p[0].init.id : (p[0].init.expr, p[1], 'variable')
     }
     add_table(tuple(get_path()), entry)
 
@@ -514,10 +512,17 @@ def p_constant( p ):
     constant :    ENUM init SEMICOLON
     '''
     p[0] = Constant(p[2], p.lineno)
+    type = None
+    if (isinstance(p[0].init.expr, int)):
+        type = 'int'
+    elif (isinstance(p[0].init.expr, str)):
+        type = 'string'
+    elif (p[0].init.expr == 'False' or p[0].init.expr == 'True'):
+        type = 'bool'
     entry = {
-        p[0].init.id : (p[0].init.expr, 'constant')
+        p[0].init.id : (p[0].init.expr, type ,'constant')
     }
-    add_table(get_scope(), entry)
+    add_table(tuple(get_path()), entry)
 
 
 # Rule that states that a print statment starts with the reserved word writeln then a left parenthesis then a different type of value
@@ -560,11 +565,6 @@ def p_new_scope( p ):
     'new_scope : empty'
     add_scope()
     add_to_path()
-
-
-def p_end_scope( p ):
-    'end_scope : empty'
-    del_scope()
 
 # -------------------------------------------------------
 #                   ERROR HANDLERS
