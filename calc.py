@@ -398,7 +398,6 @@ def p_assigned( p ):
         if tuple(path) in scope_table.table:
             if p[1] in scope_table.table[tuple(path)]:
                 temp = scope_table.table[tuple(path)][p[1]]
-                print('OWO ', temp)
                 if temp[1] == 'int':
                     if not isinstance(p[3], int):
                         print('ERROR : Cannot assign "' + str(p[3]) + '" to ' + str(temp[1]))
@@ -415,7 +414,7 @@ def p_assigned( p ):
                 break
         path.pop()
     if exist == False:
-        print('Error: Variable "' +  str(p[1]) + '" was not declared')
+        print('ERROR: Variable "' +  str(p[1]) + '" was not declared')
         exit = True
     if exit == True:
         not_good()
@@ -574,20 +573,21 @@ def p_print( p ):
     print :   WRITELN LPAREN type RPAREN SEMICOLON
     '''
     p[0] = p[3]
-    path = get_path()[:]
-    exist = False
-    exit = False
-    while(path):
-        if tuple(path) in scope_table.table:
-            if p[3] in scope_table.table[tuple(path)]:
-                exist = True
-                break
-        path.pop()
-    if exist == False:
-        print('Error: Variable "' + str(p[3]) + '" was not declared')
-        exit = True
-    if exit == True:
-        not_good()
+    if not (isinstance(p[3], str)) and not (isinstance(p[3], int)):
+        path = get_path()[:]
+        exist = False
+        exit = False
+        while(path):
+            if tuple(path) in scope_table.table:
+                if p[3] in scope_table.table[tuple(path)]:
+                    exist = True
+                    break
+            path.pop()
+        if exist == False:
+            print('ERROR: Variable "' + str(p[3]) + '" was not declared')
+            exit = True
+        if exit == True:
+            not_good()
 
 # Rule that states a get statement wich states that is starts with the reserved word readf followed by a left parenthesis, a string
 # a comma, and ampersand, an id, a right parenthesis and finish with a semicolon
@@ -597,6 +597,33 @@ def p_get( p ):
     get :     READF LPAREN gets COMMA AMPERSAND ID RPAREN SEMICOLON
     '''
     p[0] = Get(p[3], p[6])
+    path = get_path()[:]
+    exist = False
+    exit = False
+    while(path):
+        if tuple(path) in scope_table.table:
+            if p[6] in scope_table.table[tuple(path)]:
+                temp = scope_table.table[tuple(path)][p[6]]
+                if temp[1] == 'int':
+                    if p[3] is not '%i':
+                        print('ERROR: Cannot use "' + str(p[3]) + ' to get an int')
+                        exit = True
+                elif temp[1] is not 'string':
+                    if p[3] != '%s':
+                        print('ERROR: Cannot use "' + str(p[3]) + 'to get a string')
+                        exit = True
+                elif temp[1] is not 'bool':
+                    if p[3] != '%d':
+                        print('ERROR: Cannot use "' + str(p[3]) + 'to get a bool')
+                        exit = True
+                exist = True
+                break
+        path.pop()
+    if exist == False:
+        print('ERROR: Variable "' + str(p[6]) + '" was not declared')
+        exit = True
+    if exit == True:
+        not_good()
 
 def p_gets( p ):
     '''
