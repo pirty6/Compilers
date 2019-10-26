@@ -1,6 +1,7 @@
 /*Un programa sencillo con todas las instrucciones que has definido.*/
 
 enum J = 10;
+enum A = "Hola";
 
 
 void main(string[] args) {

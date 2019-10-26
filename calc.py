@@ -1,7 +1,39 @@
 from ply import lex
 import ply.yacc as yacc
+import pprint as pp
 
+# -------------------------------------------------------
+#                   DEFINE SCOPE CLASS
+# -------------------------------------------------------
 
+class Scope(object):
+    def __init__(self):
+        self.i = 1
+
+def del_scope():
+    scope.i = scope.i - 1
+
+def add_scope():
+    scope.i = scope.i + 1
+
+def get_scope():
+    return scope.i
+
+class Scope_table(object):
+    def __init__(self):
+        self.table = {}
+
+def add_table(scope, data):
+    if scope in scope_table.table:
+        scope_table.table[scope].update(data)
+    else:
+        scope_table.table[scope] = data
+
+def clear_table():
+    scope_table.table.clear()
+
+scope = Scope()
+scope_table = Scope_table()
 # -------------------------------------------------------
 #                   LIST OF TOKENS
 # -------------------------------------------------------
@@ -171,61 +203,21 @@ predecende = (
 # -------------------------------------------------------
 
 class Node:
-    def __init__(self, type, children=None, leaf=None):
-        self.type = type
-        if children:
-            self.children = children
-        else:
-            self.children = [ ]
-        self.leaf = leaf
-
-    def __str__(self, level=0):
-        ret = "\t" * level + repr(self.type)
-        if self.leaf:
-            ret += " => " + self.leaf + "\n"
-        else:
-            ret += "\n"
-
-        for child in self.children:
-            ret += child.__str__(level+1)
-        return ret
+    pass
 
 class ErrorNode(Node):
     pass
 
 class Start(Node):
-    def __init__(self, Function, pos, constants = None):
+    def __init__(self, Function, constants = None):
         self.Function = Function
-        self.pos = pos
         self.constants = constants
 
-class Type(Node):
-    def __init__(self, value):
-        self.value = value
-
-class Integer(Type):
-    pass
-
-class String(Type):
-    pass
-
-class Boolean(Type):
-    pass
-
-class ID(Node):
-    def __init__(self, id, pos):
-        self.id = id
-        self.pos = pos
-
 class Variable(Node):
-    def __init__(self, type, inits, pos):
+    def __init__(self, type, init, pos):
         self.type = type
-        self.inits = inits
+        self.init = init
         self.pos = pos
-
-class InitList(Node):
-    def __init__(self, inits):
-        self.inits = inits
 
 class Init(Node):
     def __init__(self, id, expr):
@@ -243,12 +235,14 @@ class Expressions(Node):
 
 class ConstantList(Node):
     def __init__(self, constants):
+        self.type = 'constants'
         self.constants = constants
 
 class Constant(Node):
-    def __init__(self, inits, pos):
-        self.inits = inits
+    def __init__(self, init, pos):
+        self.type = 'constant'
         self.pos = pos
+        self.init = init
 
 class Statement(Node):
     def __init__(self, left, op, right, pos):
@@ -282,6 +276,7 @@ class Args(Node):
 
 class Assigment(Node):
     def __init__(self, id, expr, pos):
+        self.type = 'assigment'
         self.id = id
         self.expr = expr
         self.pos = pos
@@ -295,27 +290,32 @@ def p_start( p ):
     '''
     start : function
     '''
-    p[0] = Start(p[1], p.lineno)
+    p[0] = Start(p[1])
     print("Successfully Parsed")
+    pp.pprint(vars(scope_table))
+    clear_table()
     pass
 
 def p_start_constants( p ):
     '''
     start :  constants function
     '''
-    p[0] = Start(p[2], p.lineno, p[1])
+
+    p[0] = Start(p[2], p[1])
     print("Successfully Parsed")
+    pp.pprint(vars(scope_table))
+    clear_table()
     pass
 
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
 def p_function( p ):
-    'function : VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
+    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE end_scope'
     p[0] = Function(p[4], p[7])
 
 def p_empty_function( p ):
-    'function : VOID MAIN LPAREN params RPAREN LBRACE RBRACE'
+    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE end_scope'
     p[0] = Function(p[4], [])
 
 # Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
@@ -325,6 +325,10 @@ def p_params( p ):
     params :  STR LSQUARE RSQUARE ID
     '''
     p[0] = Args(p[1], p[4])
+    entry = {
+        p[0].id : (p[0].type, 'params')
+    }
+    add_table(get_scope(), entry)
 
 def p_empty_params( p ):
     '''
@@ -367,20 +371,20 @@ def p_assigned( p ):
 # Rule that defines the while loop, inside the while loop it is possible to have multiple expressions
 def p_while( p ):
     '''
-    while : WHILE LPAREN statement RPAREN LBRACE expressions RBRACE
+    while : WHILE LPAREN statement RPAREN LBRACE  expressions  RBRACE
     '''
     p[0] = While(p[1], p[2], p[6])
 
 # Rule that defines the if statement, this statment can have an else
 def p_if( p ):
     '''
-    if :   IF LPAREN statement RPAREN LBRACE expressions RBRACE
+    if :   IF LPAREN statement RPAREN LBRACE  expressions  RBRACE
     '''
     p[0] = If(p[3], p[6])
 
 def p_if_else( p ):
     '''
-    if :  IF LPAREN statement RPAREN LBRACE expressions RBRACE ELSE LBRACE expressions RBRACE
+    if :  IF LPAREN statement RPAREN LBRACE  expressions RBRACE ELSE LBRACE  expressions  RBRACE
     '''
     p[0] = If(p[3], p[6], p[10])
 
@@ -412,21 +416,13 @@ def p_logic_op( p ):
 # Example: string y;
 def p_variable( p ):
     '''
-    variable :    var_type inits SEMICOLON
+    variable :    var_type init SEMICOLON
     '''
     p[0] = Variable(p[1], p[2], p.lineno)
-
-def p_inits( p ):
-    '''
-    inits : inits COMMA init
-    '''
-    p[0] = InitList(p[1].inits + [p[3]])
-
-def p_inits_single( p ):
-    '''
-    inits : init
-    '''
-    p[0] = InitList([p[1]])
+    entry = {
+        p[0].init.id : (p[0].init.expr, 'variable')
+    }
+    add_table(get_scope(), entry)
 
 def p_init_value( p ):
     '''
@@ -452,29 +448,14 @@ def p_var_type( p ):
 
 # Rule that states the different types of values: number(1,2,5,-5,-7, ...), string("Hello", "", "kd", ...), boolean(true, false)
 # and id(var_x, x, Var_x, ...)
-def p_type_integer( p ):
+def p_type( p ):
     '''
-    type : NUMBER
+    type :    NUMBER
+            | STRING
+            | boolean
+            | ID
     '''
-    p[0] = Integer(p[1])
-
-def p_type_string( p ):
-    '''
-    type : STRING
-    '''
-    p[0] = String(p[1])
-
-def p_type_boolean( p ):
-    '''
-    type : boolean
-    '''
-    p[0] = Boolean(p[1])
-
-def p_type_id( p ):
-    '''
-    type : ID
-    '''
-    p[0] = ID(p[1], p.lineno)
+    p[0] = p[1]
 
 # Rule that defines the only two values in a boolean
 def p_boolean( p ):
@@ -495,6 +476,8 @@ def p_list_constants( p ):
     else:
         p[0] = p[1]
 
+
+
 def p_constants( p ):
     '''
     constants :    constant
@@ -509,9 +492,13 @@ def p_constants( p ):
 # with a semicolon, it also states that constant can be empty
 def p_constant( p ):
     '''
-    constant :    ENUM inits SEMICOLON
+    constant :    ENUM init SEMICOLON
     '''
     p[0] = Constant(p[2], p.lineno)
+    entry = {
+        p[0].init.id : (p[0].init.expr, 'constant')
+    }
+    add_table(get_scope(), entry)
 
 
 # Rule that states that a print statment starts with the reserved word writeln then a left parenthesis then a different type of value
@@ -546,6 +533,22 @@ def p_empty( p ):
     'empty :'
     pass
 
+# -------------------------------------------------------
+#                  SCOPE RULES
+# -------------------------------------------------------
+
+def p_new_scope(t):
+    "new_scope : empty"
+    add_scope()
+
+
+def p_end_scope(t):
+    " end_scope : empty"
+    del_scope()
+
+# -------------------------------------------------------
+#                   ERROR HANDLERS
+# -------------------------------------------------------
 
 def handle_error(self, where, p):
     print("Syntax error in %s at line %d, column %d, at token LexToken(%s, '%s')" %\
@@ -555,6 +558,8 @@ def handle_error(self, where, p):
 def p_error( p ):
     if not p:
         print("Syntax error at EOF")
+
+
 
 
 # Function to give the data from the files to the lexer and then to the yacc
