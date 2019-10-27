@@ -17,6 +17,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     #Test2: Un programa sencillo con un comentario de una linea
     print("Test 2: Comentario de una linea")
@@ -24,6 +25,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test3: Un programa sencillo con la definicion de una variable.
     print("Test 3: Definicion de una variable")
@@ -31,6 +33,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test4: Un programa sencillo con la definicion de una constante.
     print("Test 4: Definicion de una constante")
@@ -38,6 +41,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test5: Un programa sencillo con cadenas.
     print("Test 5: Programa con cadenas")
@@ -45,6 +49,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test6: Un programa sencillo con variables de todos los tipos de datos.
     print("Test 6: Todos los tipos de datos")
@@ -52,6 +57,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test7: Un programa sencillo con un ciclo y una condicional.
     print("Test 7: ciclo y una condicional")
@@ -59,6 +65,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test8: Un programa sencillo con un ciclo y una condicional anidada.
     print("Test 8: ciclo y una condicional anidados")
@@ -66,6 +73,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test9: Un programa sencillo usando las instrucciones de entrada y salida.
     print("Test 9: Instrucciones de entrada y de salida")
@@ -73,6 +81,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test10: Un programa sencillo con todas las instrucciones que has definido.
     print("Test 10: Todas las instrucciones definidas")
@@ -80,6 +89,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
 # -------------------------------------------------------
 #                       FAILING TESTS
@@ -92,12 +102,14 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     print("Test 12: Varible en el orden incorrecto.")
     f = open('./Tests/Test12.d', 'r')
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test13: Un programa sencillo que utiliza una cadena, variable y constante en un lugar que no esta permitido.
     print("Test 13: Cadena en un lugar no permitido")
@@ -105,6 +117,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test14: Un programa sencillo con un ciclo definido pero usando una gramatica incorrecta.
     print("Test 14: Ciclo definido pero usando gramatica incorrecta")
@@ -112,6 +125,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test15: Un programa sencillo que defina a una constante en el lugar incorrecto.
     print("Test 15: Constante en el lugar incorrecto")
@@ -119,6 +133,7 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test16: Asignar el valor a una variable que no corresponde con su tipo.
     print("Test 16: Asignar el valor a una variable que no corresponde con su tipo.")
@@ -126,9 +141,11 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")
 
     # Test18: Llamar un metodo usando una clase que no contenga tal metodo
     print("Test 17: no aplica porque no es un paradigma orientado a objetos")
+    print("\n")
 
     # Test19: Usar una variable a fuera de su alcance
     print("Test 18: Usar una variable fuera de su alcance")
@@ -136,3 +153,4 @@ if __name__ == "__main__":
     data = f.read()
     f.close()
     calc.process(data)
+    print("\n")

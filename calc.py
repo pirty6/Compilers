@@ -235,7 +235,7 @@ def t_error( t ):
   print("Illegal character '{0}' at line {1}" .format(t.value[0], t.lineno))
   t.lexer.skip( 1 )
 
-
+# Create lexer
 lexer = lex.lex()
 
 # -------------------------------------------------------
@@ -250,9 +250,6 @@ predecende = (
     ('nonassoc', 'EQ', 'NOT_EQ', 'LESS_EQ', 'GREATER_EQ'),
 )
 
-
-
-
 # -------------------------------------------------------
 #                      CLASSES
 # -------------------------------------------------------
@@ -263,13 +260,6 @@ class Node(object):
 
     def printTree(self, l):
         raise Exception('printTree not defined in class ' + self.__class__.__name__)
-
-class ErrorNode(Node):
-    def __init__(self, error):
-        self.error = error
-
-    def printTree(self, l):
-        tprint(l, 'ERROR')
 
 # Class that will define the Start
 class Start(Node):
@@ -442,6 +432,7 @@ class Write(Node):
         tprint(l, 'WRITELN')
         tprint(l + 1, str(self.id))
 
+# Basic function to print the nodes of the tree
 def tprint(l, s):
     print('| ' * l + s)
 
@@ -518,7 +509,6 @@ def p_empty_params( p ):
     '''
     # Return nothing
     p[0] = Args([], [])
-
 
 
 # Recursive rule that defines that an expression can have at least one expression or multiple expressions
@@ -956,14 +946,15 @@ def p_new_scope( p ):
 # Error handler for when it passed the lexer but failed at the grammatic rules
 def p_error( p ):
     not_good()
-    if not p: # Critical error
+    if not p: # Critical error eof reached
         print("Unexpected end of file")
         #return
     else:
         print("Syntax error at line {0}" .format(p.lineno))
+        # Enter recovery mode and search for known tokens
         parser.errok()
-        pass
 
+# Crete parser
 parser = yacc.yacc()
 
 # Function to give the data from the files to the lexer and then to the yacc
