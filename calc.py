@@ -24,6 +24,13 @@ def add_scope():
 def get_scope():
     return scope.i
 
+# Function that will reset all the variables to the class Scope in order to test
+# more than 1 test case consecutively
+def reset_scope():
+    scope.i = 1
+    scope.path = [1]
+    scope.good = True
+
 # Function that will say that there were errors on the program
 def not_good():
     scope.good = False
@@ -59,6 +66,10 @@ def add_table(scope, data):
     else:
         scope_table.table[scope] = data
 
+# Function to clear the symbols table
+def clear_table():
+    scope_table.table.clear()
+
 # Initialize classes
 scope = Scope()
 scope_table = Scope_table()
@@ -75,7 +86,9 @@ def check_variable(path, x, y, z, p):
             if x in scope_table.table[tuple(path)]: # Check if the variable we are looking for is in that scope
                 exist = True # If it exist
                 temp = scope_table.table[tuple(path)][x]
-                if temp[1] == y or temp[1] == z: # Check the type of variable and verify that the other side of the statement
+                if temp == 'function':
+                    print('ERROR: Cannot use void function "' + str(x) + '" as a comparator')
+                elif temp[1] == y or temp[1] == z: # Check the type of variable and verify that the other side of the statement
                 # is the same type as the variable if not throw an error
                     print('ERROR: Incompatible types between "' + str(x) + '" and ' + str(p) + '"')
                 break
@@ -97,7 +110,6 @@ reserved = {
     'enum'      : 'ENUM',
     'if'        : 'IF',
     'int'       : 'INT',
-    'main'      : 'MAIN',
     'readf'     : 'READF',
     'string'    : 'STR',
     'void'      : 'VOID',
@@ -264,8 +276,8 @@ class Node(object):
 # Class that will define the Start
 class Start(Node):
     # Start is composed of constants that can be empty and a function that will be the main
-    def __init__(self, Function, constants = None):
-        self.Function = Function
+    def __init__(self, functions, constants = None):
+        self.functions = functions
         self.constants = constants
 
     def printTree(self, l):
@@ -273,7 +285,23 @@ class Start(Node):
         print('|')
         if self.constants:
             self.constants.printTree(l + 1)
-        self.Function.printTree(l + 1)
+        self.functions.printTree(l + 1)
+
+class Functions(Node):
+    def __init__(self, functions):
+        self.functions = functions
+
+    def printTree(self, l):
+        for function in self.functions:
+            function.printTree(l)
+
+class Call(Node):
+    def __init__(self, id):
+        self.id = id
+
+    def printTree(self, l):
+        tprint(l, 'CALL')
+        tprint(l + 1, str(self.id))
 
 # Class that defines a variable
 class Variable(Node):
@@ -300,15 +328,17 @@ class Init(Node):
 
 # Class that defines the function, which takes parameters and an expression
 class Function(Node):
-    def __init__(self, params, expression):
+    def __init__(self, id, params, expression):
+        self.id = id
         self.params = params
         self.expression = expression
 
     def printTree(self, l):
         tprint(l, 'FUNCTION')
-        self.params.printTree(l + 1)
+        tprint(l + 1, str(self.id))
+        self.params.printTree(l + 2)
         if self.expression != []:
-            self.expression.printTree(l + 1)
+            self.expression.printTree(l + 2)
 
 # Class that defines an expression which can consist of one or more expressions
 class Expressions(Node):
@@ -443,7 +473,7 @@ def tprint(l, s):
 # Starting rule for when there are no constants
 def p_start( p ):
     '''
-    start : function
+    start : functions
     '''
     p[0] = Start(p[1])
     p[0].printTree(0)
@@ -456,9 +486,8 @@ def p_start( p ):
 # Starting rule for when there are constants
 def p_start_constants( p ):
     '''
-    start :  constants function
+    start :  constants functions
     '''
-
     p[0] = Start(p[2], p[1])
     p[0].printTree(0)
     #pp.pprint(vars(scope_table))
@@ -467,24 +496,43 @@ def p_start_constants( p ):
         # Print success message
         print("Successfully Parsed")
 
+def p_list_functions( p ):
+    '''
+    functions :    functions function
+    '''
+    p[0] = Functions(p[1].functions + [p[2]])
+
+def p_functions( p ):
+    '''
+    functions : function
+    '''
+    p[0] = Functions([p[1]])
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
 # and inside the main an expression
 # Rule that defines a function with an expression
 def p_function( p ):
     # At the start of the rule a new scope is added and added to the current stack
-    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
-    p[0] = Function(p[5], p[8])
-    # After parsing the function rule pop the stack to return to the previous scope
+    'function : new_scope VOID ID LPAREN params RPAREN LBRACE expressions RBRACE'
     pop_path()
+    p[0] = Function(p[3], p[5], p[8])
+    entry = {
+        p[3] : ('function')
+    }
+    add_table(tuple(get_path()), entry)
+    # After parsing the function rule pop the stack to return to the previous scope
 
 # Rule that defines a function withouth an expression inside
 def p_empty_function( p ):
     # At the start of the rule a new scope is added and added to the current stack
-    'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE'
-    p[0] = Function(p[5], [])
+    'function :  new_scope VOID ID LPAREN params RPAREN LBRACE RBRACE'
+    p[0] = Function(p[3], p[5], [])
+    entry = {
+        p[3] : ('function')
+    }
+    add_table(tuple(get_path()), entry)
     # After parsing the function rule pop the stack to return to the previous scope
-    pop_path()
+    #pop_path()
 
 # Rule that defines the parameters that are passed to the main function, they can be empty or string[] args
 # where args can be any name
@@ -536,8 +584,31 @@ def p_expression( p ):
                  | assigned
                  | print
                  | get
+                 | call
     '''
     p[0] = p[1]
+
+
+# Rule that states how to call a void function
+def p_call( p ):
+    '''
+    call : ID LPAREN RPAREN SEMICOLON
+    '''
+    p[0] = Call(p[1])
+    # Check if the ID we are calling exists and it is not a variable
+    exist = False
+    path = get_path()[:]
+    while(path):
+        if tuple(path) in scope_table.table:
+            if p[1] in scope_table.table[tuple(path)]:
+                temp = scope_table.table[tuple(path)][p[1]]
+                if temp == 'function': # It it exist check if it is a function
+                    exist = True
+                break
+        path.pop()
+    if exist == False:
+        print('ERROR: There is not a function called "' + str(p[1]) + '"')
+        not_good()
 
 # Rule that defines an assigment to an existing variable
 def p_assigned( p ):
@@ -554,7 +625,9 @@ def p_assigned( p ):
             if p[1] in scope_table.table[tuple(path)]: # If it does check if that entry contains the id that we are assigning
                 temp = scope_table.table[tuple(path)][p[1]] #If it does check the type of variable that it is
                 # Check if we are assigning the correct value according to the type of the variable if not print an error and declare that the parsing was not succesful
-                if temp[1] == 'int':
+                if temp == 'function':
+                        print('ERROR: Cannot assign value "' + str(p[3]) +'" to function "' + str(p[1]) + '"')
+                elif temp[1] == 'int':
                     if not isinstance(p[3], int):
                         print('ERROR : Cannot assign "' + str(p[3]) + '" to ' + str(temp[1]))
                         exit = True
@@ -710,7 +783,10 @@ def p_statement( p ):
                 if p[1] in scope_table.table[tuple(path1)]: # Check if p[1] is in the current scope
                     exist1 = True # If it exist get the type of variable that it is in type1
                     temp = scope_table.table[tuple(path1)][p[1]]
-                    type1 = temp[1]
+                    if temp == 'function':
+                        print('ERROR: Cannot use void function "' + str(p[1]) + '" as a comparator')
+                    else:
+                        type1 = temp[1]
                     break # Exit while loop
             path1.pop() # If the p[1] was not found in the current scope try in the parent scope
         if exist1 == False: # If p[1] was not found throw an error
@@ -722,7 +798,10 @@ def p_statement( p ):
                     if p[3] in scope_table.table[tuple(path2)]: # Check if p[3] is in the current scope
                         exist2 = True # If it exist get the type of variable that p[3] is in type2
                         temp = scope_table.table[tuple(path2)][p[3]]
-                        type2 = temp[1]
+                        if temp == 'function':
+                            print('ERROR: Cannot use void function "' + str(x) + '" as a comparator')
+                        else:
+                            type2 = temp[1]
                         break # Exit while loop
                 path2.pop() # If p[3] was not found in the current scope try parent scope
             if exist2 == False: # If p[3] was not found in any scope throw error
@@ -966,4 +1045,7 @@ def process(data):
     #       break      # No more input
     #    print(tok)
     parser.parse(data)
+    # Restart everything
     parser.restart()
+    reset_scope()
+    clear_table()
