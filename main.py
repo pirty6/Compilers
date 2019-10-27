@@ -144,7 +144,11 @@ if __name__ == "__main__":
     print("\n")
 
     # Test18: Llamar un metodo usando una clase que no contenga tal metodo
-    print("Test 17: no aplica porque no es un paradigma orientado a objetos")
+    print("Test 17: Llamar una funcion que no exista")
+    f = open('./Tests/Test18.d', 'r')
+    data = f.read()
+    f.close()
+    calc.process(data)
     print("\n")
 
     # Test19: Usar una variable a fuera de su alcance
