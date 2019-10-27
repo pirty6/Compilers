@@ -264,8 +264,17 @@ predecende = (
 # -------------------------------------------------------
 
 # Base class of a Node
-class Node:
+class Node(object):
     pass
+
+    def printTree(self, l):
+        raise Exception('printTree not defined in class ' + self.__class__.__name__)
+
+class ErrorNode(Node):
+    pass
+
+    def printTree(self, l):
+        tprint(l, 'ERROR')
 
 # Class that will define the Start
 class Start(Node):
@@ -273,6 +282,13 @@ class Start(Node):
     def __init__(self, Function, constants = None):
         self.Function = Function
         self.constants = constants
+
+    def printTree(self, l):
+        print('START')
+        print('|')
+        if self.constants:
+            self.constants.printTree(l + 1)
+        self.Function.printTree(l + 1)
 
 # Class that defines a variable
 class Variable(Node):
@@ -282,11 +298,20 @@ class Variable(Node):
         self.init = init
         self.pos = pos
 
+    def printTree(self, l):
+        tprint(l, str(self.type))
+        self.init.printTree(l + 1)
+
 # Class that defines an Init which is an id and an expression (a = 3)
 class Init(Node):
     def __init__(self, id, expr):
         self.id = id
         self.expr = expr
+
+    def printTree(self, l):
+        tprint(l, '=')
+        tprint(l + 1, self.id)
+        tprint(l + 1, str(self.expr))
 
 # Class that defines the function, which takes parameters and an expression
 class Function(Node):
@@ -294,10 +319,19 @@ class Function(Node):
         self.params = params
         self.expression = expression
 
+    def printTree(self, l):
+        self.params.printTree(l)
+        if self.expression != []:
+            self.expression.printTree(l)
+
 # Class that defines an expression which can consist of one or more expressions
 class Expressions(Node):
     def __init__(self, expressions):
         self.expressions = expressions
+
+    def printTree(self, l):
+        for expression in self.expressions:
+            expression.printTree(l)
 
 # Class that defines a list of constants that receive the constants
 class ConstantList(Node):
@@ -305,12 +339,20 @@ class ConstantList(Node):
         self.type = 'constants'
         self.constants = constants
 
+    def printTree(self, l):
+        for constant in self.constants:
+            constant.printTree(l)
+
 # Class that defines a constant using an Init object
 class Constant(Node):
     def __init__(self, init, pos):
         self.type = 'constant'
         self.pos = pos
         self.init = init
+
+    def printTree(self, l):
+        tprint(l, 'CONSTANT')
+        self.init.printTree(l + 1)
 
 # Class that defines an stament such as x == 1
 # where x is the left == is the op and 1 is the right
@@ -321,12 +363,22 @@ class Statement(Node):
         self.right = right
         self.pos = pos
 
+    def printTree(self, l):
+        tprint(l, self.op)
+        tprint(l + 1, str(self.left))
+        tprint(l + 1, str(self.right))
+
 # Class that defines a while loop, using the condition (x < 1) and the instructions (x = 2;)
 class While(Node):
     def __init__(self, kw, cond, instr):
         self.keyword = kw
         self.cond = cond
         self.instr = instr
+
+    def printTree(self, l):
+        tprint(l, self.keyword.upper())
+        self.cond.printTree(l + 1)
+        self.instr.printTree(l + 1)
 
 # Class that defines an If that takes as paramenters a Statement object (x == 1)
 # The instructions of the if and the instructions for the else segment which as set as
@@ -337,17 +389,38 @@ class If(Node):
         self.ithen = ithen
         self.ielse = ielse
 
+    def printTree(self, l):
+        tprint(l, 'IF')
+        self.cond.printTree(l + 1)
+
+        tprint(l + 1, 'THEN')
+        self.ithen.printTree(l + 2)
+
+        if self.ielse:
+            tprint(l + 1, 'ELSE')
+            self.ielse.printTree(l + 2)
+
 # Class that defines a writeln("%i", &x) where x is the id and "%i" is the type
 class Get(Node):
     def __init__(self, type, id):
         self.type = type
         self.id = id
 
+    def printTree(self, l):
+        tprint(l, 'READF')
+        tprint(l + 1, str(self.id))
+
 # Class that defines the parameters
 class Args(Node):
     def __init__(self, type, id):
         self.type = type
         self.id = id
+
+    def printTree(self, l):
+        if self.type != []:
+            tprint(l, 'ARG')
+            tprint(l + 1, self.type)
+            tprint(l + 1, self.id)
 
 # Class that defines an assigment (x = 2) where x is the id and 2 is the expr
 class Assigment(Node):
@@ -356,6 +429,24 @@ class Assigment(Node):
         self.id = id
         self.expr = expr
         self.pos = pos
+
+    def printTree(self, l):
+        tprint(l, 'ASSIGMENT')
+        tprint(l + 1, '=')
+        tprint(l + 2, self.id)
+        tprint(l + 2, str(self.expr))
+
+class Write(Node):
+    def __init__(self, id):
+        self.type = 'writeln'
+        self.id = id
+
+    def printTree(self, l):
+        tprint(l, 'WRITELN')
+        tprint(l + 1, str(self.id))
+
+def tprint(l, s):
+    print('| ' * l + s)
 
 # -------------------------------------------------------
 #                   RULES
@@ -367,6 +458,7 @@ def p_start( p ):
     start : function
     '''
     p[0] = Start(p[1])
+    p[0].printTree(0)
     #pp.pprint(vars(scope_table))
     # If after parsing the code everything was good
     if get_good():
@@ -383,6 +475,7 @@ def p_start_constants( p ):
     '''
 
     p[0] = Start(p[2], p[1])
+    p[0].printTree(0)
     #pp.pprint(vars(scope_table))
     # If after the parsing the code everything was good
     if get_good():
@@ -399,7 +492,7 @@ def p_start_constants( p ):
 def p_function( p ):
     # At the start of the rule a new scope is added and added to the current stack
     'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE expressions RBRACE'
-    p[0] = Function(p[4], p[7])
+    p[0] = Function(p[5], p[8])
     # After parsing the function rule pop the stack to return to the previous scope
     pop_path()
 
@@ -407,7 +500,7 @@ def p_function( p ):
 def p_empty_function( p ):
     # At the start of the rule a new scope is added and added to the current stack
     'function : new_scope VOID MAIN LPAREN params RPAREN LBRACE RBRACE'
-    p[0] = Function(p[4], [])
+    p[0] = Function(p[5], [])
     # After parsing the function rule pop the stack to return to the previous scope
     pop_path()
 
@@ -432,7 +525,7 @@ def p_empty_params( p ):
     params : empty
     '''
     # Return nothing
-    p[0] = []
+    p[0] = Args([], [])
 
 # Recursive rule that defines that an expression can have at least one expression or multiple expressions
 # Rule that defines more than one expression
@@ -505,7 +598,7 @@ def p_while( p ):
     '''
     while : WHILE LPAREN statement RPAREN LBRACE new_scope expressions RBRACE
     '''
-    p[0] = While(p[1], p[2], p[7])
+    p[0] = While(p[1], p[3], p[7])
     # Return to the previous scope (parent)
     pop_path()
 
@@ -784,7 +877,7 @@ def p_print( p ):
     '''
     print :   WRITELN LPAREN type RPAREN SEMICOLON
     '''
-    p[0] = p[3]
+    p[0] = Write(p[3])
     # Check that the value is not a string, a boolean or an int, if it is not any of those values then it is an id and validation should take place
     if not (str(p[3]).startswith('"') and str(p[3]).endswith('"')) and not (isinstance(p[3], int)):
         path = get_path()[:] # Get the current path
@@ -876,9 +969,10 @@ def p_error( p ):
         print("Syntax error at EOF")
     else :
         print("Syntax error at line {0}" .format(p.lineno))
+    pass
     # Reset everything to start again
-    clear_table()
-    reset_scope()
+    #clear_table()
+    #reset_scope()
 
 
 
@@ -893,3 +987,5 @@ def process(data):
     #    print(tok)
     parser = yacc.yacc()
     parser.parse(data)
+    clear_table()
+    reset_scope()
