@@ -2,5 +2,8 @@
 
 void main() {
   int a;
+  readf("%i", &x);
   a = "hello";
+  writeln(res);
+
 }

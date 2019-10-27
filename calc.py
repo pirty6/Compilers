@@ -173,7 +173,6 @@ def t_GET_BOOL( t ):
 
 def t_STRING(t):
     r'"[^\n]*?(?<!\\)"' #regex to match everything that is surrounded by ""
-    t.value = t.value[1:-1]
     return t
 
 def t_newline( t ):
@@ -513,6 +512,7 @@ def p_type( p ):
     '''
     p[0] = p[1]
 
+
 # Rule that defines the only two values in a boolean
 def p_boolean( p ):
     '''
@@ -573,7 +573,7 @@ def p_print( p ):
     print :   WRITELN LPAREN type RPAREN SEMICOLON
     '''
     p[0] = p[3]
-    if not (isinstance(p[3], str)) and not (isinstance(p[3], int)):
+    if not (str(p[3]).startswith('"') and str(p[3]).endswith('"')) and not (isinstance(p[3], int)):
         path = get_path()[:]
         exist = False
         exit = False
