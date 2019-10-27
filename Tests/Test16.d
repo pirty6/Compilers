@@ -2,8 +2,7 @@
 
 void main() {
   int a;
-  readf("%i", &x);
+  readf("%d", &a);
   a = "hello";
-  writeln(res);
 
 }

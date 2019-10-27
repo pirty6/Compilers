@@ -125,7 +125,9 @@ if __name__ == "__main__":
     f.close()
     calc.process(data)
 
-    print("Test 17: Usar una variable fuera de su alcance")
+    print("Test 17 no aplica porque no es un paradigma orientado a objetos")
+
+    print("Test 18: Usar una variable fuera de su alcance")
     f = open('./Tests/Test17.d', 'r')
     data = f.read()
     f.close()
