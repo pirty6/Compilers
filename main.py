@@ -113,20 +113,24 @@ if __name__ == "__main__":
     f.close()
     calc.process(data)
 
+    # Test15: Un programa sencillo que defina a una constante en el lugar incorrecto.
     print("Test 15: Constante en el lugar incorrecto")
     f = open('./Tests/Test15.d', 'r')
     data = f.read()
     f.close()
     calc.process(data)
 
+    # Test16: Asignar el valor a una variable que no corresponde con su tipo.
     print("Test 16: Asignar el valor a una variable que no corresponde con su tipo.")
     f = open('./Tests/Test16.d', 'r')
     data = f.read()
     f.close()
     calc.process(data)
 
+    # Test18: Llamar un metodo usando una clase que no contenga tal metodo
     print("Test 17 no aplica porque no es un paradigma orientado a objetos")
 
+    # Test19: Usar una variable a fuera de su alcance
     print("Test 18: Usar una variable fuera de su alcance")
     f = open('./Tests/Test17.d', 'r')
     data = f.read()
