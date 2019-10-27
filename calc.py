@@ -74,6 +74,28 @@ def clear_table():
 scope = Scope()
 scope_table = Scope_table()
 
+# Function that checks if a variable exists and if it is the same type as a given statement
+# For example (a == 10)
+# Where x is a y and z are the uncompatible types and p is 10
+# This function is used in the statement rule
+def check_variable(path, x, y, z, p):
+    exist = False
+    exit = False
+    while(path): # Meanwhile the stack of scopes is not empty
+        if tuple(path) in scope_table.table: # Check if the current scope is in the table
+            if x in scope_table.table[tuple(path)]: # Check if the variable we are looking for is in that scope
+                exist = True # If it exist
+                temp = scope_table.table[tuple(path)][x]
+                if temp[1] == y or temp[1] == z: # Check the type of variable and verify that the other side of the statement
+                # is the same type as the variable if not throw an error
+                    print('ERROR: Incompatible types between "' + str(x) + '" and ' + str(p) + '"')
+                break
+        path.pop() # If the variable was not found check in the parent scope
+    if exist == False: # The variable does not exist throw an error
+        print('ERROR: Variable "' + str(x) + '" was not declared')
+        exit = True
+    return exit # Returns if the program has an error or not
+
 # -------------------------------------------------------
 #                   LIST OF TOKENS
 # -------------------------------------------------------
@@ -517,6 +539,125 @@ def p_statement( p ):
     statement :   type logic_op type
     '''
     p[0] = Statement(p[1], p[2], p[3], p.lineno)
+    exit = False
+    # Check if any of the values is a string
+    if (str(p[1]).startswith('"') and str(p[1]).endswith('"')) or (str(p[3]).startswith('"') and str(p[3]).endswith('"')):
+        # Both sides are a string therefore the expression is correct
+        if (str(p[1]).startswith('"') and str(p[1]).endswith('"')) and (str(p[3]).startswith('"') and str(p[3]).endswith('"')):
+            pass
+        elif str(p[1]).startswith('"') and str(p[1]).endswith('"'): # left is the string
+            if p[3] == True or p[3] == False or isinstance(p[3], int): # If the right value is an int or a boolean throw error
+                print('ERROR: Incompatible types between "' + str(p[1]) + '" and "' + str(p[3]) + '"')
+                exit = True
+            else: # If not then the right value is a variable and we should check if it exists
+                path = get_path()[:]
+                temp_exit = check_variable(path, p[3], 'int', 'bool', p[1])
+                if temp_exit:
+                    exit = True
+        elif (str(p[3]).startswith('"') and str(p[3]).endswith('"')): #right is the string
+            if p[1] == True or p[1] == False or isinstance(p[1], int): #If the left value is an int or a boolean value throw error
+                 print('ERROR: Incompatible types between "' + str(p[1]) + '" and "' + str(p[3]) + '"')
+                 exit = True
+            # If that is not then the left value is a variable and we should check if it exists
+            else:
+                path = get_path()[:]
+                temp_exit = check_variable(path, p[1], 'int', 'bool', p[3])
+                if temp_exit:
+                    exit = True
+    elif (isinstance(p[1], bool) or isinstance(p[3], bool)): # If one side is a true or false statement
+        #if both sides are a true or false statment then it is a correct statement
+        if (isinstance(p[1], bool) and isinstance(p[3], bool)):
+            pass
+        elif (isinstance(p[1], bool)):
+            # The left side is a true or false statement
+            if (isinstance(p[3], int)) or (str(p[3]).startswith('"') and str(p[3]).endswith('"')):
+                # If the right side is an integer or a string throw an error
+                print('ERROR: Incompatible types between "' + str(p[1]) + '" and "' + str(p[3]) + '"')
+                exit = True
+            else: #If not then the right side is a variable and we should check if it exists and if it is a boolean type
+                path = get_path()[:]
+                temp_exit = check_variable(path, p[3], 'int', 'string', p[1])
+                if temp_exit:
+                    exit = True
+        elif (isinstance(p[3], bool)):
+            # The right side is a true or false statement
+            if (isinstance(p[1], int)) or (str(p[1]).startswith('"') and str(p[1]).endswith('"')):
+                # If the left side is an integer or a string throw an error
+                print('ERROR: Incompatible types between "' + str(p[1]) + '" and "' + str(p[3]) + '"')
+                exit = True
+            else:
+                #If not then the left side is a variable and we should check if it exists and if it is a boolean type
+                path = get_path()[:]
+                temp_exit = check_variable(path, p[1], 'int', 'string', p[3])
+                if temp_exit:
+                    exit = True
+    elif (isinstance(p[1], int) or isinstance(p[3], int)):
+        # If one side is a number
+        if isinstance(p[1], int) and isinstance(p[3], int):
+            # Both sides are an int therefore it is correct
+            pass
+        elif (isinstance(p[1], int)):
+            # The left side is an integer
+            if (isinstance(p[3], bool) or (str(p[3]).startswith('"') and str(p[3]).endswith('"'))):
+                # If the right side is a string or a boolean throw an error
+                print('ERROR: Incompatible types between "' + str(p[1]) + '" and "' + str(p[3]) + '"')
+                exit = True
+            else:
+                # If not then the right side is a variable and we should check if it exists and if it is an integer type
+                path = get_path()[:]
+                temp_exit = check_variable(path, p[3], 'string', 'bool', p[1])
+                if temp_exit:
+                    exit = True
+        elif isinstance(p[3], int):
+            # The right side is an integer
+            if isinstance(p[1], bool) or (str(p[1]).startswith('"') and str(p[1]).endswith('"')):
+                # If the left side is a boolean or a string throw an error
+                print('ERROR: Incompatible types between "' + str(p[1]) + '" and "' + str(p[3]) + '"')
+                exit = True
+            else:
+                #If not then the left side is a variable and we should check if it exists and if it is an integer type
+                path = get_path()[:]
+                temp_exit = check_variable(path, p[1], 'string', 'bool', p[3])
+                if temp_exit:
+                    exit = True
+    else:
+        # Both sides are a variable so we need to check if both exist and are the same type
+        exist1 = False
+        exist2 = False
+        path1 = get_path()[:] # Get the path of p[1]
+        path2 = get_path()[:] # Get the path of p[3]
+        type1 = None
+        type2 = None
+        while(path1): # Meanwhile the path for p[1] is not empty
+            if tuple(path1) in scope_table.table: # Check if the current scope is in the table
+                if p[1] in scope_table.table[tuple(path1)]: # Check if p[1] is in the current scope
+                    exist1 = True # If it exist get the type of variable that it is in type1
+                    temp = scope_table.table[tuple(path1)][p[1]]
+                    type1 = temp[1]
+                    break # Exit while loop
+            path1.pop() # If the p[1] was not found in the current scope try in the parent scope
+        if exist1 == False: # If p[1] was not found throw an error
+            print('ERROR: Variable "' + str(p[1]) + '" was not declared')
+            exit = True
+        else: # p[1] was found, now search for p[3]
+            while(path2): # Meanwhile the path for p[3] is not empty
+                if tuple(path2) in scope_table.table: # Check if the current scope is in the table
+                    if p[3] in scope_table.table[tuple(path2)]: # Check if p[3] is in the current scope
+                        exist2 = True # If it exist get the type of variable that p[3] is in type2
+                        temp = scope_table.table[tuple(path2)][p[3]]
+                        type2 = temp[1]
+                        break # Exit while loop
+                path2.pop() # If p[3] was not found in the current scope try parent scope
+            if exist2 == False: # If p[3] was not found in any scope throw error
+                print('ERROR: Variable "' + str(p[3]) + '" was not declared')
+                exit = True
+        if type1 != None and type2 != None: # If both variables were found
+            if type1 != type2: # If p[1] and p[3] types are different throw an error
+                    print('ERROR: Incompatible types between "' + str(p[1]) + '" and ' + str(p[3]) + '"')
+                    exit = True
+    if exit: # The program was not good and had errors
+        not_good()
+
 
 # Rule that states the possible value for the logical operator
 def p_logic_op( p ):

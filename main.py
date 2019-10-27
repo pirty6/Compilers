@@ -128,7 +128,7 @@ if __name__ == "__main__":
     calc.process(data)
 
     # Test18: Llamar un metodo usando una clase que no contenga tal metodo
-    print("Test 17 no aplica porque no es un paradigma orientado a objetos")
+    print("Test 17: no aplica porque no es un paradigma orientado a objetos")
 
     # Test19: Usar una variable a fuera de su alcance
     print("Test 18: Usar una variable fuera de su alcance")

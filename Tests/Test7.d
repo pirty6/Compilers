@@ -2,6 +2,7 @@
 
 void main() {
 int a = 0;
+int x = 10;
   while(x > 5) {
     int b = 10;
     a = 5;

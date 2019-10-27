@@ -5,7 +5,7 @@ enum A = "Hola";
 
 
 void main(string[] args) {
-  int a;
+  int a = 10;
   readf("%i", &a);
   bool b = true;
   string c;

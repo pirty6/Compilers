@@ -4,6 +4,7 @@ void main() {
   int num1 = 1;
   int num2 = 2;
   int num = num1;
+  bool p = false;
 
   if(num1 > num2) {
     int result = nums1;
@@ -11,6 +12,9 @@ void main() {
     writeln(result);
   } else {
     int result = num2;
+  }
+  if(num1 == ok) {
+    writeln("HOLA");
   }
   writeln(result);
   readf("%i", &x);
