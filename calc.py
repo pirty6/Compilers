@@ -24,13 +24,6 @@ def add_scope():
 def get_scope():
     return scope.i
 
-# Function that will reset all the variables to the class Scope in order to test
-# more than 1 test case consecutively
-def reset_scope():
-    scope.i = 1
-    scope.path = [1]
-    scope.good = True
-
 # Function that will say that there were errors on the program
 def not_good():
     scope.good = False
@@ -66,10 +59,6 @@ def add_table(scope, data):
     else:
         scope_table.table[scope] = data
 
-# Function to clear all the entries in the table to be able to use it again
-def clear_table():
-    scope_table.table.clear()
-
 # Initialize classes
 scope = Scope()
 scope_table = Scope_table()
@@ -95,6 +84,7 @@ def check_variable(path, x, y, z, p):
         print('ERROR: Variable "' + str(x) + '" was not declared')
         exit = True
     return exit # Returns if the program has an error or not
+
 
 # -------------------------------------------------------
 #                   LIST OF TOKENS
@@ -246,6 +236,8 @@ def t_error( t ):
   t.lexer.skip( 1 )
 
 
+lexer = lex.lex()
+
 # -------------------------------------------------------
 #                      PRECEDENCE
 # -------------------------------------------------------
@@ -257,6 +249,8 @@ predecende = (
     ('right', 'EQUALS'),
     ('nonassoc', 'EQ', 'NOT_EQ', 'LESS_EQ', 'GREATER_EQ'),
 )
+
+
 
 
 # -------------------------------------------------------
@@ -271,7 +265,8 @@ class Node(object):
         raise Exception('printTree not defined in class ' + self.__class__.__name__)
 
 class ErrorNode(Node):
-    pass
+    def __init__(self, error):
+        self.error = error
 
     def printTree(self, l):
         tprint(l, 'ERROR')
@@ -320,9 +315,10 @@ class Function(Node):
         self.expression = expression
 
     def printTree(self, l):
-        self.params.printTree(l)
+        tprint(l, 'FUNCTION')
+        self.params.printTree(l + 1)
         if self.expression != []:
-            self.expression.printTree(l)
+            self.expression.printTree(l + 1)
 
 # Class that defines an expression which can consist of one or more expressions
 class Expressions(Node):
@@ -378,7 +374,8 @@ class While(Node):
     def printTree(self, l):
         tprint(l, self.keyword.upper())
         self.cond.printTree(l + 1)
-        self.instr.printTree(l + 1)
+        tprint(l + 1, 'DO')
+        self.instr.printTree(l + 2)
 
 # Class that defines an If that takes as paramenters a Statement object (x == 1)
 # The instructions of the if and the instructions for the else segment which as set as
@@ -464,9 +461,6 @@ def p_start( p ):
     if get_good():
         # Print success message
         print("Successfully Parsed")
-    # Reset everything
-    clear_table()
-    reset_scope()
 
 # Starting rule for when there are constants
 def p_start_constants( p ):
@@ -481,9 +475,6 @@ def p_start_constants( p ):
     if get_good():
         # Print success message
         print("Successfully Parsed")
-    # Reset everything
-    clear_table()
-    reset_scope()
 
 
 # Rule that defines consonants and variables before and after the main function, where the main can have parameters
@@ -511,6 +502,7 @@ def p_params( p ):
     '''
     params :  STR LSQUARE RSQUARE ID
     '''
+
     p[0] = Args(p[1], p[4])
     # Create an entry that the key will be the ID and will have the type as value
     entry = {
@@ -526,6 +518,8 @@ def p_empty_params( p ):
     '''
     # Return nothing
     p[0] = Args([], [])
+
+
 
 # Recursive rule that defines that an expression can have at least one expression or multiple expressions
 # Rule that defines more than one expression
@@ -959,33 +953,26 @@ def p_new_scope( p ):
 #                   ERROR HANDLERS
 # -------------------------------------------------------
 
-def handle_error(self, where, p):
-    print("Syntax error in %s at line %d, column %d, at token LexToken(%s, '%s')" %\
-      (where, p.lineno, self.scanner.find_tok_column(p), p.type, p.value))
-
 # Error handler for when it passed the lexer but failed at the grammatic rules
 def p_error( p ):
+    not_good()
     if not p: # Critical error
-        print("Syntax error at EOF")
-    else :
+        print("Unexpected end of file")
+        #return
+    else:
         print("Syntax error at line {0}" .format(p.lineno))
-    pass
-    # Reset everything to start again
-    #clear_table()
-    #reset_scope()
+        parser.errok()
+        pass
 
-
+parser = yacc.yacc()
 
 # Function to give the data from the files to the lexer and then to the yacc
 def process(data):
-    lexer = lex.lex()
     lexer.input(data)
     #while True:
     #    tok = lexer.token()
     #    if not tok:
     #       break      # No more input
     #    print(tok)
-    parser = yacc.yacc()
     parser.parse(data)
-    clear_table()
-    reset_scope()
+    parser.restart()
