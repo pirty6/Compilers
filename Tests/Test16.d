@@ -4,6 +4,7 @@ void test() {
   int x = 10;
 }
 
+enum J = "JAJAJA";
 
 void main() {
   int a;
@@ -27,4 +28,5 @@ void main() {
   if(c == b) {
     writeln("WOOOO");
   }
+  writeln(J);
 }

@@ -276,16 +276,13 @@ class Node(object):
 # Class that will define the Start
 class Start(Node):
     # Start is composed of constants that can be empty and a function that will be the main
-    def __init__(self, functions, constants = None):
-        self.functions = functions
-        self.constants = constants
+    def __init__(self, expressions):
+        self.expressions = expressions
 
     def printTree(self, l):
         print('START')
         print('|')
-        if self.constants:
-            self.constants.printTree(l + 1)
-        self.functions.printTree(l + 1)
+        self.expressions.printTree(l + 1)
 
 class Functions(Node):
     def __init__(self, functions):
@@ -462,6 +459,21 @@ class Write(Node):
         tprint(l, 'WRITELN')
         tprint(l + 1, str(self.id))
 
+class List_Exprs(Node):
+    def __init__(self, exprs):
+        self.exprs = exprs
+
+    def printTree(self, l):
+        for e in self.exprs:
+            e.printTree(l)
+
+class Expr(Node):
+    def __init__(self, expr):
+        self.expr = expr
+
+    def printTree(self, l):
+        self.expr.printTree(l)
+
 # Basic function to print the nodes of the tree
 def tprint(l, s):
     print('| ' * l + s)
@@ -473,7 +485,7 @@ def tprint(l, s):
 # Starting rule for when there are no constants
 def p_start( p ):
     '''
-    start : functions
+    start : exprs
     '''
     p[0] = Start(p[1])
     p[0].printTree(0)
@@ -482,6 +494,26 @@ def p_start( p ):
     if get_good():
         # Print success message
         print("Successfully Parsed")
+
+def p_list_exprs( p ):
+    '''
+    exprs : exprs expr
+    '''
+    p[0] = List_Exprs(p[1]. exprs + [p[2]])
+
+
+def p_exprs( p ):
+    '''
+    exprs : expr
+    '''
+    p[0] = List_Exprs([p[1]])
+
+def p_expr( p ):
+    '''
+    expr :   constants
+            | functions
+    '''
+    p[0] = Expr(p[1])
 
 # Starting rule for when there are constants
 def p_start_constants( p ):
